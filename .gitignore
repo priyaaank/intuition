@@ -4,4 +4,4 @@ app/Intuition.iml
 app/bin
 app/out
 app/gen
-
+service/.idea/**
