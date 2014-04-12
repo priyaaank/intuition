@@ -18,7 +18,7 @@ end
 get '/user/login/:username' do
   username = params[:username]
   created_user = User.create_user_if_doesnt_exists_for(username)
-  BaseExpenses.new(created_user).create_expenses if (created_user.transactions.count == 0)
+  BaseExpenses.new(created_user).create_expenses if created_user.transactions.empty?
 
   status 200
   body ''
