@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20140412085816) do
     t.datetime "transaction_date"
     t.string   "category"
     t.float    "price"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

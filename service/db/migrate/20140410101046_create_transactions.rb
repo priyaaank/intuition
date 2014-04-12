@@ -7,6 +7,7 @@ class CreateTransactions < ActiveRecord::Migration
       t.datetime :transaction_date
       t.string :category
       t.float :price
+      t.belongs_to :user
       t.timestamps
     end
   end
