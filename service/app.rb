@@ -3,7 +3,8 @@ require "sinatra/activerecord"
 require './models/transaction'
 require './models/user'
 require './models/data/base_expenses'
-require 'ostruct'
+require './extensions/open_struct'
+require './presenters/transaction_category'
 
 set :database, "sqlite3:db/intuition.db"
 
@@ -31,27 +32,39 @@ get '/user/:username/transactions/page/:number' do
   end
 end
 
-get '/user/:username/transactions/categorize' do
+get '/user/:username/transactions/:number_of_months/months/categorize' do
   user = User.find_by_username(params[:username])
-  transactions = []
+  number_of_months = params[:number_of_months]
+  response = {"categories" => [], "user" => params[:username]}.to_json
   unless user.nil?
-    transactions = user.transactions.categorized.count
+    response = categorized_response_for user, user.transactions.past_months(number_of_months.to_i)
   end
-  categorized_response transactions, user
+  response
+end
+
+get '/user/:username/transactions/current/month/categorize' do
+  user = User.find_by_username(params[:username])
+  response = {"categories" => [], "user" => params[:username]}.to_json
+  unless user.nil?
+    response = categorized_response_for user, user.transactions.for_current_month
+  end
+  response
 end
 
 private
 
-def categorized_response transactions, user
+def categorized_response_for user, transactions
   response = OpenStruct.new
-  response.categories = transactions
+  response.categories = categories_data_for(transactions)
   response.user = user.username
+  response.total_spending = response.categories.sum(&:price_total)
   response.to_json
 end
 
-
-class OpenStruct
-  def to_json
-    table.to_json
+def categories_data_for(transactions)
+  category_wise_price_totals = transactions.category_wise_sum
+  category_wise_counts = transactions.categorized.count
+  Transaction::Category::ALL.collect do |category|
+    TransactionCategory.new(category, category_wise_counts[category], category_wise_price_totals[category])
   end
 end
