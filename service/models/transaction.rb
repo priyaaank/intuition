@@ -1,17 +1,7 @@
 class Transaction < ActiveRecord::Base
 
-  module Category
-    FEES_AND_CHARGES = "FeesAndCharges"
-    FOOD = "Food"
-    HEALTH = "Health"
-    INVESTMENTS = "Investments"
-    SHOPPING = "Shopping"
-    TRAVEL = "Travel"
-    UTILITIES = "Utilities"
-    ALL = [FEES_AND_CHARGES, FOOD, HEALTH, INVESTMENTS, SHOPPING, TRAVEL, UTILITIES]
-  end
-
   belongs_to :user
+  belongs_to :category
 
   scope :categorized, -> { group(:category) }
   scope :category_wise_sum, -> { categorized.sum(:price) }

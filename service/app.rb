@@ -1,6 +1,8 @@
 require "sinatra"
 require "sinatra/activerecord"
 require './models/transaction'
+require './models/category'
+require './models/budget'
 require './models/user'
 require './models/data/base_expenses'
 require './extensions/open_struct'
@@ -63,8 +65,14 @@ end
 
 def categories_data_for(transactions)
   category_wise_price_totals = transactions.category_wise_sum
+  puts "*"*100
+  category_wise_price_totals
+  puts "*"*100
   category_wise_counts = transactions.categorized.count
-  Transaction::Category::ALL.collect do |category|
+  puts "*"*100
+  category_wise_counts
+  puts "*"*100
+  Category::Type::ALL.collect do |category|
     TransactionCategory.new(category, category_wise_counts[category], category_wise_price_totals[category])
   end
 end
