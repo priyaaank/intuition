@@ -28,7 +28,7 @@ public class LoginService {
 
   class LoginTask extends AsyncTask<String, Void, Integer> {
 
-    private final String SERVICE_URL = "http://192.168.2.2:9292/user/login/";
+    private final String SERVICE_URL = "http://192.168.2.3:9292/user/login/";
 
     @Override
     protected Integer doInBackground(String... params) {
