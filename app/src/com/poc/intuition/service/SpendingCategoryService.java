@@ -10,6 +10,8 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -36,21 +38,24 @@ public class SpendingCategoryService {
     @Override
     protected JSONObject doInBackground(String... params) {
       String username = params[0];
+      JSONObject responseJson = null;
 
       try {
         HttpClient client = new DefaultHttpClient();
         HttpGet request = new HttpGet(SERVICE_URL);
         HttpResponse response = client.execute(request);
         if(200 == response.getStatusLine().getStatusCode()) {
-          response.getEntity();
+          responseJson = new JSONObject(EntityUtils.toString(response.getEntity()));
         }
-        Log.i(TAG, "********");
       } catch(ClientProtocolException cpe) {
         Log.e(TAG, cpe.getMessage());
       } catch(IOException ioe) {
         Log.e(TAG, ioe.getMessage());
+      } catch (JSONException e) {
+        Log.e(TAG, e.getMessage());
       }
-      return null;
+
+      return responseJson;
     }
 
     @Override

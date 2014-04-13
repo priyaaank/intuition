@@ -23,5 +23,6 @@ public class HomeScreen extends Activity implements IListener<SpendingCategoryRe
   @Override
   public void serviceResponse(SpendingCategoryResponse response) {
 
+
   }
 }

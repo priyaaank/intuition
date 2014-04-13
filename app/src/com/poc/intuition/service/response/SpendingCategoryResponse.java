@@ -32,6 +32,7 @@ public class SpendingCategoryResponse {
   private void parseSpendingCategoriesFromJson(JSONObject spendingCategoryJsonResponse) {
     try {
       this.userName = spendingCategoryJsonResponse.getString(USERNAME_TAG);
+      this.totalAmountAcrossCategories = spendingCategoryJsonResponse.getDouble(TOTAL_PRICE_TAG);
       JSONArray categoriesArray = spendingCategoryJsonResponse.getJSONArray(CATEGORIES_TAG);
       int categoryObjectCount = categoriesArray.length();
       for(int index = 0; index < categoryObjectCount; index++) {
