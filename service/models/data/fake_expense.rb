@@ -2,15 +2,16 @@ require 'date'
 
 class FakeExpense
 
-  attr_accessor :expense_range, :merchant_listing_file, :frequency_in_year, :expense_type, :user
+  attr_accessor :expense_range, :merchant_listing_file, :frequency_in_year, :expense_type, :user, :category
 
-  def initialize(expense_range, merchant_listing_file, frequency_in_year, expense_type, user)
+  def initialize(expense_range, merchant_listing_file, frequency_in_year, expense_type, user, category)
     @merchant_listing_file = merchant_listing_file
     @frequency_in_year = frequency_in_year
     @expense_range = expense_range
     @expense_type = expense_type
     @dates_generator = ExpenseDateGenerator.new(Date.today, @frequency_in_year)
     @user = user
+    @category = category
 
     extract_merchant_names
   end
@@ -18,7 +19,7 @@ class FakeExpense
   def create_expenses
     generate_dates = @dates_generator.generate_dates
     generate_dates.each do |date|
-      Transaction.create!(:merchant_name => random_merchant_name, :transaction_date => date, :price => random_price_within_range, :user => user)
+      Transaction.create!(:merchant_name => random_merchant_name, :transaction_date => date, :price => random_price_within_range, :user => user, :category => @category)
     end
   end
 

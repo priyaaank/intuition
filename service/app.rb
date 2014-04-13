@@ -3,7 +3,7 @@ require "sinatra/activerecord"
 require './models/transaction'
 require './models/user'
 require './models/data/base_expenses'
-
+require 'ostruct'
 
 set :database, "sqlite3:db/intuition.db"
 
@@ -22,4 +22,36 @@ get '/user/login/:username' do
 
   status 200
   body ''
+end
+
+get '/user/:username/transactions/page/:number' do
+  user = User.find_by_username(params[:username])
+  unless user.nil?
+    user.transactions.order_by(:transaction_date => :desc)
+  end
+end
+
+get '/user/:username/transactions/categorize' do
+  user = User.find_by_username(params[:username])
+  transactions = []
+  unless user.nil?
+    transactions = user.transactions.categorized.count
+  end
+  categorized_response transactions, user
+end
+
+private
+
+def categorized_response transactions, user
+  response = OpenStruct.new
+  response.categories = transactions
+  response.user = user.username
+  response.to_json
+end
+
+
+class OpenStruct
+  def to_json
+    table.to_json
+  end
 end
