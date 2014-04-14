@@ -12,5 +12,6 @@ class Category < ActiveRecord::Base
   end
 
   has_many :transactions, dependent: :destroy
+  belongs_to :user
 
 end

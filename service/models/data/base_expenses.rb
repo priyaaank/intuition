@@ -8,13 +8,13 @@ class BaseExpenses
   end
 
   def create_expenses
-    utilities = Category.find_by_name(Category::Type::UTILITIES)
-    food = Category.find_by_name(Category::Type::FOOD)
-    fees_and_charges = Category.find_by_name(Category::Type::FEES_AND_CHARGES)
-    investments = Category.find_by_name(Category::Type::INVESTMENTS)
-    health = Category.find_by_name(Category::Type::HEALTH)
-    shopping = Category.find_by_name(Category::Type::SHOPPING)
-    travel = Category.find_by_name(Category::Type::TRAVEL)
+    utilities = @user.categories.find_by_name(Category::Type::UTILITIES)
+    food = @user.categories.find_by_name(Category::Type::FOOD)
+    fees_and_charges = @user.categories.find_by_name(Category::Type::FEES_AND_CHARGES)
+    investments = @user.categories.find_by_name(Category::Type::INVESTMENTS)
+    health = @user.categories.find_by_name(Category::Type::HEALTH)
+    shopping = @user.categories.find_by_name(Category::Type::SHOPPING)
+    travel = @user.categories.find_by_name(Category::Type::TRAVEL)
 
     FakeExpense.new([30, 150], "./data/samples/utilities.txt", 24, "House utilities expenses", @user, utilities).create_expenses
     FakeExpense.new([5, 15], "./data/samples/food.txt", 950, "Daily food expenses", @user, food).create_expenses

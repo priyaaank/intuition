@@ -7,6 +7,7 @@ require './models/user'
 require './models/data/base_expenses'
 require './extensions/open_struct'
 require './presenters/transaction_category'
+require './presenters/user_category'
 
 set :database, "sqlite3:db/intuition.db"
 
@@ -53,11 +54,21 @@ get '/user/:username/transactions/current/month/categorize' do
   response
 end
 
+get '/user/:username/categories' do
+  user = User.find_by_username(params[:username])
+  response = OpenStruct.new
+  unless user.nil?
+    response.user = user.username
+    response.categories = user.categories.collect{|category| UserCategory.new(category) }
+  end
+  response.to_json
+end
+
 private
 
 def categorized_response_for user, transactions
   response = OpenStruct.new
-  response.categories = categories_data_for(transactions)
+  response.categories = categories_data_for(user, transactions)
   response.user = user.username
   response.total_spending = response.categories.sum(&:price_total)
   response.to_json
@@ -66,7 +77,7 @@ end
 def categories_data_for(transactions)
   category_wise_price_totals = transactions.category_wise_sum
   category_wise_counts = transactions.categorized.count
-  Category::Type::ALL.collect do |category|
+  user.categories.collect(&:name).collect do |category|
     TransactionCategory.new(category, category_wise_counts[category], category_wise_price_totals[category])
   end
 end
