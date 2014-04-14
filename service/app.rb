@@ -65,13 +65,7 @@ end
 
 def categories_data_for(transactions)
   category_wise_price_totals = transactions.category_wise_sum
-  puts "*"*100
-  category_wise_price_totals
-  puts "*"*100
   category_wise_counts = transactions.categorized.count
-  puts "*"*100
-  category_wise_counts
-  puts "*"*100
   Category::Type::ALL.collect do |category|
     TransactionCategory.new(category, category_wise_counts[category], category_wise_price_totals[category])
   end
