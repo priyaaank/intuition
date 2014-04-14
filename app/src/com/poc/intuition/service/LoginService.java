@@ -11,7 +11,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.IOException;
 
-public class LoginService {
+public class LoginService implements ServiceConstants {
 
   private static final String TAG = "LoginService";
   private Context applicationContext;
@@ -28,7 +28,7 @@ public class LoginService {
 
   class LoginTask extends AsyncTask<String, Void, Integer> {
 
-    private final String SERVICE_URL = "http://192.168.2.3:9292/user/login/";
+    private final String SERVICE_URL = SERVICE_HOST + "user/login/";
 
     @Override
     protected Integer doInBackground(String... params) {

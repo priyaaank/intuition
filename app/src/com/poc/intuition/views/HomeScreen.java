@@ -4,24 +4,26 @@ import android.app.Activity;
 import android.os.Bundle;
 import com.poc.intuition.R;
 import com.poc.intuition.service.IListener;
+import com.poc.intuition.service.PurchaseCategoryService;
 import com.poc.intuition.service.SpendingCategoryService;
+import com.poc.intuition.service.response.PurchaseCategoryResponse;
 import com.poc.intuition.service.response.SpendingCategoryResponse;
 
-public class HomeScreen extends Activity implements IListener<SpendingCategoryResponse> {
+public class HomeScreen extends Activity implements IListener<PurchaseCategoryResponse> {
 
-  private SpendingCategoryService spendingCategoryService;
+  private PurchaseCategoryService purchaseCategoryService;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.home);
 
-    spendingCategoryService = new SpendingCategoryService(this.getApplicationContext(), this);
-    spendingCategoryService.fetchTransactionsForUsername("david");
+    purchaseCategoryService = new PurchaseCategoryService(this.getApplicationContext(), this);
+    purchaseCategoryService.fetchCategoriesForUsername("david");
   }
 
   @Override
-  public void serviceResponse(SpendingCategoryResponse response) {
+  public void serviceResponse(PurchaseCategoryResponse response) {
 
 
   }

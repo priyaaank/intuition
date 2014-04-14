@@ -1,9 +1,10 @@
 package com.poc.intuition.service;
 
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import com.poc.intuition.domain.PurchaseCategory;
+import com.poc.intuition.service.response.PurchaseCategoryResponse;
 import com.poc.intuition.service.response.SpendingCategoryResponse;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -16,24 +17,24 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class SpendingCategoryService implements ServiceConstants {
+public class PurchaseCategoryService implements ServiceConstants {
 
-  private static final String TAG = "SpendingCategoryService";
-  private final IListener<SpendingCategoryResponse> listener;
+  private static final String TAG = "PurchaseCategoryService";
+  private final IListener<PurchaseCategoryResponse> listener;
   private final Context context;
 
-  public SpendingCategoryService(Context applicationContext, IListener<SpendingCategoryResponse> listener) {
+  public PurchaseCategoryService(Context applicationContext, IListener<PurchaseCategoryResponse> listener) {
     this.context = applicationContext;
     this.listener = listener;
   }
 
-  public void fetchTransactionsForUsername(String username) {
+  public void fetchCategoriesForUsername(String username) {
     new SpendingCategoryTask().execute(new String[]{username});
   }
 
   class SpendingCategoryTask extends AsyncTask<String, Void, JSONObject> {
 
-    private static final String SERVICE_URL = SERVICE_HOST + "user/david/transactions/2/months/categorize";
+    private static final String SERVICE_URL = SERVICE_HOST + "user/##USERNAME##/categories";
 
     @Override
     protected JSONObject doInBackground(String... params) {
@@ -42,7 +43,8 @@ public class SpendingCategoryService implements ServiceConstants {
 
       try {
         HttpClient client = new DefaultHttpClient();
-        HttpGet request = new HttpGet(SERVICE_URL);
+        String url = SERVICE_URL.replace("##USERNAME##",username);
+        HttpGet request = new HttpGet(url);
         HttpResponse response = client.execute(request);
         if(200 == response.getStatusLine().getStatusCode()) {
           responseJson = new JSONObject(EntityUtils.toString(response.getEntity()));
@@ -61,7 +63,8 @@ public class SpendingCategoryService implements ServiceConstants {
     @Override
     protected void onPostExecute(JSONObject jsonResponse) {
       super.onPostExecute(jsonResponse);
-      listener.serviceResponse(new SpendingCategoryResponse(jsonResponse));
+      listener.serviceResponse(new PurchaseCategoryResponse(jsonResponse));
     }
   }
+
 }
