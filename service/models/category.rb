@@ -11,7 +11,7 @@ class Category < ActiveRecord::Base
     ALL = [FEES_AND_CHARGES, FOOD, HEALTH, INVESTMENTS, SHOPPING, TRAVEL, UTILITIES]
   end
 
-  has_many :transactions, dependent: :destroy
+  has_many :transactions, :dependent => :nullify
   belongs_to :user
 
 end

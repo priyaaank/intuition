@@ -64,6 +64,14 @@ get '/user/:username/categories' do
   response.to_json
 end
 
+post '/user/:username/category/new' do
+  user = User.find_by_username(params[:username])
+  request_body = JSON.parse(request.body.read)
+  new_category_name = request_body["category_name"]
+  new_category = user.categories.where(["lower(name) = ?", new_category_name.downcase]).first || user.categories.create(name: new_category_name)
+  UserCategory.new(new_category).to_json
+end
+
 put '/user/:username/category/:id' do
   user = User.find_by_username(params[:username])
   request_body = JSON.parse(request.body.read)
@@ -76,7 +84,7 @@ end
 
 delete '/user/:username/category/:id' do
   user = User.find_by_username(params[:username])
-  user.categories.find_by_id(params[:id]).delete
+  user.categories.find_by_id(params[:id]).destroy
   status 200
   body ''
 end
