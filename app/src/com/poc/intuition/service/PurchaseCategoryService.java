@@ -38,26 +38,9 @@ public class PurchaseCategoryService implements ServiceConstants {
 
     @Override
     protected JSONObject doInBackground(String... params) {
-      String username = params[0];
-      JSONObject responseJson = null;
-
-      try {
-        HttpClient client = new DefaultHttpClient();
+        String username = params[0];
         String url = SERVICE_URL.replace("##USERNAME##",username);
-        HttpGet request = new HttpGet(url);
-        HttpResponse response = client.execute(request);
-        if(200 == response.getStatusLine().getStatusCode()) {
-          responseJson = new JSONObject(EntityUtils.toString(response.getEntity()));
-        }
-      } catch(ClientProtocolException cpe) {
-        Log.e(TAG, cpe.getMessage());
-      } catch(IOException ioe) {
-        Log.e(TAG, ioe.getMessage());
-      } catch (JSONException e) {
-        Log.e(TAG, e.getMessage());
-      }
-
-      return responseJson;
+        return new HttpGetWrapper(url).makeServiceCall(null).response();
     }
 
     @Override

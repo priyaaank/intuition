@@ -3,6 +3,7 @@ package com.poc.intuition.service;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import com.poc.intuition.service.response.GenericWebServiceResponse;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -33,20 +34,8 @@ public class LoginService implements ServiceConstants {
     @Override
     protected Integer doInBackground(String... params) {
       String username = params[0];
-      Integer statusCode = new Integer(-1);
-
-      try {
-        HttpClient client = new DefaultHttpClient();
-        HttpGet request = new HttpGet(SERVICE_URL + username);
-        HttpResponse response = client.execute(request);
-        statusCode = new Integer(response.getStatusLine().getStatusCode());
-      } catch(ClientProtocolException cpe) {
-        Log.e(TAG, cpe.getMessage());
-      } catch(IOException ioe) {
-        Log.e(TAG, ioe.getMessage());
-      }
-
-      return statusCode;
+      GenericWebServiceResponse webServiceResponse = new HttpGetWrapper(SERVICE_URL + username).makeServiceCall(null);
+      return webServiceResponse.statusCode();
     }
 
     @Override
