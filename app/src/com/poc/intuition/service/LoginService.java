@@ -2,15 +2,7 @@ package com.poc.intuition.service;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import com.poc.intuition.service.response.GenericWebServiceResponse;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import java.io.IOException;
 
 public class LoginService implements ServiceConstants {
 

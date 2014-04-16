@@ -3,18 +3,8 @@ package com.poc.intuition.service;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import com.poc.intuition.service.response.SpendingCategoryResponse;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 
 public class SpendingCategoryService implements ServiceConstants {
 
