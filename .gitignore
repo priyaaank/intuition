@@ -5,3 +5,6 @@ app/bin
 app/out
 app/gen
 service/.idea/**
+development/
+app/.idea
+app/app.iml

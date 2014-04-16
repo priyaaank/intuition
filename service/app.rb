@@ -64,6 +64,23 @@ get '/user/:username/categories' do
   response.to_json
 end
 
+put '/user/:username/category/:id' do
+  user = User.find_by_username(params[:username])
+  request_body = JSON.parse(request.body.read)
+  new_category_name = request_body["category_name"]
+  category_to_update = user.categories.find_by_id(params[:id])
+  category_to_update.name = new_category_name
+  category_to_update.save!
+  UserCategory.new(category_to_update).to_json
+end
+
+delete '/user/:username/category/:id' do
+  user = User.find_by_username(params[:username])
+  user.categories.find_by_id(params[:id]).delete
+  status 200
+  body ''
+end
+
 private
 
 def categorized_response_for user, transactions
