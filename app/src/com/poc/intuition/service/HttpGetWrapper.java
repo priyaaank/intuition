@@ -1,7 +1,9 @@
 package com.poc.intuition.service;
 
+import android.content.Entity;
 import android.util.Log;
 import com.poc.intuition.service.response.GenericWebServiceResponse;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -31,7 +33,9 @@ public class HttpGetWrapper implements IRestfulWebService<String, GenericWebServ
             HttpResponse response = client.execute(request);
             int statusCode = response.getStatusLine().getStatusCode();
             if(200 == statusCode) {
-                JSONObject responseJson = new JSONObject(EntityUtils.toString(response.getEntity()));
+                JSONObject responseJson = null;
+                String responseString = EntityUtils.toString(response.getEntity());
+                if(responseString.length() > 0) responseJson = new JSONObject(responseString);
                 genericResponse = new GenericWebServiceResponse(new Integer(statusCode), responseJson);
             }
         } catch(ClientProtocolException cpe) {

@@ -19,7 +19,7 @@ public class HomeScreen extends Activity implements IListener<PurchaseCategoryRe
     setContentView(R.layout.home);
 
     purchaseCategoryService = new PurchaseCategoryService(this.getApplicationContext(), this);
-    purchaseCategoryService.fetchCategoriesForUsername("david");
+    purchaseCategoryService.createNewCategoryWithName("david", "Blooo");
   }
 
   @Override
