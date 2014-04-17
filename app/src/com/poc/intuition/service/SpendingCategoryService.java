@@ -3,16 +3,16 @@ package com.poc.intuition.service;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import com.poc.intuition.service.response.SpendingCategoryResponse;
+import com.poc.intuition.service.response.PurchaseCategoryStatisticResponse;
 import org.json.JSONObject;
 
 public class SpendingCategoryService implements ServiceConstants {
 
   private static final String TAG = "SpendingCategoryService";
-  private final IListener<SpendingCategoryResponse> listener;
+  private final IListener<PurchaseCategoryStatisticResponse> listener;
   private final Context context;
 
-  public SpendingCategoryService(Context applicationContext, IListener<SpendingCategoryResponse> listener) {
+  public SpendingCategoryService(Context applicationContext, IListener<PurchaseCategoryStatisticResponse> listener) {
     this.context = applicationContext;
     this.listener = listener;
   }
@@ -34,7 +34,7 @@ public class SpendingCategoryService implements ServiceConstants {
     @Override
     protected void onPostExecute(JSONObject jsonResponse) {
       super.onPostExecute(jsonResponse);
-      listener.serviceResponse(new SpendingCategoryResponse(jsonResponse));
+      listener.serviceResponse(new PurchaseCategoryStatisticResponse(jsonResponse));
     }
   }
 }

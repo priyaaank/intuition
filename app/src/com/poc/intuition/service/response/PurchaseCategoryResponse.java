@@ -11,7 +11,7 @@ import java.util.List;
 
 public class PurchaseCategoryResponse {
 
-  private static final String TAG = "SpendingCategoryResponse";
+  private static final String TAG = "PurchaseCategoryStatisticResponse";
   private final String USERNAME_TAG = "user";
   private final String NAME_TAG = "name";
   private final String ID_TAG = "id";

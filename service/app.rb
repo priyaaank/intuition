@@ -99,7 +99,7 @@ def categorized_response_for user, transactions
   response.to_json
 end
 
-def categories_data_for(transactions)
+def categories_data_for(user, transactions)
   category_wise_price_totals = transactions.category_wise_sum
   category_wise_counts = transactions.categorized.count
   user.categories.collect(&:name).collect do |category|

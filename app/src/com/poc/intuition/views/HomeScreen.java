@@ -5,9 +5,7 @@ import android.os.Bundle;
 import com.poc.intuition.R;
 import com.poc.intuition.service.IListener;
 import com.poc.intuition.service.PurchaseCategoryService;
-import com.poc.intuition.service.SpendingCategoryService;
 import com.poc.intuition.service.response.PurchaseCategoryResponse;
-import com.poc.intuition.service.response.SpendingCategoryResponse;
 
 public class HomeScreen extends Activity implements IListener<PurchaseCategoryResponse> {
 
