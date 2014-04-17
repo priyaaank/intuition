@@ -27,6 +27,14 @@ public class PurchaseCategoryService implements ServiceConstants {
         new SpendingCategoryCreateTask().execute(new String[]{username, categoryName});
     }
 
+    public void editExistingCategoryNameForId(String username, Integer categoryId, String newCategryName) {
+        new SpendingCategoryEditTask().execute(new String[]{username, categoryId.toString(), newCategryName});
+    }
+
+    public void deleteExistingCategoryById(String username, String catagoryId) {
+        new SpendingCategoryDeleteTask().execute(new String[]{username, catagoryId});
+    }
+
     class SpendingCategoryListTask extends AsyncTask<String, Void, JSONObject> {
 
         private static final String SERVICE_URL = SERVICE_HOST + "user/##USERNAME##/categories";
@@ -126,7 +134,5 @@ public class PurchaseCategoryService implements ServiceConstants {
             listener.serviceResponse(new PurchaseCategoryResponse(jsonResponse));
         }
     }
-
-
 
 }
