@@ -75,4 +75,58 @@ public class PurchaseCategoryService implements ServiceConstants {
         }
     }
 
+    class SpendingCategoryEditTask extends AsyncTask<String, Void, GenericWebServiceResponse> {
+
+        private static final String SERVICE_URL = SERVICE_HOST + "user/##USERNAME##/category/";
+
+        @Override
+        protected GenericWebServiceResponse doInBackground(String... params) {
+            String username = params[0];
+            String categoryId = params[1];
+            String newCategoryName = params[2];
+            String url = SERVICE_URL.replace("##USERNAME##", username);
+            url = url + categoryId;
+            return new HttpPutWrapper(url).makeServiceCall(requestForNewCategory(newCategoryName));
+        }
+
+        @Override
+        protected void onPostExecute(GenericWebServiceResponse webServiceResponse) {
+            super.onPostExecute(webServiceResponse);
+            //TODO, figure out how listeners should get response
+            //listener.serviceResponse();
+        }
+
+        private JSONObject requestForNewCategory(String categoryName) {
+            JSONObject newCategoryRequest = new JSONObject();
+            try {
+                newCategoryRequest.put("category_name", categoryName);
+            } catch (JSONException e) {
+                Log.e(TAG, e.getMessage());
+            }
+            return newCategoryRequest;
+        }
+    }
+
+    class SpendingCategoryDeleteTask extends AsyncTask<String, Void, JSONObject> {
+
+        private static final String SERVICE_URL = SERVICE_HOST + "user/##USERNAME##/category";
+
+        @Override
+        protected JSONObject doInBackground(String... params) {
+            String username = params[0];
+            String categoryId = params[1];
+            String url = SERVICE_URL.replace("##USERNAME##",username);
+            url = url + categoryId;
+            return new HttpDeleteWrapper(url).makeServiceCall(null).response();
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonResponse) {
+            super.onPostExecute(jsonResponse);
+            listener.serviceResponse(new PurchaseCategoryResponse(jsonResponse));
+        }
+    }
+
+
+
 }
