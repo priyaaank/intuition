@@ -1,13 +1,8 @@
 require "sinatra"
 require "sinatra/activerecord"
-require './models/transaction'
-require './models/category'
-require './models/budget'
-require './models/user'
-require './models/data/base_expenses'
-require './extensions/open_struct'
-require './presenters/transaction_category'
-require './presenters/user_category'
+Dir["./models/**/*.rb"].each { |f| require f }
+Dir["./extensions/**/*.rb"].each { |f| require f }
+Dir["./presenters/**/*.rb"].each { |f| require f }
 
 set :database, "sqlite3:db/intuition.db"
 
@@ -54,6 +49,15 @@ get '/user/:username/transactions/current/month/categorize' do
   response
 end
 
+get '/user/:username/transactions/current/months' do
+  user = User.find_by_username(params[:username])
+  response = {"categories" => [], "user" => params[:username]}.to_json
+  unless user.nil?
+    response = transaction_responses_for user, user.transactions.for_current_month
+  end
+  response
+end
+
 get '/user/:username/categories' do
   user = User.find_by_username(params[:username])
   response = OpenStruct.new
@@ -90,6 +94,15 @@ delete '/user/:username/category/:id' do
 end
 
 private
+
+def transaction_responses_for user, transactions
+  response = OpenStruct.new
+  response.transactions = transactions.collect {|transaction| TransactionPresenter.new(transaction) }
+  response.user = user.username
+  response.start_date = Date.today
+  response.end_date = Date.today
+  response.to_json
+end
 
 def categorized_response_for user, transactions
   response = OpenStruct.new
