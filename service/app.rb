@@ -93,6 +93,11 @@ delete '/user/:username/category/:id' do
   body ''
 end
 
+get '/user/:username/monthly_budget/average' do
+  user = User.find_by_username(params[:username])
+  AutoBudgetPresenter.new(user, user.transactions.past_months(18).monthly_sum).to_json
+end
+
 private
 
 def transaction_responses_for user, transactions
