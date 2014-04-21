@@ -5,11 +5,11 @@ class UserCategory
     @id = category.id
   end
 
-  def to_json
+  def as_json(options={})
     {
         "id" => @id,
         "name" => @name
-    }.to_json
+    }
   end
 
 end

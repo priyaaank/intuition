@@ -12,17 +12,14 @@ class TransactionPresenter
   end
 
   def as_json(options={})
-    puts "*"*100
-    puts @transaction_date.strftime("%d/%m/%Y")
-    puts "*"*100
-    JSON.parse({
+    {
       :id => @id,
       :merchant_name => @merchant_name,
       :merchant_id => @merchant_id,
       :category_id => @category_id,
       :transaction_date => @transaction_date.strftime("%d/%m/%Y"),
       :price => @price
-    }.to_json)
+    }
   end
 
 

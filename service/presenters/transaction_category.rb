@@ -8,14 +8,12 @@ class TransactionCategory
     @price_total = price_total||0
   end
 
-  def to_json
+  def as_json(options = {})
     {
-        @name =>
-        {
-            "price_sum" => @price_total,
-            "total" => @count
-        }
-    }.to_json
+        "name" => @name,
+        "price_sum" => @price_total,
+        "total" => @count
+    }
   end
 
 end
