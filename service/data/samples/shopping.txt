@@ -1,4 +1,4 @@
-Macys
-JB Hi Fi
-Wallo
-Surfway
+Macys, 0016
+JB Hi Fi, 0017
+Wallo, 0018
+Surfway, 0019

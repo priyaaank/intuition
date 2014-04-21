@@ -1,6 +1,6 @@
-Singapore Airlines
-Quatas
-Yellow Cab
-Subway
-City bus
-Ferry ride
+Singapore Airlines, 0020
+Quatas, 0021
+Yellow Cab, 0022
+Underground, 0023
+City bus, 0024
+Ferry ride, 0025

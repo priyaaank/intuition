@@ -1,3 +1,3 @@
-Zolo Dentist
-North Atlantic Hospital
-Meditree Chemists
+Zolo Dentist, 0010
+North Atlantic Hospital, 0011
+Meditree Chemists, 0012

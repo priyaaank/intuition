@@ -8,3 +8,6 @@ service/.idea/**
 development/
 app/.idea
 app/app.iml
+app/**/*DS_Store
+.DS_Store
+app/libraries/

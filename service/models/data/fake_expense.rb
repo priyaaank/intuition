@@ -19,7 +19,8 @@ class FakeExpense
   def create_expenses
     generate_dates = @dates_generator.generate_dates
     generate_dates.each do |date|
-      Transaction.create!(:merchant_name => random_merchant_name, :transaction_date => date, :price => random_price_within_range, :user => user, :category => @category)
+      random_merchant = random_merchant_name
+      Transaction.create!(:merchant_name => random_merchant[0], :merchant_id => random_merchant[1], :transaction_date => date, :price => random_price_within_range, :user => user, :category => @category)
     end
   end
 
@@ -32,13 +33,13 @@ class FakeExpense
   end
 
   def extract_merchant_names
-    merchant_names = []
+    merchant_details = []
     f = File.new(@merchant_listing_file, "r")
     while(name = f.gets)
-      merchant_names << name.chomp
+      merchant_details << (name.chomp).split(",")
     end
     f.close
-    merchant_names
+    merchant_details
   end
 
 end
