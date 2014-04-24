@@ -31,8 +31,9 @@ public class Login extends Activity implements IListener<Boolean> {
     return new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        String username = ((EditText) Login.this.findViewById(R.id.user_name_value)).getText().toString();
-        loginService.loginForUserWithName(username);
+//        String username = ((EditText) Login.this.findViewById(R.id.user_name_value)).getText().toString();
+//        loginService.loginForUserWithName(username);
+          showHomeScreen();
       }
     };
   }
@@ -47,7 +48,7 @@ public class Login extends Activity implements IListener<Boolean> {
   }
 
   private void showHomeScreen() {
-    Intent homeActivityIntent = new Intent (this, SetupWizard.class);
+    Intent homeActivityIntent = new Intent (this, HomeScreen.class);
     this.startActivity(homeActivityIntent);
   }
 
