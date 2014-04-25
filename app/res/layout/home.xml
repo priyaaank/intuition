@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:gravity="center"
-              android:background="#FFFFFF">
+              android:id="@+id/parent"
+              android:background="@drawable/plaid_background"
+              >
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="100dp" android:id="@+id/receipt_container" android:orientation="vertical" />
 
     <LinearLayout android:id="@+id/widget_container" android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" />
 
-</LinearLayout>
+</RelativeLayout>

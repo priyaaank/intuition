@@ -32,7 +32,9 @@ public class TransactionService implements ServiceConstants {
         @Override
         protected GenericWebServiceResponse doInBackground(String... params) {
             String username = params[0];
-            return new HttpGetWrapper(SERVICE_URL + username).makeServiceCall(null);
+            String period = params[1];
+            String url = SERVICE_URL.replace("##USERNAME##", username).replace("##PERIOD##", period);
+            return new HttpGetWrapper(url).makeServiceCall(null);
         }
 
         @Override

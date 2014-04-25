@@ -42,10 +42,14 @@ public class Meter {
         return new Meter(context, widgetParent, R.drawable.warning);
     }
 
-    public void showAndAnimateView() {
+    public Meter show() {
         setupWidget();
         addText();
         widgetParentView.addView(parentView);
+        return this;
+    }
+
+    public void animate() {
         ImageView radialCircle = (ImageView) widgetParentView.findViewById(RADIAL_CIRCLE_VIEW_ID);
         Animation radialExpandAnimation = AnimationUtils.loadAnimation(context, R.anim.expand);
         radialCircle.startAnimation(radialExpandAnimation);

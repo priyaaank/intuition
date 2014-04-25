@@ -9,13 +9,22 @@ public class Transaction {
     private String merchantName;
     private Date transactionDate;
     private PurchaseCategory category;
+    private Double transactionAmount;
 
-    public Transaction(Integer id, Integer merchantId, String merchantName, Date transactionDate, PurchaseCategory category) {
+    public Transaction(Integer id, Integer merchantId, String merchantName, Date transactionDate, PurchaseCategory category, Double transactionAmount) {
         this.id = id;
         this.merchantId = merchantId;
         this.merchantName = merchantName;
         this.transactionDate = transactionDate;
         this.category = category;
+        this.transactionAmount = transactionAmount;
     }
 
+    public String merchantName() {
+        return this.merchantName;
+    }
+
+    public String transactionAmount() {
+        return this.transactionAmount.toString();
+    }
 }

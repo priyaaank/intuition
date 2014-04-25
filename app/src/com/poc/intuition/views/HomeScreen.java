@@ -1,24 +1,19 @@
 package com.poc.intuition.views;
 
-import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.View;
+import android.support.v4.app.FragmentActivity;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import com.poc.intuition.R;
 import com.poc.intuition.service.IListener;
 import com.poc.intuition.service.PurchaseCategoryService;
 import com.poc.intuition.service.response.PurchaseCategoryResponse;
-import com.poc.intuition.widgets.Gauge;
 import com.poc.intuition.widgets.Meter;
 
-public class HomeScreen extends Activity implements IListener<PurchaseCategoryResponse> {
+public class HomeScreen extends FragmentActivity implements IListener<PurchaseCategoryResponse>, Animation.AnimationListener {
 
     private PurchaseCategoryService purchaseCategoryService;
+    private Meter meter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +21,19 @@ public class HomeScreen extends Activity implements IListener<PurchaseCategoryRe
         setContentView(R.layout.home);
 
         LinearLayout widgetContainer = (LinearLayout) findViewById(R.id.widget_container);
-        Meter widget = Meter.redWidget(this, widgetContainer);
-        widget.showAndAnimateView();
+        meter = Meter.redWidget(this, widgetContainer);
+        meter.show();
+
+//        Drawable blurredDrawable = new FastBlur(this).getBlurredDrawable();
+//        findViewById(R.id.parent).setBackground(blurredDrawable);
+
+        ReceiptFragment receiptFragment = new ReceiptFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_down, R.anim.slide_up, R.anim.slide_down, R.anim.slide_up)
+                .add(R.id.receipt_container, receiptFragment, "ReceiptFragment")
+                .addToBackStack("ReceiptFragment")
+                .commit();
 
         purchaseCategoryService = new PurchaseCategoryService(this.getApplicationContext(), this);
         purchaseCategoryService.createNewCategoryWithName("david", "Blooo");
@@ -37,5 +43,20 @@ public class HomeScreen extends Activity implements IListener<PurchaseCategoryRe
     public void serviceResponse(PurchaseCategoryResponse response) {
 
 
+    }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+        //Do nothing
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        meter.animate();
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+        //Do nothing
     }
 }

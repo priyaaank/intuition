@@ -17,7 +17,7 @@ class TransactionPresenter
       :merchant_name => @merchant_name,
       :merchant_id => @merchant_id,
       :category_id => @category_id,
-      :transaction_date => @transaction_date.strftime("%d/%m/%Y"),
+      :transaction_date => @transaction_date.strftime("%Y-%m-%d"),
       :price => @price
     }
   end

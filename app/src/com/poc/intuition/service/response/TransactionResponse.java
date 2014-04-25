@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -21,22 +22,27 @@ public class TransactionResponse {
     private List<Transaction> transactionList;
     private SimpleDateFormat dateFormatter;
 
-    private final String USERNAME_TAG = "username";
-    private final String TRANSACTIONS_TAG = "transactions";
-    private final String START_DATE_TAG = "start_date";
-    private final String END_DATE_TAG = "end_date";
-    private final String TRANSACTION_ID_TAG = "id";
-    private final String MERCHANT_ID_TAG = "merchant_id";
-    private final String MERCHANT_NAME_TAG = "merchant_name";
-    private final String TRANSACTION_DATE_TAG = "transaction_date";
+    private static final String USERNAME_TAG = "user";
+    private static final String TRANSACTIONS_TAG = "transactions";
+    private static final String START_DATE_TAG = "start_date";
+    private static final String END_DATE_TAG = "end_date";
+    private static final String TRANSACTION_ID_TAG = "id";
+    private static final String MERCHANT_ID_TAG = "merchant_id";
+    private static final String MERCHANT_NAME_TAG = "merchant_name";
+    private static final String TRANSACTION_DATE_TAG = "transaction_date";
+    private static final String PRICE_TAG = "price";
 
-    private final String DATE_FORMAT = "dd/MM/yyyy";
+    private final String DATE_FORMAT = "yyyy-MM-dd";
 
 
     public TransactionResponse(JSONObject transactionResponse) {
         transactionList = new ArrayList<Transaction>();
         dateFormatter = new SimpleDateFormat(DATE_FORMAT);
         parseTransactionResponse(transactionResponse);
+    }
+
+    public List<Transaction> transactions() {
+        return Collections.unmodifiableList(transactionList);
     }
 
     private void parseTransactionResponse(JSONObject transactionResponse) {
@@ -61,7 +67,8 @@ public class TransactionResponse {
         Integer merchantId = ((JSONObject)transactionJsonObject).getInt(MERCHANT_ID_TAG);
         String merchantName = ((JSONObject)transactionJsonObject).getString(MERCHANT_NAME_TAG);
         Date transactionDate = dateFormatter.parse(((JSONObject) transactionJsonObject).getString(TRANSACTION_DATE_TAG));
-        transactionList.add(new Transaction(transactionId, merchantId, merchantName, transactionDate, null));
+        Double transactionAmount = ((JSONObject) transactionJsonObject).getDouble(PRICE_TAG);
+        transactionList.add(new Transaction(transactionId, merchantId, merchantName, transactionDate, null, transactionAmount));
     }
 
 }
