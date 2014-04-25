@@ -2,25 +2,27 @@ package com.poc.intuition.views;
 
 import android.app.ListActivity;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import com.poc.intuition.R;
-import com.poc.intuition.domain.Transaction;
 import com.poc.intuition.service.IListener;
 import com.poc.intuition.service.TransactionService;
 import com.poc.intuition.service.response.TransactionResponse;
 
 public class TransactionListing extends ListActivity implements IListener<TransactionResponse> {
 
-    private ArrayAdapter<Transaction> transactionArrayAdapter;
+    private TransactionListingAdapter transactionListingAdapter;
     private TransactionService transactionService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.transaction_listing);
+        getActionBar().setTitle("Transactions");
 
-        transactionArrayAdapter = new TransactionListingAdapter(getApplicationContext(), R.layout.transaction_row);
-        setListAdapter(transactionArrayAdapter);
+        transactionListingAdapter = new TransactionListingAdapter(getApplicationContext(), R.layout.transaction_row);
+        setListAdapter(transactionListingAdapter);
+        getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        getListView().setMultiChoiceModeListener(new ContextualMultiTransactionSelectListener(transactionListingAdapter));
 
         showTransactions();
     }
@@ -32,7 +34,7 @@ public class TransactionListing extends ListActivity implements IListener<Transa
 
     @Override
     public void serviceResponse(TransactionResponse transactionResponse) {
-        transactionArrayAdapter.addAll(transactionResponse.transactions());
-        transactionArrayAdapter.notifyDataSetChanged();
+        transactionListingAdapter.addAll(transactionResponse.transactions());
+        transactionListingAdapter.notifyDataSetChanged();
     }
 }

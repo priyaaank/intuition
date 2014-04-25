@@ -1,23 +1,30 @@
 package com.poc.intuition.views;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.poc.intuition.R;
 import com.poc.intuition.domain.Transaction;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TransactionListingAdapter extends ArrayAdapter<Transaction> {
 
     private LayoutInflater mInflater;
     private int mResource;
+    private List<Transaction> selectedTransactions;
 
     public TransactionListingAdapter(Context context, int resource) {
         super(context, resource);
         mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mResource = resource;
+        selectedTransactions = new ArrayList<Transaction>();
     }
 
     @Override
@@ -29,6 +36,7 @@ public class TransactionListingAdapter extends ArrayAdapter<Transaction> {
             view = mInflater.inflate(mResource, null);
 
             holder = new ViewHolder();
+            holder.rowContainer = (LinearLayout) view.findViewById(R.id.transaction_row_container);
             holder.merchantName = (TextView) view.findViewById(R.id.merchant_name);
             holder.transactionAmount = (TextView) view.findViewById(R.id.amount);
             view.setTag(holder);
@@ -41,11 +49,26 @@ public class TransactionListingAdapter extends ArrayAdapter<Transaction> {
         if(transaction != null) {
             holder.merchantName.setText(transaction.merchantName());
             holder.transactionAmount.setText(transaction.transactionAmount());
+            String color = selectedTransactions.contains(transaction) ? "#2ecc71" : "#000000";
+            holder.rowContainer.setBackgroundColor(Color.parseColor(color));
         }
         return view;
     }
 
+    public void clearSelection() {
+        selectedTransactions.clear();
+    }
+
+    public void removeSelection(int position) {
+        selectedTransactions.remove(getItem(position));
+    }
+
+    public void addNewSelection(int position) {
+        selectedTransactions.add(getItem(position));
+    }
+
     public static class ViewHolder{
+        public LinearLayout rowContainer;
         public TextView merchantName;
         public TextView transactionAmount;
     }

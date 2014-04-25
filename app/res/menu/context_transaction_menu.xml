@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/change_category"
+            android:showAsAction="ifRoom|withText"
+            android:title="Change category"
+            android:titleCondensed="Change category">
+    </item>
+</menu>
