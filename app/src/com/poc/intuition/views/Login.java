@@ -9,10 +9,12 @@ import android.widget.Toast;
 import com.poc.intuition.R;
 import com.poc.intuition.service.IListener;
 import com.poc.intuition.service.LoginService;
+import com.poc.intuition.service.UserSessionService;
 
 public class Login extends Activity implements IListener<Boolean> {
 
   private LoginService loginService;
+  private UserSessionService userSessionService;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -20,6 +22,7 @@ public class Login extends Activity implements IListener<Boolean> {
     setContentView(R.layout.login);
 
     loginService = new LoginService(this.getApplicationContext(), this);
+    userSessionService = new UserSessionService(getApplicationContext());
     wireUiEvents();
   }
 
@@ -40,6 +43,7 @@ public class Login extends Activity implements IListener<Boolean> {
   @Override
   public void serviceResponse(Boolean isLoginSuccessful) {
     if(isLoginSuccessful) {
+      userSessionService.loginUser(((EditText) Login.this.findViewById(R.id.user_name_value)).getText().toString());
       showHomeScreen();
     } else {
       showLoginError();

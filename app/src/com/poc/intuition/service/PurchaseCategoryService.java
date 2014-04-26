@@ -13,26 +13,32 @@ public class PurchaseCategoryService implements ServiceConstants {
     private static final String TAG = "PurchaseCategoryService";
     private final IListener<PurchaseCategoryResponse> listener;
     private final Context context;
+    private UserSessionService userSessionService;
 
     public PurchaseCategoryService(Context applicationContext, IListener<PurchaseCategoryResponse> listener) {
         this.context = applicationContext;
         this.listener = listener;
+        this.userSessionService = new UserSessionService(context);
     }
 
-    public void fetchCategoriesForUsername(String username) {
-        new SpendingCategoryListTask().execute(new String[]{username});
+    public void fetchCategoriesForUsername() {
+        String loggedInUsername = userSessionService.loggedInUsername();
+        new SpendingCategoryListTask().execute(new String[]{loggedInUsername});
     }
 
-    public void createNewCategoryWithName(String username, String categoryName) {
-        new SpendingCategoryCreateTask().execute(new String[]{username, categoryName});
+    public void createNewCategoryWithName(String categoryName) {
+        String loggedInUsername = userSessionService.loggedInUsername();
+        new SpendingCategoryCreateTask().execute(new String[]{loggedInUsername, categoryName});
     }
 
-    public void editExistingCategoryNameForId(String username, Integer categoryId, String newCategryName) {
-        new SpendingCategoryEditTask().execute(new String[]{username, categoryId.toString(), newCategryName});
+    public void editExistingCategoryNameForId(Integer categoryId, String newCategryName) {
+        String loggedInUsername = userSessionService.loggedInUsername();
+        new SpendingCategoryEditTask().execute(new String[]{loggedInUsername, categoryId.toString(), newCategryName});
     }
 
-    public void deleteExistingCategoryById(String username, String catagoryId) {
-        new SpendingCategoryDeleteTask().execute(new String[]{username, catagoryId});
+    public void deleteExistingCategoryById(String catagoryId) {
+        String loggedInUsername = userSessionService.loggedInUsername();
+        new SpendingCategoryDeleteTask().execute(new String[]{loggedInUsername, catagoryId});
     }
 
     class SpendingCategoryListTask extends AsyncTask<String, Void, JSONObject> {

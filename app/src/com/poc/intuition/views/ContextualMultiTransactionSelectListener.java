@@ -9,10 +9,11 @@ import com.poc.intuition.R;
 
 public class ContextualMultiTransactionSelectListener implements AbsListView.MultiChoiceModeListener {
 
-    private final TransactionListingAdapter mAdapter;
+    private TransactionListing listingActivity;
+    private ActionMode contextualBarActionMode;
 
-    public ContextualMultiTransactionSelectListener(TransactionListingAdapter adapter) {
-        this.mAdapter = adapter;
+    public ContextualMultiTransactionSelectListener(TransactionListing listingActivity) {
+        this.listingActivity = listingActivity;
     }
 
     @Override
@@ -31,9 +32,8 @@ public class ContextualMultiTransactionSelectListener implements AbsListView.Mul
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.change_category:
-                mAdapter.clearSelection();
-                mAdapter.notifyDataSetChanged();
-                mode.finish();
+                listingActivity.processCategoryChange();
+                contextualBarActionMode = mode;
                 return true;
             default:
                 return false;
@@ -42,16 +42,20 @@ public class ContextualMultiTransactionSelectListener implements AbsListView.Mul
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
-        mAdapter.clearSelection();
+        listingActivity.clearSelection();
     }
 
     @Override
     public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
         if (checked) {
-            mAdapter.addNewSelection(position);
+            listingActivity.addNewSelection(position);
         } else {
-            mAdapter.removeSelection(position);
+            listingActivity.removeSelection(position);
         }
-        mAdapter.notifyDataSetChanged();
     }
+
+    public void markActionModeFinished() {
+        if(contextualBarActionMode != null) contextualBarActionMode.finish();
+    }
+
 }

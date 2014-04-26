@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PurchaseCategoryResponse {
@@ -44,4 +45,8 @@ public class PurchaseCategoryResponse {
     Integer categoryId = ((JSONObject)categoriesObject).getInt(ID_TAG);
     purchaseCategories.add(new PurchaseCategory(categoryId, categoryName));
   }
+
+    public List<PurchaseCategory> purchaseCategories() {
+        return Collections.unmodifiableList(purchaseCategories);
+    }
 }

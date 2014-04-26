@@ -98,6 +98,16 @@ get '/user/:username/monthly_budget/average' do
   AutoBudgetPresenter.new(user, user.transactions.past_months(18).monthly_sum).to_json
 end
 
+post '/user/:username/transactions/update/category/:category_id' do
+  user = User.find_by_username(params[:username])
+  new_category_id = User.find_by_username(params[:category_id])
+  request_body = JSON.parse(request.body.read)
+  transaction_ids = request_body["transaction_ids"]
+  user.transactions.where(:id => transaction_ids).update_all(:category_id => new_category_id)
+  status 200
+  body ''
+end
+
 private
 
 def transaction_responses_for user, transactions

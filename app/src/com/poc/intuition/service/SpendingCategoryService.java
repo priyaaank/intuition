@@ -10,11 +10,13 @@ public class SpendingCategoryService implements ServiceConstants {
 
   private static final String TAG = "SpendingCategoryService";
   private final IListener<PurchaseCategoryStatisticResponse> listener;
+  private UserSessionService userSessionService;
   private final Context context;
 
   public SpendingCategoryService(Context applicationContext, IListener<PurchaseCategoryStatisticResponse> listener) {
     this.context = applicationContext;
     this.listener = listener;
+    this.userSessionService = new UserSessionService(context);
   }
 
   public void fetchTransactionsForUsername(String username) {

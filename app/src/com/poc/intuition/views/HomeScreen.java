@@ -35,8 +35,8 @@ public class HomeScreen extends FragmentActivity implements IListener<PurchaseCa
                 .addToBackStack("ReceiptFragment")
                 .commit();
 
-        purchaseCategoryService = new PurchaseCategoryService(this.getApplicationContext(), this);
-        purchaseCategoryService.createNewCategoryWithName("david", "Blooo");
+//        purchaseCategoryService = new PurchaseCategoryService(this.getApplicationContext(), this);
+//        purchaseCategoryService.createNewCategoryWithName("david", "Blooo");
     }
 
     @Override
