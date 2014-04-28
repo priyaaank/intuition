@@ -9,5 +9,6 @@ class Transaction < ActiveRecord::Base
   scope :monthly_sum, -> { monthly.sum(:price) }
   scope :past_months, ->(number_of_months) { where("transaction_date > ?", Date.today<<number_of_months) }
   scope :for_current_month, -> { where("transaction_date > ?", Date.new(Date.today.year, Date.today.month, 1)) }
+  scope :for_year_and_month, ->(year, month) { where("transaction_date between ? and ? ", Date.new(year, month, 1)-1, Date.civil(year, month, -1)+1) }
 
 end

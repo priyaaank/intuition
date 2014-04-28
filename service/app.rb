@@ -1,9 +1,4 @@
-require "sinatra"
-require "sinatra/activerecord"
-Dir["./models/**/*.rb"].each { |f| require f }
-Dir["./extensions/**/*.rb"].each { |f| require f }
-Dir["./presenters/**/*.rb"].each { |f| require f }
-
+["ostruct", "sinatra", "sinatra/activerecord", Dir["./models/**/*.rb"], Dir["./extensions/**/*.rb"], Dir["./presenters/**/*.rb"]].flatten.each {|f| require f }
 set :database, "sqlite3:db/intuition.db"
 
 post '/transaction/create' do
@@ -108,6 +103,12 @@ post '/user/:username/transactions/update/category/:category_id' do
   body ''
 end
 
+get '/user/:username/stats/last/:number/months' do
+  user = User.find_by_username(params[:username])
+  number_of_months = params[:number].to_i
+  UserStatPresenter.new(user, number_of_months).to_json
+end
+
 private
 
 def transaction_responses_for user, transactions
@@ -134,3 +135,5 @@ def categories_data_for(user, transactions)
     TransactionCategory.new(category, category_wise_counts[category], category_wise_price_totals[category])
   end
 end
+
+
