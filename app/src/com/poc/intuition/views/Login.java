@@ -51,7 +51,7 @@ public class Login extends Activity implements IListener<Boolean> {
   }
 
   private void showHomeScreen() {
-    Intent homeActivityIntent = new Intent (this, HomeScreen.class);
+    Intent homeActivityIntent = new Intent (this, MenuContentFrame.class);
     this.startActivity(homeActivityIntent);
   }
 
