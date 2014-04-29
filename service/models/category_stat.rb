@@ -3,8 +3,8 @@ class CategoryStat
   attr_accessor :category_name, :category_name, :total_amount_spent, :total_number_of_transactionss
 
   def initialize(category_id, category_name, total_amount_spent, total_number_of_transactions)
-    @catetory_id = category_id
-    @catetory_name = category_name
+    @category_id = category_id
+    @category_name = category_name
     @total_amount_spent = total_amount_spent
     @total_number_of_transactions = total_number_of_transactions
   end

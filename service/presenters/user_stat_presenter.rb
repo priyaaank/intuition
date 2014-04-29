@@ -20,7 +20,7 @@ class UserStatPresenter
         "user" => @user.username,
         "historic" => @historic_stats,
         "current_month" => @current_month_stats,
-        "overall" => @overall_stats
+        "overall" => @overall_stats.marshal_dump
     }
 
   end

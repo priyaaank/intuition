@@ -2,23 +2,31 @@ package com.poc.intuition.views;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import com.poc.intuition.R;
 import com.poc.intuition.service.IListener;
 import com.poc.intuition.service.PurchaseCategoryService;
+import com.poc.intuition.service.UserStatisticsService;
 import com.poc.intuition.service.response.PurchaseCategoryResponse;
+import com.poc.intuition.service.response.UserStatisticsResponse;
 import com.poc.intuition.widgets.Meter;
 
 public class HomeScreen extends FragmentActivity implements IListener<PurchaseCategoryResponse>, Animation.AnimationListener {
 
     private PurchaseCategoryService purchaseCategoryService;
+    private UserStatisticsService userStatisticsService;
     private Meter meter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
+
+        userStatisticsService = UserStatisticsService.SingleInstance(this.getApplicationContext());
+        userStatisticsService.registerListener(getListener());
+        userStatisticsService.findUserStatsForLastMonths(10);
 
         LinearLayout widgetContainer = (LinearLayout) findViewById(R.id.widget_container);
         meter = Meter.redWidget(this, widgetContainer);
@@ -37,6 +45,18 @@ public class HomeScreen extends FragmentActivity implements IListener<PurchaseCa
 
 //        purchaseCategoryService = new PurchaseCategoryService(this.getApplicationContext(), this);
 //        purchaseCategoryService.createNewCategoryWithName("david", "Blooo");
+    }
+
+    private IListener<UserStatisticsResponse> getListener() {
+        return new IListener<UserStatisticsResponse>() {
+
+            @Override
+            public void serviceResponse(UserStatisticsResponse response) {
+                Log.d("Listener", "Response received");
+            }
+
+        };
+
     }
 
     @Override
