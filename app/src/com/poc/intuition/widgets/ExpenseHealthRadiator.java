@@ -50,55 +50,6 @@ public class ExpenseHealthRadiator extends View {
         drawTopSemicircle(canvas);
         drawBottomSemicircle(canvas);
         drawConcentricCircle(canvas);
-//        drawNeedle(canvas);
-//        drawCentralDivider(canvas);
-//        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-//
-//        float midX = getWidth() / 2;
-//        float midY = getHeight() / 2;
-////
-//        paint.setStyle(Paint.Style.STROKE);
-//        int colors[] = new int[] {
-//                Color.parseColor("#1B7F36"),
-//                Color.parseColor("#36AB39"),
-//                Color.parseColor("#EB3E1C"),
-//                Color.parseColor("#E7221A")
-//        };
-//        paint.setShader(new LinearGradient(0, 0, getWidth(), getHeight(),
-//                colors, null, Shader.TileMode.REPEAT));
-//
-////        canvas.drawCircle(midX, midY, unitInDPs(80), paint);
-//        RectF oval = new RectF(unitInDPs(10), unitInDPs(10), getWidth()-unitInDPs(10), getHeight()-unitInDPs(10));
-//        canvas.drawArc(oval, 45, -270, true, paint);
-//
-//        paint.reset();
-//        paint.setColor(Color.WHITE);
-//        paint.setStyle(Paint.Style.FILL);
-//        paint.setAntiAlias(true);
-//        canvas.drawCircle(midX, midY, (getWidth()-unitInDPs(30))/2, paint);
-//
-//        paint.reset();
-//        paint.setColor(Color.parseColor("#d071348D"));
-//        paint.setStyle(Paint.Style.FILL);
-//        paint.setAntiAlias(true);
-//        canvas.drawCircle(midX, midY, (getWidth()-unitInDPs(50))/2, paint);
-//
-//        Path path = new Path();
-//        path.reset();
-//
-//        path.moveTo(midX, getHeight()-unitInDPs(10));
-//        path.moveTo(midX + unitInDPs(8), midY);
-//        path.moveTo(midX + unitInDPs(8), midY);
-//        path.lineTo(midX, midY+unitInDPs(60));
-//        path.lineTo(midX-unitInDPs(8), midY);
-//        path.lineTo(midX, midY-unitInDPs(60));
-//        path.lineTo(midX+unitInDPs(8), midY);
-//        path.close();
-
-//        path.close();
-//        canvas.drawPath(path, paint);
-
-
         super.onDraw(canvas);
     }
 
