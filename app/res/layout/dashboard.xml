@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+              xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:gravity="center"
               android:background="@drawable/background_texture">
 
-    <!--<TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="This is going to be super awesome"/>-->
+    <!--<com.poc.intuition.widgets.ExpenseHealthRadiator android:id="@+id/indicator" android:layout_width="200dp" android:layout_height="200dp"/>-->
+    <!--<com.poc.intuition.widgets.RadiatorNeedle android:id="@+id/needle" android:layout_width="200dp" android:layout_height="200dp"/>-->
 
-    <com.poc.intuition.widgets.ExpenseHealthRadiator android:id="@+id/indicator" android:layout_width="200dp" android:layout_height="200dp"/>
-    <com.poc.intuition.widgets.RadiatorNeedle android:id="@+id/needle" android:layout_width="200dp" android:layout_height="200dp"/>
+    <LinearLayout android:id="@+id/graph_container"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:layout_margin="10dp"
+                  android:orientation="vertical"/>
 
 </RelativeLayout>
