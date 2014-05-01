@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.poc.intuition.R;
+import com.poc.intuition.experiments.MenuContentFrame;
 import com.poc.intuition.service.IListener;
 import com.poc.intuition.service.LoginService;
 import com.poc.intuition.service.UserSessionService;
@@ -52,8 +53,8 @@ public class Login extends Activity implements IListener<Boolean> {
   }
 
   private void showHomeScreen() {
-    Intent homeActivityIntent = new Intent (this, MenuContentFrame.class);
-    this.startActivity(homeActivityIntent);
+    Intent setupWizard = new Intent (this, SetupWizard.class);
+    this.startActivity(setupWizard);
   }
 
   private void showLoginError() {

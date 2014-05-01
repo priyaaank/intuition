@@ -1,4 +1,4 @@
-package com.poc.intuition.views;
+package com.poc.intuition.experiments;
 
 public interface ISelectionManager {
 

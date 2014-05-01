@@ -1,4 +1,4 @@
-package com.poc.intuition.views;
+package com.poc.intuition.experiments;
 
 import android.app.Dialog;
 import android.app.DialogFragment;

@@ -1,8 +1,9 @@
-package com.poc.intuition.views;
+package com.poc.intuition.experiments;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import com.poc.intuition.R;
+import com.poc.intuition.experiments.DashboardFragment;
 
 public class MenuContentFrame extends FragmentActivity {
 

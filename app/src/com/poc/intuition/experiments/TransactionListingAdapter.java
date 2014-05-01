@@ -1,4 +1,4 @@
-package com.poc.intuition.views;
+package com.poc.intuition.experiments;
 
 import android.content.Context;
 import android.graphics.Color;

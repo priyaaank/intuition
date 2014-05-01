@@ -1,4 +1,4 @@
-package com.poc.intuition.views;
+package com.poc.intuition.experiments;
 
 import android.view.ActionMode;
 import android.view.Menu;

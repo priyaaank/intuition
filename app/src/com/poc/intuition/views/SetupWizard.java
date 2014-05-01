@@ -46,7 +46,7 @@ public class SetupWizard extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return new BudgetSetupFragment();
+            return new CategorySelectionFragment();
         }
 
         @Override

@@ -3,7 +3,8 @@
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="fill_parent"
-        android:layout_width="fill_parent">
+        android:layout_width="fill_parent"
+        android:background="@drawable/background_texture">
 
     <com.viewpagerindicator.CirclePageIndicator
             android:id="@+id/pager_indicator"
