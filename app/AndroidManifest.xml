@@ -13,8 +13,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".views.Dashboard" />
         <activity android:name=".experiments.HomeScreen" />
-        <activity android:name=".views.SetupWizard" />
+        <activity android:name=".views.SetupWizard" android:noHistory="true" />
         <activity android:name=".experiments.TransactionListing" />
         <activity android:name=".experiments.MenuContentFrame" />
 

@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.poc.intuition.R;
-import com.poc.intuition.domain.PurchaseCategory;
-import com.poc.intuition.experiments.MenuContentFrame;
 import com.poc.intuition.service.IListener;
 import com.poc.intuition.service.LoginService;
 import com.poc.intuition.service.PurchaseCategoryService;

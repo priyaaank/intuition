@@ -31,7 +31,7 @@ public class CategoryImageAdapter extends BaseAdapter implements AdapterView.OnI
         allDisplayCategories.add(new DisplayPurchaseCategory("Investments", R.drawable.gifts_selected, R.drawable.gifts_unselected));
         allDisplayCategories.add(new DisplayPurchaseCategory("Shopping", R.drawable.shopping_selected, R.drawable.shopping_unselected));
         allDisplayCategories.add(new DisplayPurchaseCategory("Travel", R.drawable.travel_selected, R.drawable.travel_unselected));
-        allDisplayCategories.add(new DisplayPurchaseCategory("Utilities", R.drawable.household_selected, R.drawable.holidays_unselected));
+        allDisplayCategories.add(new DisplayPurchaseCategory("Utilities", R.drawable.household_selected, R.drawable.household_unselected));
         allDisplayCategories.add(new DisplayPurchaseCategory("FeesAndCharges", R.drawable.entertainment_selected, R.drawable.entertainment_unselected));
     }
 

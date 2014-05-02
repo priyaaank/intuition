@@ -41,6 +41,7 @@ public class CategorySelectionFragment extends Fragment implements IListener<Pur
                 String[] categoryNamesToBeCreated = gridAdapter.categoryNamesToBeCreated();
                 purchaseCategoryService.deleteExistingCategoryByIds(categoryIdsToBeDeleted);
                 purchaseCategoryService.createNewCategoryWithNames(categoryNamesToBeCreated);
+                ((SetupWizard)getActivity()).finishSetup();
             }
         };
     }

@@ -1,11 +1,11 @@
-package com.poc.intuition.experiments;
+package com.poc.intuition.views;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import com.poc.intuition.R;
+import com.poc.intuition.experiments.DashboardFragment;
 
-public class MenuContentFrame extends FragmentActivity {
-
+public class Dashboard extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,4 @@ public class MenuContentFrame extends FragmentActivity {
                 .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                 .commit();
     }
-
 }
-
-
