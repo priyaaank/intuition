@@ -5,7 +5,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import com.poc.intuition.R;
 import com.poc.intuition.domain.PurchaseCategory;
 import com.poc.intuition.experiments.CategorySelectionDialog;
@@ -19,8 +22,9 @@ import com.poc.intuition.service.response.TransactionResponse;
 import com.poc.intuition.views.adapters.TransactionListingAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class TransactionHistoryFragment extends Fragment implements ISelectionManager, ICategoryChangeListener {
+public class TransactionHistoryFragment extends Fragment implements ISelectionManager, ICategoryChangeListener, AdapterView.OnItemSelectedListener {
 
     private TransactionListingAdapter transactionListingAdapter;
     private ContextualMultiTransactionSelectListener multiChoiceModeListener;
@@ -28,7 +32,7 @@ public class TransactionHistoryFragment extends Fragment implements ISelectionMa
     private ListView transactionListingView;
     private PurchaseCategoryService purchaseCategoryService;
     IListener<PurchaseCategoryResponse> purchaseCategoryListener;
-    private boolean categoryDialogShown = false;
+    private ArrayAdapter<String> categorySelectorAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,8 +51,18 @@ public class TransactionHistoryFragment extends Fragment implements ISelectionMa
         transactionListingView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         multiChoiceModeListener = new ContextualMultiTransactionSelectListener(this);
         transactionListingView.setMultiChoiceModeListener(multiChoiceModeListener);
+        categorySelectorAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_spinner_item, new ArrayList<String>());
+        initializeCategorySelector();
 
         showTransactions();
+    }
+
+    private void initializeCategorySelector() {
+        View actionBarView = getActivity().getActionBar().getCustomView();
+        Spinner categorySelector = (Spinner) actionBarView.findViewById(R.id.category_selector);
+        categorySelector.setVisibility(View.VISIBLE);
+        categorySelector.setAdapter(categorySelectorAdapter);
+        categorySelector.setOnItemSelectedListener(this);
     }
 
     private void showTransactions() {
@@ -94,10 +108,18 @@ public class TransactionHistoryFragment extends Fragment implements ISelectionMa
         return new IListener<TransactionResponse>() {
             @Override
             public void serviceResponse(TransactionResponse transactionResponse) {
-                transactionListingAdapter.addAll(transactionResponse.transactions());
-                transactionListingAdapter.notifyDataSetChanged();
+                transactionListingAdapter.addMasterTransactionList(transactionResponse.transactions());
+                updateActionBarToShowCategories();
             }
         };
+    }
+
+    private void updateActionBarToShowCategories() {
+        List<String> distinctCategories = transactionListingAdapter.getDistinctCategories();
+        categorySelectorAdapter.clear();
+        categorySelectorAdapter.add("All");
+        categorySelectorAdapter.addAll(distinctCategories);
+        categorySelectorAdapter.notifyDataSetChanged();
     }
 
     private IListener<PurchaseCategoryResponse> purchaseCategoryResponseListener() {
@@ -118,5 +140,16 @@ public class TransactionHistoryFragment extends Fragment implements ISelectionMa
 
     public void updateSelectedTransactionsWithCategory(String categoryName) {
         multiChoiceModeListener.markActionModeFinished();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String categoryName = categorySelectorAdapter.getItem(position);
+        transactionListingAdapter.filterByCategory(categoryName);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

@@ -19,6 +19,7 @@ public class TransactionListingAdapter extends ArrayAdapter<Transaction> {
     private LayoutInflater mInflater;
     private int mResource;
     private List<Transaction> selectedTransactions;
+    private List<Transaction> masterTransactionList;
 
     public TransactionListingAdapter(Context context, int resource) {
         super(context, resource);
@@ -65,6 +66,34 @@ public class TransactionListingAdapter extends ArrayAdapter<Transaction> {
 
     public void addNewSelection(int position) {
         selectedTransactions.add(getItem(position));
+    }
+
+    public List<String> getDistinctCategories() {
+        List<String> distinctCategories = new ArrayList<String>();
+        for(Transaction transaction : masterTransactionList) {
+            if(distinctCategories.contains(transaction.categoryName())) continue;
+            distinctCategories.add(transaction.categoryName());
+        }
+        return distinctCategories;
+    }
+
+    public void addMasterTransactionList(List<Transaction> transactions) {
+        this.masterTransactionList = transactions;
+        addAll(transactions);
+        notifyDataSetChanged();
+    }
+
+    public void filterByCategory(String categoryName) {
+        clear();
+        if("all".equalsIgnoreCase(categoryName)) {
+            addAll(masterTransactionList);
+        } else {
+            for (Transaction transaction : masterTransactionList) {
+                if (categoryName.equalsIgnoreCase(transaction.categoryName()))
+                    add(transaction);
+            }
+        }
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder{

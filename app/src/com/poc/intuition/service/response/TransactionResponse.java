@@ -1,6 +1,7 @@
 package com.poc.intuition.service.response;
 
 import android.util.Log;
+import com.poc.intuition.domain.PurchaseCategory;
 import com.poc.intuition.domain.Transaction;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,6 +17,7 @@ import java.util.List;
 public class TransactionResponse {
 
     private static final String TAG = "TransactionResponse";
+
     private Date rangeStartDate;
     private Date rangeEndDate;
     private String username;
@@ -30,6 +32,8 @@ public class TransactionResponse {
     private static final String MERCHANT_ID_TAG = "merchant_id";
     private static final String MERCHANT_NAME_TAG = "merchant_name";
     private static final String TRANSACTION_DATE_TAG = "transaction_date";
+    private static final String CATEGORY_NAME_TAG = "category_name";
+    private static final String CATEGORY_ID_TAG = "category_id";
     private static final String PRICE_TAG = "price";
 
     private final String DATE_FORMAT = "yyyy-MM-dd";
@@ -68,7 +72,9 @@ public class TransactionResponse {
         String merchantName = ((JSONObject)transactionJsonObject).getString(MERCHANT_NAME_TAG);
         Date transactionDate = dateFormatter.parse(((JSONObject) transactionJsonObject).getString(TRANSACTION_DATE_TAG));
         Double transactionAmount = ((JSONObject) transactionJsonObject).getDouble(PRICE_TAG);
-        transactionList.add(new Transaction(transactionId, merchantId, merchantName, transactionDate, null, transactionAmount));
+        String categoryId = ((JSONObject) transactionJsonObject).getString(CATEGORY_ID_TAG);
+        String categoryName = ((JSONObject) transactionJsonObject).getString(CATEGORY_NAME_TAG);
+        transactionList.add(new Transaction(transactionId, merchantId, merchantName, transactionDate, new PurchaseCategory(new Integer(categoryId), categoryName), transactionAmount));
     }
 
 }

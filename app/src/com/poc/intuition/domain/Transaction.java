@@ -27,4 +27,8 @@ public class Transaction {
     public String transactionAmount() {
         return this.transactionAmount.toString();
     }
+
+    public String categoryName() {
+       return this.category.getName();
+    }
 }

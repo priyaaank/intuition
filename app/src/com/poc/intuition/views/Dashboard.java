@@ -3,6 +3,7 @@ package com.poc.intuition.views;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.poc.intuition.R;
 import com.poc.intuition.experiments.DashboardFragment;
@@ -16,8 +17,36 @@ public class Dashboard extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer);
         slidingMenu = (SlidingMenu) findViewById(R.id.slidingmenulayout);
+        updateActionBar();
         attachDefaultFragment();
         attachMenuNavigationEvents();
+    }
+
+    private void updateActionBar() {
+        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate(
+                R.layout.home_action_bar,
+                null);
+        getActionBar().setDisplayShowCustomEnabled(true);
+        getActionBar().setCustomView(actionBarLayout);
+        getActionBar().setDisplayUseLogoEnabled(false);
+        getActionBar().setDisplayHomeAsUpEnabled(false);
+        getActionBar().setDisplayShowHomeEnabled(false);
+        getActionBar().setDisplayShowTitleEnabled(false);
+
+        actionBarLayout.findViewById(R.id.action_bar_menu).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleMenu();
+            }
+        });
+    }
+
+    private void toggleMenu() {
+        if(slidingMenu.isMenuShowing()) {
+            slidingMenu.showContent();
+        } else {
+            slidingMenu.showMenu();
+        }
     }
 
     private void attachMenuNavigationEvents() {
