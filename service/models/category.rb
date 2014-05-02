@@ -8,7 +8,8 @@ class Category < ActiveRecord::Base
     SHOPPING = "Shopping"
     TRAVEL = "Travel"
     UTILITIES = "Utilities"
-    ALL = [FEES_AND_CHARGES, FOOD, HEALTH, INVESTMENTS, SHOPPING, TRAVEL, UTILITIES]
+    UNKNOWN = "Unknown"
+    ALL = [FEES_AND_CHARGES, FOOD, HEALTH, INVESTMENTS, SHOPPING, TRAVEL, UTILITIES, UNKNOWN]
   end
 
   has_many :transactions, :dependent => :nullify

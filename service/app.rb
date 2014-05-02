@@ -2,7 +2,7 @@
 set :database, "sqlite3:db/intuition.db"
 
 post '/transaction/create' do
-  
+
 end
 
 get '/merchant/lookup/:name' do
@@ -90,7 +90,11 @@ end
 delete '/user/:username/category/:id' do
   user = User.find_by_username(params[:username])
   category = user.categories.find_by_id(params[:id])
-  category.destroy unless category.nil?
+  unless category.nil?
+    unknown_category = user.categories.where(["lower(name) = ?", Category::Type::UNKNOWN.downcase]).first
+    category.transactions.update_all(:category_id => unknown_category.id)
+    category.destroy
+  end
   response = OpenStruct.new
   unless user.nil?
     response.user = user.username

@@ -45,6 +45,10 @@ public class UserStatisticsResponse {
         initializeObjectWithJSONResponse(response);
     }
 
+    public Double getRecommendedBudget() {
+        return currentMonthStat.getRecommendedBudgetAmount();
+    }
+
     private void initializeObjectWithJSONResponse(JSONObject response) {
         try {
             this.username = response.getString(USERNAME_TAG);

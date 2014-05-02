@@ -21,4 +21,8 @@ public class CurrentMonthStat {
         this.categoryStats = categoryStats;
     }
 
+    public Double getRecommendedBudgetAmount() {
+        return recommendedBudgetAmount;
+    }
+
 }
