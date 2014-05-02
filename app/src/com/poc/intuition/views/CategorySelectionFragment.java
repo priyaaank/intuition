@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridView;
 import com.poc.intuition.R;
 import com.poc.intuition.domain.PurchaseCategory;
@@ -17,6 +18,7 @@ import java.util.List;
 public class CategorySelectionFragment extends Fragment implements IListener<PurchaseCategoryResponse> {
 
     private GridView categoryGrid;
+    private Button setupComplete;
     private CategoryImageAdapter gridAdapter;
     private PurchaseCategoryService purchaseCategoryService;
 
@@ -24,7 +26,19 @@ public class CategorySelectionFragment extends Fragment implements IListener<Pur
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View inflatedView = inflater.inflate(R.layout.category_setup, container, false);
         categoryGrid = (GridView) inflatedView.findViewById(R.id.category_grid);
+        setupComplete = (Button) inflatedView.findViewById(R.id.setup_complete);
+        setupComplete.setOnClickListener(completeSetup());
         return inflatedView;
+    }
+
+    private View.OnClickListener completeSetup() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] categoryIdsToBeDeleted = gridAdapter.idsToBeDeleted();
+                purchaseCategoryService.deleteExistingCategoryByIds(categoryIdsToBeDeleted);
+            }
+        };
     }
 
     @Override

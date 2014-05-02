@@ -4,7 +4,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:weightSum="10">
+              android:weightSum="100">
 
     <GridView android:id="@+id/category_grid"
               android:layout_width="fill_parent"
@@ -16,7 +16,16 @@
               android:stretchMode="columnWidth"
               android:layout_margin="30dp"
               android:gravity="center"
-              android:layout_weight="7"
+              android:layout_weight="98"
             />
+
+
+    <Button android:id="@+id/setup_complete"
+            android:layout_weight="2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:text="Setup complete" />
 
 </LinearLayout>

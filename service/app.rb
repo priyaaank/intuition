@@ -83,7 +83,8 @@ end
 
 delete '/user/:username/category/:id' do
   user = User.find_by_username(params[:username])
-  user.categories.find_by_id(params[:id]).destroy
+  category = user.categories.find_by_id(params[:id])
+  category.destroy unless category.nil?
   status 200
   body ''
 end

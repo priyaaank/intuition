@@ -49,9 +49,11 @@ public class PurchaseCategoryService implements ServiceConstants {
         new SpendingCategoryEditTask().execute(new String[]{loggedInUsername, categoryId.toString(), newCategryName});
     }
 
-    public void deleteExistingCategoryById(String catagoryId) {
+    public void deleteExistingCategoryByIds(String[] categoryIds) {
         String loggedInUsername = userSessionService.loggedInUsername();
-        new SpendingCategoryDeleteTask().execute(new String[]{loggedInUsername, catagoryId});
+        for(String categoryId : categoryIds) {
+            new SpendingCategoryDeleteTask().execute(new String[]{loggedInUsername, categoryId});
+        }
     }
 
     private void updatePurchaseCategories(PurchaseCategoryResponse purchaseCategoryResponse) {
@@ -141,7 +143,7 @@ public class PurchaseCategoryService implements ServiceConstants {
 
     class SpendingCategoryDeleteTask extends AsyncTask<String, Void, JSONObject> {
 
-        private static final String SERVICE_URL = SERVICE_HOST + "user/##USERNAME##/category";
+        private static final String SERVICE_URL = SERVICE_HOST + "user/##USERNAME##/category/";
 
         @Override
         protected JSONObject doInBackground(String... params) {
@@ -155,7 +157,8 @@ public class PurchaseCategoryService implements ServiceConstants {
         @Override
         protected void onPostExecute(JSONObject jsonResponse) {
             super.onPostExecute(jsonResponse);
-            listener.serviceResponse(new PurchaseCategoryResponse(jsonResponse));
+//            if(listener != null) listener.serviceResponse(new PurchaseCategoryResponse(jsonResponse));
+            fetchCategoriesForUser();
         }
     }
 

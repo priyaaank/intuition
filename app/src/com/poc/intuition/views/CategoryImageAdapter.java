@@ -17,6 +17,7 @@ public class CategoryImageAdapter extends BaseAdapter implements AdapterView.OnI
 
     private Context mContext;
     private List<DisplayPurchaseCategory> allDisplayCategories;
+    private List<PurchaseCategory> selectedCategories;
 
     public CategoryImageAdapter(Context c) {
         mContext = c;
@@ -35,10 +36,13 @@ public class CategoryImageAdapter extends BaseAdapter implements AdapterView.OnI
     }
 
     public void preselectPurchaseCategories(List<PurchaseCategory> selectedCategories) {
+        this.selectedCategories = selectedCategories;
         for(PurchaseCategory category : selectedCategories) {
-            int index = -1;
-            if((index = allDisplayCategories.indexOf(category)) > -1) {
-                allDisplayCategories.get(index).select();
+            for(DisplayPurchaseCategory displayPurchaseCategory : allDisplayCategories) {
+                if(category.getName().equalsIgnoreCase(displayPurchaseCategory.categoryName)) {
+                    displayPurchaseCategory.updatePurchaseCategory(category);
+                    displayPurchaseCategory.select();
+                }
             }
         }
         this.notifyDataSetInvalidated();
@@ -78,18 +82,34 @@ public class CategoryImageAdapter extends BaseAdapter implements AdapterView.OnI
         this.notifyDataSetInvalidated();
     }
 
+    public String[] idsToBeDeleted() {
+        List<String> idsToBeDeleted = new ArrayList<String>();
+        for(DisplayPurchaseCategory category : allDisplayCategories) {
+            if(!category.isSelected && category.purchaseCategory != null) {
+                idsToBeDeleted.add(category.purchaseCategory.getId().toString());
+            }
+        }
+        return idsToBeDeleted.toArray(new String[idsToBeDeleted.size()]);
+    }
+
     class DisplayPurchaseCategory {
 
         private String categoryName;
         private Integer selectedDrawable;
         private Integer unselectedDrawable;
         private boolean isSelected;
+        private PurchaseCategory purchaseCategory;
 
         public DisplayPurchaseCategory(String categoryName, Integer selectedDrawable, Integer unselectedDrawable) {
             this.categoryName = categoryName;
             this.selectedDrawable = selectedDrawable;
             this.unselectedDrawable = unselectedDrawable;
             this.isSelected = false;
+            this.purchaseCategory = null;
+        }
+
+        public boolean isSelected() {
+            return isSelected;
         }
 
         public void select() {
@@ -120,6 +140,10 @@ public class CategoryImageAdapter extends BaseAdapter implements AdapterView.OnI
             }
 
             return false;
+        }
+
+        public void updatePurchaseCategory(PurchaseCategory category) {
+            this.purchaseCategory = category;
         }
     }
 }
