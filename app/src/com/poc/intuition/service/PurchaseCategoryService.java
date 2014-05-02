@@ -3,15 +3,19 @@ package com.poc.intuition.service;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import com.poc.intuition.domain.PurchaseCategory;
 import com.poc.intuition.service.response.GenericWebServiceResponse;
 import com.poc.intuition.service.response.PurchaseCategoryResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PurchaseCategoryService implements ServiceConstants {
 
     private static final String TAG = "PurchaseCategoryService";
-    private IListener<PurchaseCategoryResponse> listener;
+    private List<IListener<PurchaseCategoryResponse>> listeners;
     private final Context context;
     private UserSessionService userSessionService;
     private static PurchaseCategoryService singleInstance;
@@ -20,6 +24,7 @@ public class PurchaseCategoryService implements ServiceConstants {
     private PurchaseCategoryService(Context applicationContext) {
         this.context = applicationContext;
         this.userSessionService = new UserSessionService(context);
+        listeners = new ArrayList<IListener<PurchaseCategoryResponse>>();
     }
 
     public static PurchaseCategoryService singleInstance(Context applicationContext) {
@@ -30,18 +35,32 @@ public class PurchaseCategoryService implements ServiceConstants {
     }
 
     public void registerListener(IListener<PurchaseCategoryResponse> listener) {
-        this.listener = listener;
+        this.listeners.add(listener);
+    }
+
+    public void deregisterListener(IListener<PurchaseCategoryResponse> listener) {
+        this.listeners.remove(listener);
     }
 
     public void fetchCategoriesForUser() {
-        if(purchaseCategoryResponse != null  && listener != null) listener.serviceResponse(purchaseCategoryResponse);
+        if(purchaseCategoryResponse != null  && listeners.size() > 0) {
+            deliverResponseToListeners(purchaseCategoryResponse);
+        }
         String loggedInUsername = userSessionService.loggedInUsername();
         new SpendingCategoryListTask().execute(new String[]{loggedInUsername});
     }
 
-    public void createNewCategoryWithName(String categoryName) {
+    private void deliverResponseToListeners(PurchaseCategoryResponse purchaseCategoryResponse) {
+        for(IListener<PurchaseCategoryResponse> listener : listeners) {
+            listener.serviceResponse(purchaseCategoryResponse);
+        }
+    }
+
+    public void createNewCategoryWithNames(String[] categoryNames) {
         String loggedInUsername = userSessionService.loggedInUsername();
-        new SpendingCategoryCreateTask().execute(new String[]{loggedInUsername, categoryName});
+        for(String categoryName : categoryNames) {
+            new SpendingCategoryCreateTask().execute(new String[]{loggedInUsername, categoryName});
+        }
     }
 
     public void editExistingCategoryNameForId(Integer categoryId, String newCategryName) {
@@ -58,7 +77,7 @@ public class PurchaseCategoryService implements ServiceConstants {
 
     private void updatePurchaseCategories(PurchaseCategoryResponse purchaseCategoryResponse) {
         this.purchaseCategoryResponse = purchaseCategoryResponse;
-        if(listener != null) listener.serviceResponse(this.purchaseCategoryResponse);
+        deliverResponseToListeners(this.purchaseCategoryResponse);
     }
 
     class SpendingCategoryListTask extends AsyncTask<String, Void, JSONObject> {
@@ -94,8 +113,9 @@ public class PurchaseCategoryService implements ServiceConstants {
         @Override
         protected void onPostExecute(GenericWebServiceResponse webServiceResponse) {
             super.onPostExecute(webServiceResponse);
+            purchaseCategoryResponse = new PurchaseCategoryResponse(webServiceResponse.response());
             //TODO, figure out how listeners should get response
-            //listener.serviceResponse();
+            //listeners.serviceResponse();
         }
 
         private JSONObject requestForNewCategory(String categoryName) {
@@ -127,7 +147,7 @@ public class PurchaseCategoryService implements ServiceConstants {
         protected void onPostExecute(GenericWebServiceResponse webServiceResponse) {
             super.onPostExecute(webServiceResponse);
             //TODO, figure out how listeners should get response
-            //listener.serviceResponse();
+            //listeners.serviceResponse();
         }
 
         private JSONObject requestForNewCategory(String categoryName) {
@@ -157,8 +177,8 @@ public class PurchaseCategoryService implements ServiceConstants {
         @Override
         protected void onPostExecute(JSONObject jsonResponse) {
             super.onPostExecute(jsonResponse);
-//            if(listener != null) listener.serviceResponse(new PurchaseCategoryResponse(jsonResponse));
-            fetchCategoriesForUser();
+            purchaseCategoryResponse = new PurchaseCategoryResponse(jsonResponse);
+//            if(listeners != null) listeners.serviceResponse(new PurchaseCategoryResponse(jsonResponse));
         }
     }
 

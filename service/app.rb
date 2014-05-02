@@ -67,8 +67,13 @@ post '/user/:username/category/new' do
   user = User.find_by_username(params[:username])
   request_body = JSON.parse(request.body.read)
   new_category_name = request_body["category_name"]
-  new_category = user.categories.where(["lower(name) = ?", new_category_name.downcase]).first || user.categories.create(name: new_category_name)
-  UserCategory.new(new_category).to_json
+  user.categories.where(["lower(name) = ?", new_category_name.downcase]).first || user.categories.create(name: new_category_name)
+  response = OpenStruct.new
+  unless user.nil?
+    response.user = user.username
+    response.categories = user.categories.collect{|category| UserCategory.new(category) }
+  end
+  response.to_json
 end
 
 put '/user/:username/category/:id' do
@@ -85,8 +90,12 @@ delete '/user/:username/category/:id' do
   user = User.find_by_username(params[:username])
   category = user.categories.find_by_id(params[:id])
   category.destroy unless category.nil?
-  status 200
-  body ''
+  response = OpenStruct.new
+  unless user.nil?
+    response.user = user.username
+    response.categories = user.categories.collect{|category| UserCategory.new(category) }
+  end
+  response.to_json
 end
 
 get '/user/:username/monthly_budget/average' do

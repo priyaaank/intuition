@@ -92,6 +92,16 @@ public class CategoryImageAdapter extends BaseAdapter implements AdapterView.OnI
         return idsToBeDeleted.toArray(new String[idsToBeDeleted.size()]);
     }
 
+    public String[] categoryNamesToBeCreated() {
+        List<String> namesToBeCreated = new ArrayList<String>();
+        for(DisplayPurchaseCategory category : allDisplayCategories) {
+            if(category.isSelected && category.purchaseCategory == null) {
+                namesToBeCreated.add(category.categoryName);
+            }
+        }
+        return namesToBeCreated.toArray(new String[namesToBeCreated.size()]);
+    }
+
     class DisplayPurchaseCategory {
 
         private String categoryName;

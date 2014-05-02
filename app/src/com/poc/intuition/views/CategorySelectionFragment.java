@@ -1,5 +1,6 @@
 package com.poc.intuition.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ public class CategorySelectionFragment extends Fragment implements IListener<Pur
         categoryGrid = (GridView) inflatedView.findViewById(R.id.category_grid);
         setupComplete = (Button) inflatedView.findViewById(R.id.setup_complete);
         setupComplete.setOnClickListener(completeSetup());
+        this.purchaseCategoryService = PurchaseCategoryService.singleInstance(getActivity().getApplicationContext());
         return inflatedView;
     }
 
@@ -36,7 +38,9 @@ public class CategorySelectionFragment extends Fragment implements IListener<Pur
             @Override
             public void onClick(View v) {
                 String[] categoryIdsToBeDeleted = gridAdapter.idsToBeDeleted();
+                String[] categoryNamesToBeCreated = gridAdapter.categoryNamesToBeCreated();
                 purchaseCategoryService.deleteExistingCategoryByIds(categoryIdsToBeDeleted);
+                purchaseCategoryService.createNewCategoryWithNames(categoryNamesToBeCreated);
             }
         };
     }
@@ -47,7 +51,6 @@ public class CategorySelectionFragment extends Fragment implements IListener<Pur
         gridAdapter = new CategoryImageAdapter(getActivity().getApplicationContext());
         categoryGrid.setAdapter(gridAdapter);
         categoryGrid.setOnItemClickListener(gridAdapter);
-        this.purchaseCategoryService = PurchaseCategoryService.singleInstance(getActivity().getApplicationContext());
         purchaseCategoryService.registerListener(this);
         purchaseCategoryService.fetchCategoriesForUser();
     }
@@ -56,5 +59,17 @@ public class CategorySelectionFragment extends Fragment implements IListener<Pur
     public void serviceResponse(PurchaseCategoryResponse response) {
         List<PurchaseCategory> categories = response.purchaseCategories();
         gridAdapter.preselectPurchaseCategories(categories);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        purchaseCategoryService.registerListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        purchaseCategoryService.deregisterListener(this);
     }
 }
