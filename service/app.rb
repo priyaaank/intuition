@@ -44,11 +44,13 @@ get '/user/:username/transactions/current/month/categorize' do
   response
 end
 
-get '/user/:username/transactions/current/months' do
+get '/user/:username/transactions/:num/months' do
   user = User.find_by_username(params[:username])
+  month_count = (params[:num].downcase == "current") ? -1 : params[:num].to_i
   response = {"categories" => [], "user" => params[:username]}.to_json
   unless user.nil?
-    response = transaction_responses_for user, user.transactions.for_current_month
+    transactions = month_count == -1 ? user.transactions.for_current_month : user.transactions.past_months(month_count)
+    response = transaction_responses_for user, transactions
   end
   response
 end

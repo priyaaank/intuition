@@ -13,6 +13,7 @@ import com.poc.intuition.domain.PurchaseCategory;
 import com.poc.intuition.service.IListener;
 import com.poc.intuition.service.PurchaseCategoryService;
 import com.poc.intuition.service.response.PurchaseCategoryResponse;
+import com.poc.intuition.views.adapters.CategoryImageAdapter;
 
 import java.util.List;
 

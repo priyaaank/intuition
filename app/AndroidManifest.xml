@@ -16,7 +16,6 @@
         <activity android:name=".views.Dashboard" />
         <activity android:name=".experiments.HomeScreen" />
         <activity android:name=".views.SetupWizard" android:noHistory="true" />
-        <activity android:name=".experiments.TransactionListing" />
         <activity android:name=".experiments.MenuContentFrame" />
 
     </application>

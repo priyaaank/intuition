@@ -10,18 +10,22 @@ public class TransactionService implements ServiceConstants {
     private static final String TAG = "TransactionService";
     private Context applicationContext;
     private IListener<TransactionResponse> transactionResponseListener;
+    private UserSessionService userSessionService;
     private final String CURRENT_MONTH = "current";
 
     public TransactionService(Context applicationContext, IListener<TransactionResponse> listener) {
         this.applicationContext = applicationContext;
         this.transactionResponseListener = listener;
+        this.userSessionService = new UserSessionService(applicationContext);
     }
 
-    public void findTransactionsForCurrentMonth(String username) {
+    public void findTransactionsForCurrentMonth() {
+        String username = userSessionService.loggedInUsername();
         new TransactionsListingTask().execute(new String[]{username,CURRENT_MONTH});
     }
 
-    public void findTransactionsForLastMonths(String username, int monthCount) {
+    public void findTransactionsForLastMonths(int monthCount) {
+        String username = userSessionService.loggedInUsername();
         new TransactionsListingTask().execute(new String[]{username, new Integer(monthCount).toString()});
     }
 

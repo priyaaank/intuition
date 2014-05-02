@@ -4,9 +4,24 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="#FFFFFF">
+              android:background="@color/background_brown">
 
-    <TextView android:layout_width="300dp" android:layout_height="match_parent" android:text="WOAA!!"/>
+    <TextView
+              android:id="@+id/transaction_history_link"
+              android:textSize="20sp"
+              android:text="Transaction history"
+              android:textColor="@color/text_brown"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:paddingLeft="30dp"
+              android:paddingTop="30dp"
+              android:paddingBottom="30dp"
+            />
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="1dp"
+                  android:background="@color/text_brown"/>
+
 
 
 </LinearLayout>

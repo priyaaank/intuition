@@ -1,4 +1,4 @@
-package com.poc.intuition.views;
+package com.poc.intuition.views.adapters;
 
 import android.content.Context;
 import android.view.View;
@@ -33,6 +33,7 @@ public class CategoryImageAdapter extends BaseAdapter implements AdapterView.OnI
         allDisplayCategories.add(new DisplayPurchaseCategory("Travel", R.drawable.travel_selected, R.drawable.travel_unselected));
         allDisplayCategories.add(new DisplayPurchaseCategory("Utilities", R.drawable.household_selected, R.drawable.household_unselected));
         allDisplayCategories.add(new DisplayPurchaseCategory("FeesAndCharges", R.drawable.entertainment_selected, R.drawable.entertainment_unselected));
+        allDisplayCategories.add(new DisplayPurchaseCategory("Unknown", R.drawable.holidays_selected, R.drawable.holidays_unselected));
     }
 
     public void preselectPurchaseCategories(List<PurchaseCategory> selectedCategories) {
@@ -78,6 +79,7 @@ public class CategoryImageAdapter extends BaseAdapter implements AdapterView.OnI
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if(allDisplayCategories.get(position).purchaseCategory != null && allDisplayCategories.get(position).purchaseCategory.getName().equalsIgnoreCase("Unknown")) return;
         allDisplayCategories.get(position).toggleSelection();
         this.notifyDataSetInvalidated();
     }

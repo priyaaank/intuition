@@ -6,14 +6,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.AbsListView;
 import com.poc.intuition.R;
+import com.poc.intuition.views.ICategoryChangeListener;
 
 public class ContextualMultiTransactionSelectListener implements AbsListView.MultiChoiceModeListener {
 
-    private TransactionListing listingActivity;
+    private ICategoryChangeListener categoryChangeListener;
     private ActionMode contextualBarActionMode;
 
-    public ContextualMultiTransactionSelectListener(TransactionListing listingActivity) {
-        this.listingActivity = listingActivity;
+    public ContextualMultiTransactionSelectListener(ICategoryChangeListener categoryChangeListener) {
+        this.categoryChangeListener = categoryChangeListener;
     }
 
     @Override
@@ -32,7 +33,7 @@ public class ContextualMultiTransactionSelectListener implements AbsListView.Mul
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.change_category:
-                listingActivity.processCategoryChange();
+                categoryChangeListener.processCategoryChange();
                 contextualBarActionMode = mode;
                 return true;
             default:
@@ -42,15 +43,15 @@ public class ContextualMultiTransactionSelectListener implements AbsListView.Mul
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
-        listingActivity.clearSelection();
+        categoryChangeListener.clearSelection();
     }
 
     @Override
     public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
         if (checked) {
-            listingActivity.addNewSelection(position);
+            categoryChangeListener.addNewSelection(position);
         } else {
-            listingActivity.removeSelection(position);
+            categoryChangeListener.removeSelection(position);
         }
     }
 
