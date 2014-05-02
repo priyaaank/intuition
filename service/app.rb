@@ -2,7 +2,7 @@
 set :database, "sqlite3:db/intuition.db"
 
 post '/transaction/create' do
-
+  
 end
 
 get '/merchant/lookup/:name' do
@@ -64,6 +64,7 @@ get '/user/:username/categories' do
 end
 
 post '/user/:username/category/new' do
+
   user = User.find_by_username(params[:username])
   request_body = JSON.parse(request.body.read)
   new_category_name = request_body["category_name"]

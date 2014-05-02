@@ -18,6 +18,6 @@ public class UserSessionService {
     }
 
     public void loginUser(String username) {
-        preferencesStorage.edit().putString(USERNAME_KEY, username).commit();
+        preferencesStorage.edit().putString(USERNAME_KEY, username.toLowerCase()).commit();
     }
 }

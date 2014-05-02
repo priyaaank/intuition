@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import com.poc.intuition.R;
+import com.poc.intuition.service.UserStatisticsService;
 import com.viewpagerindicator.CirclePageIndicator;
 
 public class SetupWizard extends FragmentActivity {
@@ -15,7 +16,7 @@ public class SetupWizard extends FragmentActivity {
     private static final int NUM_PAGES = 2;
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
-
+    private UserStatisticsService userStatisticsService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,7 @@ public class SetupWizard extends FragmentActivity {
         pager = (ViewPager) findViewById(R.id.pager);
         pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
+        userStatisticsService = UserStatisticsService.singleInstance(getApplicationContext());
         CirclePageIndicator titleIndicator = (CirclePageIndicator)findViewById(R.id.pager_indicator);
         titleIndicator.setViewPager(pager);
     }

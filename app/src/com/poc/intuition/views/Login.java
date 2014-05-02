@@ -1,6 +1,7 @@
 package com.poc.intuition.views;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,7 @@ public class Login extends Activity implements IListener<Boolean> {
 
     private LoginService loginService;
     private UserSessionService userSessionService;
+    private ProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class Login extends Activity implements IListener<Boolean> {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDialog = ProgressDialog.show(Login.this, "Logging in", "You are being logged in", true);
                 String username = ((EditText) Login.this.findViewById(R.id.user_name_value)).getText().toString();
                 loginService.loginForUserWithName(username);
             }
@@ -49,6 +52,7 @@ public class Login extends Activity implements IListener<Boolean> {
         if (isLoginSuccessful) {
             userSessionService.loginUser(((EditText) Login.this.findViewById(R.id.user_name_value)).getText().toString());
             PurchaseCategoryService.singleInstance(this.getApplicationContext()).fetchCategoriesForUser();
+            progressDialog.dismiss();
             showHomeScreen();
         } else {
             showLoginError();

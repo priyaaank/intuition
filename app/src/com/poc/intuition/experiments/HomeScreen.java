@@ -24,7 +24,7 @@ public class HomeScreen extends FragmentActivity implements IListener<PurchaseCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
-        userStatisticsService = UserStatisticsService.SingleInstance(this.getApplicationContext());
+        userStatisticsService = UserStatisticsService.singleInstance(this.getApplicationContext());
         userStatisticsService.registerListener(getListener());
         userStatisticsService.findUserStatsForLastMonths(10);
 

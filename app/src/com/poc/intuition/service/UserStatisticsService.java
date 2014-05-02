@@ -13,7 +13,7 @@ public class UserStatisticsService implements ServiceConstants {
     private UserSessionService userSessionService;
     private static UserStatisticsService singleInstance;
 
-    public static UserStatisticsService SingleInstance(Context applicationContext) {
+    public static UserStatisticsService singleInstance(Context applicationContext) {
         if(singleInstance == null) {
             singleInstance = new UserStatisticsService(applicationContext);
         }
