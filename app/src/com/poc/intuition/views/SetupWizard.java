@@ -12,7 +12,7 @@ import com.viewpagerindicator.CirclePageIndicator;
 
 public class SetupWizard extends FragmentActivity {
 
-    private static final int NUM_PAGES = 3;
+    private static final int NUM_PAGES = 2;
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
 

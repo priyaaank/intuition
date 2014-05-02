@@ -7,11 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import com.poc.intuition.R;
+import com.poc.intuition.domain.PurchaseCategory;
+import com.poc.intuition.service.IListener;
+import com.poc.intuition.service.PurchaseCategoryService;
+import com.poc.intuition.service.response.PurchaseCategoryResponse;
 
-public class CategorySelectionFragment extends Fragment {
+import java.util.List;
+
+public class CategorySelectionFragment extends Fragment implements IListener<PurchaseCategoryResponse> {
 
     private GridView categoryGrid;
     private CategoryImageAdapter gridAdapter;
+    private PurchaseCategoryService purchaseCategoryService;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -26,5 +33,14 @@ public class CategorySelectionFragment extends Fragment {
         gridAdapter = new CategoryImageAdapter(getActivity().getApplicationContext());
         categoryGrid.setAdapter(gridAdapter);
         categoryGrid.setOnItemClickListener(gridAdapter);
+        this.purchaseCategoryService = PurchaseCategoryService.singleInstance(getActivity().getApplicationContext());
+        purchaseCategoryService.registerListener(this);
+        purchaseCategoryService.fetchCategoriesForUser();
+    }
+
+    @Override
+    public void serviceResponse(PurchaseCategoryResponse response) {
+        List<PurchaseCategory> categories = response.purchaseCategories();
+        gridAdapter.preselectPurchaseCategories(categories);
     }
 }

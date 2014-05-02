@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import com.poc.intuition.R;
+import com.poc.intuition.domain.PurchaseCategory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,19 +16,40 @@ import java.util.List;
 public class CategoryImageAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
 
     private Context mContext;
-    private List<Integer> selectedThumbnails;
+    private List<DisplayPurchaseCategory> allDisplayCategories;
 
     public CategoryImageAdapter(Context c) {
         mContext = c;
-        selectedThumbnails = new ArrayList<Integer>();
+        allDisplayCategories = new ArrayList<DisplayPurchaseCategory>();
+        initializeAllCategories();
+    }
+
+    private void initializeAllCategories() {
+        allDisplayCategories.add(new DisplayPurchaseCategory("Food", R.drawable.food_selected, R.drawable.food_unselected));
+        allDisplayCategories.add(new DisplayPurchaseCategory("Health", R.drawable.medical_selected, R.drawable.medical_unselected));
+        allDisplayCategories.add(new DisplayPurchaseCategory("Investments", R.drawable.gifts_selected, R.drawable.gifts_unselected));
+        allDisplayCategories.add(new DisplayPurchaseCategory("Shopping", R.drawable.shopping_selected, R.drawable.shopping_unselected));
+        allDisplayCategories.add(new DisplayPurchaseCategory("Travel", R.drawable.travel_selected, R.drawable.travel_unselected));
+        allDisplayCategories.add(new DisplayPurchaseCategory("Utilities", R.drawable.household_selected, R.drawable.holidays_unselected));
+        allDisplayCategories.add(new DisplayPurchaseCategory("FeesAndCharges", R.drawable.entertainment_selected, R.drawable.entertainment_unselected));
+    }
+
+    public void preselectPurchaseCategories(List<PurchaseCategory> selectedCategories) {
+        for(PurchaseCategory category : selectedCategories) {
+            int index = -1;
+            if((index = allDisplayCategories.indexOf(category)) > -1) {
+                allDisplayCategories.get(index).select();
+            }
+        }
+        this.notifyDataSetInvalidated();
     }
 
     public int getCount() {
-        return selectedCategoryImages.length;
+        return allDisplayCategories.size();
     }
 
     public Object getItem(int position) {
-        return null;
+        return allDisplayCategories.get(position);
     }
 
     public long getItemId(int position) {
@@ -45,34 +67,59 @@ public class CategoryImageAdapter extends BaseAdapter implements AdapterView.OnI
             imageView = (ImageView) convertView;
         }
 
-        Integer image = selectedThumbnails.contains(unselectedCategoryImages[position]) ? selectedCategoryImages[position] : unselectedCategoryImages[position];
+        Integer image = allDisplayCategories.get(position).drawable();
         imageView.setImageResource(image);
         return imageView;
     }
 
-    private Integer[] selectedCategoryImages = {
-            R.drawable.education_selected, R.drawable.entertainment_selected,
-            R.drawable.gifts_selected, R.drawable.food_selected,
-            R.drawable.holidays_selected, R.drawable.household_selected,
-            R.drawable.medical_selected, R.drawable.shopping_selected,
-            R.drawable.travel_selected, R.drawable.travel_selected
-    };
-
-    private Integer[] unselectedCategoryImages = {
-            R.drawable.education_unselected, R.drawable.entertainment_unselected,
-            R.drawable.gifts_unselected, R.drawable.food_unselected,
-            R.drawable.holidays_unselected, R.drawable.household_unselected,
-            R.drawable.medical_unselected, R.drawable.shopping_unselected,
-            R.drawable.travel_unselected, R.drawable.travel_unselected
-    };
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        int clickedImage = unselectedCategoryImages[position];
-        if(selectedThumbnails.contains(clickedImage)) {
-            selectedThumbnails.remove(clickedImage);
-        } else {
-            selectedThumbnails.add(clickedImage);
+        allDisplayCategories.get(position).toggleSelection();
+        this.notifyDataSetInvalidated();
+    }
+
+    class DisplayPurchaseCategory {
+
+        private String categoryName;
+        private Integer selectedDrawable;
+        private Integer unselectedDrawable;
+        private boolean isSelected;
+
+        public DisplayPurchaseCategory(String categoryName, Integer selectedDrawable, Integer unselectedDrawable) {
+            this.categoryName = categoryName;
+            this.selectedDrawable = selectedDrawable;
+            this.unselectedDrawable = unselectedDrawable;
+            this.isSelected = false;
+        }
+
+        public void select() {
+            this.isSelected = true;
+        }
+
+        public void toggleSelection() {
+            isSelected = !isSelected;
+        }
+
+        public int drawable() {
+            return isSelected ? selectedDrawable : unselectedDrawable;
+        }
+
+        public boolean representsPurchaseCategory(PurchaseCategory category) {
+            if(this.categoryName.equalsIgnoreCase(category.getName())) return true;
+            return false;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if(!(o instanceof PurchaseCategory || o instanceof DisplayPurchaseCategory)) return false;
+            if (o instanceof DisplayPurchaseCategory) {
+                return this.categoryName.equalsIgnoreCase(((PurchaseCategory)o).getName());
+            }
+            if (o instanceof DisplayPurchaseCategory) {
+                return this.equals(o);
+            }
+
+            return false;
         }
     }
 }

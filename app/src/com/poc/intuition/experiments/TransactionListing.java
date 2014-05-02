@@ -25,7 +25,7 @@ public class TransactionListing extends ListActivity implements ISelectionManage
         super.onCreate(savedInstanceState);
         setContentView(R.layout.transaction_listing);
         getActionBar().setTitle("Transactions");
-        purchaseCategoryService = new PurchaseCategoryService(getApplicationContext(), purchaseCategoryResponseListener());
+//        purchaseCategoryService = new PurchaseCategoryService(getApplicationContext(), purchaseCategoryResponseListener());
 
         transactionListingAdapter = new TransactionListingAdapter(getApplicationContext(), R.layout.transaction_row);
         setListAdapter(transactionListingAdapter);
@@ -60,7 +60,7 @@ public class TransactionListing extends ListActivity implements ISelectionManage
     }
 
     public void processCategoryChange() {
-        purchaseCategoryService.fetchCategoriesForUsername();
+        purchaseCategoryService.fetchCategoriesForUser();
     }
 
     private IListener<TransactionResponse> transactionResponseListener() {

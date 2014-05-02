@@ -13,4 +13,8 @@ public class PurchaseCategory {
     public String getName() {
         return name;
     }
+
+    public Integer getId() {
+        return id;
+    }
 }

@@ -11,17 +11,30 @@ import org.json.JSONObject;
 public class PurchaseCategoryService implements ServiceConstants {
 
     private static final String TAG = "PurchaseCategoryService";
-    private final IListener<PurchaseCategoryResponse> listener;
+    private IListener<PurchaseCategoryResponse> listener;
     private final Context context;
     private UserSessionService userSessionService;
+    private static PurchaseCategoryService singleInstance;
+    private PurchaseCategoryResponse purchaseCategoryResponse;
 
-    public PurchaseCategoryService(Context applicationContext, IListener<PurchaseCategoryResponse> listener) {
+    private PurchaseCategoryService(Context applicationContext) {
         this.context = applicationContext;
-        this.listener = listener;
         this.userSessionService = new UserSessionService(context);
     }
 
-    public void fetchCategoriesForUsername() {
+    public static PurchaseCategoryService singleInstance(Context applicationContext) {
+        if(singleInstance == null) {
+            singleInstance = new PurchaseCategoryService(applicationContext);
+        }
+        return singleInstance;
+    }
+
+    public void registerListener(IListener<PurchaseCategoryResponse> listener) {
+        this.listener = listener;
+    }
+
+    public void fetchCategoriesForUser() {
+        if(purchaseCategoryResponse != null  && listener != null) listener.serviceResponse(purchaseCategoryResponse);
         String loggedInUsername = userSessionService.loggedInUsername();
         new SpendingCategoryListTask().execute(new String[]{loggedInUsername});
     }
@@ -41,6 +54,11 @@ public class PurchaseCategoryService implements ServiceConstants {
         new SpendingCategoryDeleteTask().execute(new String[]{loggedInUsername, catagoryId});
     }
 
+    private void updatePurchaseCategories(PurchaseCategoryResponse purchaseCategoryResponse) {
+        this.purchaseCategoryResponse = purchaseCategoryResponse;
+        if(listener != null) listener.serviceResponse(this.purchaseCategoryResponse);
+    }
+
     class SpendingCategoryListTask extends AsyncTask<String, Void, JSONObject> {
 
         private static final String SERVICE_URL = SERVICE_HOST + "user/##USERNAME##/categories";
@@ -55,7 +73,7 @@ public class PurchaseCategoryService implements ServiceConstants {
         @Override
         protected void onPostExecute(JSONObject jsonResponse) {
             super.onPostExecute(jsonResponse);
-            listener.serviceResponse(new PurchaseCategoryResponse(jsonResponse));
+            PurchaseCategoryService.this.updatePurchaseCategories(new PurchaseCategoryResponse(jsonResponse));
         }
     }
 
