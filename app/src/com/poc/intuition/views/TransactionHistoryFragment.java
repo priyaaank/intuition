@@ -33,6 +33,8 @@ public class TransactionHistoryFragment extends Fragment implements ISelectionMa
     private PurchaseCategoryService purchaseCategoryService;
     IListener<PurchaseCategoryResponse> purchaseCategoryListener;
     private ArrayAdapter<String> categorySelectorAdapter;
+    private List<PurchaseCategory> purchaseCategories;
+    private Spinner categorySelector;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,7 +61,7 @@ public class TransactionHistoryFragment extends Fragment implements ISelectionMa
 
     private void initializeCategorySelector() {
         View actionBarView = getActivity().getActionBar().getCustomView();
-        Spinner categorySelector = (Spinner) actionBarView.findViewById(R.id.category_selector);
+        categorySelector = (Spinner) actionBarView.findViewById(R.id.category_selector);
         categorySelector.setVisibility(View.VISIBLE);
         categorySelector.setAdapter(categorySelectorAdapter);
         categorySelector.setOnItemSelectedListener(this);
@@ -120,12 +122,14 @@ public class TransactionHistoryFragment extends Fragment implements ISelectionMa
         categorySelectorAdapter.add("All");
         categorySelectorAdapter.addAll(distinctCategories);
         categorySelectorAdapter.notifyDataSetChanged();
+        categorySelector.setSelection(0);
     }
 
     private IListener<PurchaseCategoryResponse> purchaseCategoryResponseListener() {
         return new IListener<PurchaseCategoryResponse>() {
             @Override
             public void serviceResponse(PurchaseCategoryResponse response) {
+                purchaseCategories = response.purchaseCategories();
                 if(getActivity().getSupportFragmentManager().findFragmentByTag("CategorySelectionDialog") == null) {
                     ArrayList<String> categoryNameList = new ArrayList<String>();
                     for (PurchaseCategory category : response.purchaseCategories()) {
@@ -139,6 +143,15 @@ public class TransactionHistoryFragment extends Fragment implements ISelectionMa
     }
 
     public void updateSelectedTransactionsWithCategory(String categoryName) {
+        Integer categoryId = -1;
+        for(PurchaseCategory category : purchaseCategories) {
+            if(category.getName().equalsIgnoreCase(categoryName)) {
+                categoryId = category.getId();
+                break;
+            }
+        }
+
+        transactionService.updateTransactionsWithCategory(transactionListingAdapter.selectedTransactionIds(), categoryId.toString());
         multiChoiceModeListener.markActionModeFinished();
     }
 

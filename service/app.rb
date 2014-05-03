@@ -47,12 +47,16 @@ end
 get '/user/:username/transactions/:num/months' do
   user = User.find_by_username(params[:username])
   month_count = (params[:num].downcase == "current") ? -1 : params[:num].to_i
-  response = {"categories" => [], "user" => params[:username]}.to_json
-  unless user.nil?
-    transactions = month_count == -1 ? user.transactions.for_current_month : user.transactions.past_months(month_count)
-    response = transaction_responses_for user, transactions
-  end
-  response
+  transaction_response_for_past_months(month_count, user)
+end
+
+put '/user/:username/transactions/update' do
+  user = User.find_by_username(params[:username])
+  request_body = JSON.parse(request.body.read)
+  transaction_ids = request_body["transaction_ids"]
+  new_category_id = request_body["category_id"]
+  user.transactions.where(:id => transaction_ids).update_all(:category_id => new_category_id)
+  transaction_response_for_past_months(2, user)
 end
 
 get '/user/:username/categories' do
@@ -153,4 +157,11 @@ def categories_data_for(user, transactions)
   end
 end
 
-
+def transaction_response_for_past_months(month_count, user)
+  response = {"categories" => [], "user" => params[:username]}.to_json
+  unless user.nil?
+    transactions = month_count == -1 ? user.transactions.for_current_month : user.transactions.past_months(month_count)
+    response = transaction_responses_for user, transactions
+  end
+  response
+end

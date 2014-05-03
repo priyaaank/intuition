@@ -78,6 +78,7 @@ public class TransactionListingAdapter extends ArrayAdapter<Transaction> {
     }
 
     public void addMasterTransactionList(List<Transaction> transactions) {
+        clear();
         this.masterTransactionList = transactions;
         addAll(transactions);
         notifyDataSetChanged();
@@ -94,6 +95,14 @@ public class TransactionListingAdapter extends ArrayAdapter<Transaction> {
             }
         }
         notifyDataSetChanged();
+    }
+
+    public List<String> selectedTransactionIds() {
+        List<String> idsToReturn  = new ArrayList<String>();
+        for(Transaction selectedTransaction : selectedTransactions) {
+            idsToReturn.add(selectedTransaction.getId().toString());
+        }
+        return idsToReturn;
     }
 
     public static class ViewHolder{

@@ -31,4 +31,11 @@ public class Transaction {
     public String categoryName() {
        return this.category.getName();
     }
+    public Integer categoryId() {
+       return this.category.getId();
+    }
+
+    public Integer getId() {
+        return id;
+    }
 }
