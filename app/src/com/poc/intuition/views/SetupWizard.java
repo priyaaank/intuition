@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.widget.EditText;
 import com.poc.intuition.R;
 import com.poc.intuition.service.IListener;
+import com.poc.intuition.service.UserSessionService;
 import com.poc.intuition.service.UserStatisticsService;
 import com.poc.intuition.service.response.UserStatisticsResponse;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -22,6 +23,7 @@ public class SetupWizard extends FragmentActivity implements IListener<UserStati
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
     private UserStatisticsService userStatisticsService;
+    private UserSessionService userSessionService;
     private ProgressDialog progressDialog;
     private UserStatisticsResponse userStats;
 
@@ -34,9 +36,14 @@ public class SetupWizard extends FragmentActivity implements IListener<UserStati
         pager = (ViewPager) findViewById(R.id.pager);
         pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
+        initializeSessionService();
         lookupUserStats();
         CirclePageIndicator titleIndicator = (CirclePageIndicator)findViewById(R.id.pager_indicator);
         titleIndicator.setViewPager(pager);
+    }
+
+    private void initializeSessionService() {
+        userSessionService = new UserSessionService(getApplicationContext());
     }
 
     private void lookupUserStats() {
@@ -64,6 +71,7 @@ public class SetupWizard extends FragmentActivity implements IListener<UserStati
 
     public void finishSetup() {
         String budgetAmount = ((EditText)findViewById(R.id.budget_value)).getText().toString();
+        userSessionService.markUserOnboardingComplete();
         Intent intent = new Intent(this, Dashboard.class);
         startActivity(intent);
     }

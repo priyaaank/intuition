@@ -51,14 +51,23 @@ public class Login extends Activity implements IListener<Boolean> {
             userSessionService.loginUser(((EditText) Login.this.findViewById(R.id.user_name_value)).getText().toString());
             PurchaseCategoryService.singleInstance(this.getApplicationContext()).fetchCategoriesForUser();
             progressDialog.dismiss();
-            showHomeScreen();
+            if (userSessionService.isUserOnboardingComplete()) {
+                showHomeScreen();
+            } else {
+                startUserOnboarding();
+            }
         } else {
             showLoginError();
         }
     }
 
-    private void showHomeScreen() {
+    private void startUserOnboarding() {
         Intent setupWizard = new Intent(this, SetupWizard.class);
+        this.startActivity(setupWizard);
+    }
+
+    private void showHomeScreen() {
+        Intent setupWizard = new Intent(this, Dashboard.class);
         this.startActivity(setupWizard);
     }
 
