@@ -12,4 +12,7 @@ public class GroupStats {
         this.averageMonthlyExpenditure = averageMonthlyExpenditure;
     }
 
+    public Double maximumMonthlyExpenditure() {
+        return maximumMonthlyExpenditure;
+    }
 }

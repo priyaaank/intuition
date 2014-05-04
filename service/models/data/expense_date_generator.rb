@@ -10,21 +10,21 @@ class ExpenseDateGenerator
   end
 
   def generate_dates
-    random_dates_across_last_one_year + random_dates_each_month_for_last_one_year
+    random_dates_across_last_one_and_half_year + random_dates_each_month_for_last_one_year
   end
 
   private
 
-  def random_dates_across_last_one_year
+  def random_dates_across_last_one_and_half_year
     (1..dates_across_year).collect do |date_index|
-      (@end_date<<12-date_index)
+      (@end_date<<18-date_index)
     end
 
   end
 
   def random_dates_each_month_for_last_one_year
     date_count = dates_per_month
-    (1..12).to_a.collect do |month_index|
+    (1..18).to_a.collect do |month_index|
       (1..date_count).to_a.collect do |date_index|
         (@end_date<<month_index..@end_date<<month_index-1).to_a.sample
       end

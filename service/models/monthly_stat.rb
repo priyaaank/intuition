@@ -1,6 +1,6 @@
 class MonthlyStat
 
-  attr_accessor :month, :year, :total_amount_spent, :total_amount_saved, :total_number_of_transactions, :saving_rate, :category_stats
+  attr_accessor :month, :year, :total_amount_spent, :total_amount_saved, :total_number_of_transactions, :saving_rate, :category_stats, :budget
 
   def initialize(month, year, user)
     @month = month
@@ -23,6 +23,13 @@ class MonthlyStat
     @total_amount_spent = transactions.sum(:price)
     @total_number_of_transactions = transactions.count
     @category_stats = CategoryStat.category_stats_from(transactions)
+    @budget = user.budgets.where(:month => @month, :year => @year).first.amount
+    @total_amount_saved = @budget - @total_amount_spent
+    @saving_rate = (@total_amount_saved / Date.civil(@year, @month, -1).day)
+    if @total_amount_saved < 0
+      @total_amount_saved = 0
+      @saving_rate = 0
+    end
   end
 
 end

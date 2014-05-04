@@ -14,13 +14,14 @@ import com.poc.intuition.R;
 
 public class StackedExpensePredictor {
 
+    private final boolean showDaySlider;
     private Context context;
     private Drawable barDrawable;
     private int daysInMonth;
     private int markedDay;
-    private float maxAmount;
-    private float spentAmount;
-    private float predictedAmount;
+    private double maxAmount;
+    private double spentAmount;
+    private double predictedAmount;
 
     private int widthOfDayInBar;
     private int parentContainerWidth;
@@ -30,7 +31,8 @@ public class StackedExpensePredictor {
     private LinearLayout predictionBar;
     private LinearLayout dayMarker;
 
-    public StackedExpensePredictor(Context context, float maxAmount, float spentAmount, float predictedAmount, int daysInMonth, int markedDay, int parentContainerWidth) {
+    public StackedExpensePredictor(Context context, double maxAmount, double spentAmount, double predictedAmount, int daysInMonth,
+                                   int markedDay, int parentContainerWidth, boolean showDaySlider) {
         this.context = context;
         this.maxAmount = maxAmount;
         this.spentAmount = spentAmount;
@@ -39,13 +41,15 @@ public class StackedExpensePredictor {
         this.daysInMonth = daysInMonth;
         this.markedDay = markedDay;
         this.widthOfDayInBar = parentContainerWidth / daysInMonth;
+        this.showDaySlider = showDaySlider;
     }
 
     public RelativeLayout build() {
         initBaseContainer();
         initPredictionBar();
         initExpenseBar();
-        initDayMarker();
+        if(showDaySlider)
+            initDayMarker();
         animate();
         return baseContainer;
     }
@@ -69,11 +73,12 @@ public class StackedExpensePredictor {
         Animation slideDownAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_down);
         predictionBar.startAnimation(slideInAnimation);
         expenseBar.startAnimation(slideInAnimation);
-        dayMarker.startAnimation(slideDownAnimation);
+        if(showDaySlider)
+            dayMarker.startAnimation(slideDownAnimation);
     }
 
     private void initPredictionBar() {
-        int predictionBarWidth = Math.round(parentContainerWidth * ratioOfPredictedSpendingToMaxExpenditure());
+        int predictionBarWidth = (int)Math.round(parentContainerWidth * ratioOfPredictedSpendingToMaxExpenditure());
         predictionBar = new LinearLayout(context);
         predictionBar.setGravity(Gravity.LEFT);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(predictionBarWidth,LinearLayout.LayoutParams.MATCH_PARENT);
@@ -82,16 +87,16 @@ public class StackedExpensePredictor {
         baseContainer.addView(predictionBar);
     }
 
-    private float ratioOfPredictedSpendingToMaxExpenditure() {
+    private double ratioOfPredictedSpendingToMaxExpenditure() {
         return predictedAmount/maxAmount;
     }
 
-    private float ratioOfCurrentSpendingToMaxExpenditure() {
+    private double ratioOfCurrentSpendingToMaxExpenditure() {
         return spentAmount/maxAmount;
     }
 
     private void initExpenseBar() {
-        int expenseBarWidth = Math.round(parentContainerWidth * ratioOfCurrentSpendingToMaxExpenditure());
+        int expenseBarWidth = (int)Math.round(parentContainerWidth * ratioOfCurrentSpendingToMaxExpenditure());
         expenseBar = new LinearLayout(context);
         expenseBar.setGravity(Gravity.LEFT);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(expenseBarWidth,LinearLayout.LayoutParams.MATCH_PARENT);

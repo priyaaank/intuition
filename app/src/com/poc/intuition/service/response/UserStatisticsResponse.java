@@ -33,6 +33,9 @@ public class UserStatisticsResponse {
     private final static String HISTORIC_TAG = "historic";
     private static final String CURRENT_MONTH_TAG = "current_month";
     private static final String OVERALL_TAG = "overall";
+    private static final String BUDGET_TAG = "budget";
+    private static final String AMOUNT_SAVED_TAG = "total_amount_saved";
+    private static final String SAVING_RATE_TAG = "saving_rate";
 
 
     private String username;
@@ -90,8 +93,11 @@ public class UserStatisticsResponse {
             int year = monthlyStat.getInt(YEAR_TAG);
             double amountSpent = monthlyStat.getDouble(TOTAL_AMOUNT_SPENT);
             int transactionCount = monthlyStat.getInt(TRANSACTION_COUNT_TAG);
+            double budgetAmount =  monthlyStat.getDouble(BUDGET_TAG);
+            double totalAmountSaved =  monthlyStat.getDouble(AMOUNT_SAVED_TAG);
+            double savingRate =  monthlyStat.getDouble(SAVING_RATE_TAG);
             List<CategoryStat> categoryStatsForMonth = getCategoryStatsFrom(monthlyStat);
-            historicStats.add(new MonthlyStat(categoryStatsForMonth, month, year, amountSpent, transactionCount));
+            historicStats.add(new MonthlyStat(categoryStatsForMonth, month, year, amountSpent, transactionCount, budgetAmount, totalAmountSaved, savingRate));
         }
     }
 
@@ -108,5 +114,13 @@ public class UserStatisticsResponse {
             statsToReturn.add(new CategoryStat(new PurchaseCategory(categoryId, categoryName), amountSpent, transactionCount));
         }
         return statsToReturn;
+    }
+
+    public List<MonthlyStat> getMonthlyStats() {
+        return historicStats;
+    }
+
+    public Double maximumMonthlyExpenditure() {
+        return groupStats.maximumMonthlyExpenditure();
     }
 }

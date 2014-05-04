@@ -1,5 +1,8 @@
 package com.poc.intuition.views;
 
+import android.app.AlertDialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -125,5 +128,20 @@ public class Dashboard extends FragmentActivity implements IListener<UserStatist
     @Override
     public void serviceResponse(UserStatisticsResponse response) {
         this.userStats = response;
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this).setTitle("Logout").setMessage("Do you want to logout?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Dashboard.this.finish();
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).show();
     }
 }

@@ -37,7 +37,7 @@ public class DashboardFragment extends Fragment {
 
             @Override
             public void onGlobalLayout() {
-                RelativeLayout stackedBar1 = new StackedExpensePredictor(getActivity().getApplicationContext(), 300f, 100f, 200f, 31, 12, graphContainer.getWidth()).build();
+                RelativeLayout stackedBar1 = new StackedExpensePredictor(getActivity().getApplicationContext(), 300f, 100f, 200f, 31, 12, graphContainer.getWidth(), true).build();
                 graphContainer.addView(stackedBar1);
                 graphContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
