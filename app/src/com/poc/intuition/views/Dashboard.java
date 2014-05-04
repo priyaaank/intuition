@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.poc.intuition.R;
+import com.poc.intuition.domain.CurrentMonthStat;
 import com.poc.intuition.experiments.DashboardFragment;
 import com.poc.intuition.service.IListener;
 import com.poc.intuition.service.UserStatisticsService;
@@ -73,6 +74,18 @@ public class Dashboard extends FragmentActivity implements IListener<UserStatist
         findViewById(R.id.transaction_history_link).setOnClickListener(navigateToTransactionHistory());
         findViewById(R.id.historic_spending_overview_link).setOnClickListener(navigateToSpendingOverview());
         findViewById(R.id.dashboard_link).setOnClickListener(navigateToDashboard());
+        findViewById(R.id.this_month_summary).setOnClickListener(navigateToCurrentMonth());
+    }
+
+    private View.OnClickListener navigateToCurrentMonth() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                slidingMenu.showContent();
+                CurrentMonthStatsFragment currentMonthStatsFragment = new CurrentMonthStatsFragment();
+                attachFragmentWithTagToContentView(currentMonthStatsFragment, "CurrentMonthStatistics");
+            }
+        };
     }
 
     private View.OnClickListener navigateToDashboard() {

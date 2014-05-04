@@ -22,6 +22,22 @@
                   android:layout_height="1dp"
                   android:background="@color/text_brown"/>
 
+    <TextView
+            android:id="@+id/this_month_summary"
+            android:textSize="20sp"
+            android:text="This month"
+            android:textColor="@color/text_brown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="30dp"
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp"
+            />
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="1dp"
+                  android:background="@color/text_brown"/>
+
 
     <TextView
               android:id="@+id/transaction_history_link"
