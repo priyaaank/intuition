@@ -12,9 +12,10 @@
 
 ActiveRecord::Schema.define(version: 20140413153431) do
 
-  create_table "budget", force: true do |t|
-    t.string   "name"
-    t.integer  "category_id"
+  create_table "budgets", force: true do |t|
+    t.float    "amount"
+    t.integer  "month"
+    t.integer  "year"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"

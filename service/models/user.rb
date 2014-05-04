@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
 
   has_many :transactions, dependent: :destroy
   has_many :categories, dependent: :destroy
+  has_many :budgets
 
   after_create :create_user_categories
 

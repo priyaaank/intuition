@@ -1,9 +1,10 @@
 class CreateBudget < ActiveRecord::Migration
 
   def up
-    create_table :budget do |t|
-      t.string :name
-      t.belongs_to :category
+    create_table :budgets do |t|
+      t.float :amount
+      t.integer :month
+      t.integer :year
       t.belongs_to :user
       t.timestamps
     end
