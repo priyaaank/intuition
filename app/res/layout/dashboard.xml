@@ -12,8 +12,8 @@
     <!--<com.poc.intuition.widgets.RadiatorNeedle android:id="@+id/needle" android:layout_width="200dp" android:layout_height="200dp"/>-->
 
     <LinearLayout android:id="@+id/graph_container"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
+                  android:layout_width="30dp"
+                  android:layout_height="10dp"
                   android:layout_margin="10dp"
                   android:orientation="vertical"/>
     
