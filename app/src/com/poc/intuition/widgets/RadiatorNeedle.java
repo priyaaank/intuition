@@ -56,6 +56,10 @@ public class RadiatorNeedle extends View {
         path.lineTo(centerXCord, 0+needlePadding);
         path.close();
         canvas.drawPath(path, paint);
+
+//        paint.setColor(Color.YELLOW);
+//        canvas.drawCircle(centerXCord, centerYCord, unitInDPs(60), paint);
+
     }
 
     private void setupDimensions() {

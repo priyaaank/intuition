@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.poc.intuition.R;
 import com.poc.intuition.domain.CurrentMonthStat;
+import com.poc.intuition.domain.PurchaseCategory;
 import com.poc.intuition.experiments.DashboardFragment;
 import com.poc.intuition.service.IListener;
 import com.poc.intuition.service.UserStatisticsService;
@@ -75,6 +76,18 @@ public class Dashboard extends FragmentActivity implements IListener<UserStatist
         findViewById(R.id.historic_spending_overview_link).setOnClickListener(navigateToSpendingOverview());
         findViewById(R.id.dashboard_link).setOnClickListener(navigateToDashboard());
         findViewById(R.id.this_month_summary).setOnClickListener(navigateToCurrentMonth());
+        findViewById(R.id.purchase_link).setOnClickListener(navigateToPurchaseScreen());
+    }
+
+    private View.OnClickListener navigateToPurchaseScreen() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                slidingMenu.showContent();
+                PurchaseFragment purchaseFragment = PurchaseFragment.NewInstance(300d, 1000d, 20d);
+                attachFragmentWithTagToContentView(purchaseFragment, "PurchaseFragment");
+            }
+        };
     }
 
     private View.OnClickListener navigateToCurrentMonth() {

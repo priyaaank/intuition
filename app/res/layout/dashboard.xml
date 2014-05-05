@@ -8,15 +8,12 @@
               android:gravity="center"
               android:background="@drawable/background_texture">
 
-    <!--<com.poc.intuition.widgets.ExpenseHealthRadiator android:id="@+id/indicator" android:layout_width="200dp" android:layout_height="200dp"/>-->
-    <!--<com.poc.intuition.widgets.RadiatorNeedle android:id="@+id/needle" android:layout_width="200dp" android:layout_height="200dp"/>-->
-
     <LinearLayout android:id="@+id/graph_container"
                   android:layout_width="match_parent"
                   android:layout_height="30dp"
                   android:layout_margin="10dp"
                   android:orientation="vertical"/>
-    
+
     <WebView
             android:id="@+id/chart_view"
             android:layout_width="match_parent"
