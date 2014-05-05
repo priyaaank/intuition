@@ -1,0 +1,4 @@
+Movies, 0024
+Friday drinks, 0025
+Theater, 0026
+Rock climbing, 0027

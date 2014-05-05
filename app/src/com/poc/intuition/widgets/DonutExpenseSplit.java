@@ -24,6 +24,11 @@ public class DonutExpenseSplit extends View {
             "#235A2C",
             "#11BD45",
             "#21BB23",
+            "#AABB23",
+            "#BD7F31",
+            "#235A2C",
+            "#11BD45",
+            "#21BB23",
             "#AABB23"
     };
 

@@ -1,3 +1,4 @@
-Zolo Dentist, 0010
-North Atlantic Hospital, 0011
-Meditree Chemists, 0012
+Medical insurance, 0011
+Health checkup, 0012
+Dentist, 0013
+Health treatment, 0014

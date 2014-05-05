@@ -2,14 +2,13 @@ require 'date'
 
 class FakeExpense
 
-  attr_accessor :expense_range, :merchant_listing_file, :frequency_in_year, :expense_type, :user, :category
+  attr_accessor :expense_range, :merchant_listing_file, :expense_type, :user, :category, :dates_generator
 
-  def initialize(expense_range, merchant_listing_file, frequency_in_year, expense_type, user, category)
+  def initialize(expense_range, merchant_listing_file, expense_type, user, category, dates_generator)
     @merchant_listing_file = merchant_listing_file
-    @frequency_in_year = frequency_in_year
     @expense_range = expense_range
     @expense_type = expense_type
-    @dates_generator = ExpenseDateGenerator.new(Date.today, @frequency_in_year)
+    @dates_generator = dates_generator
     @user = user
     @category = category
 

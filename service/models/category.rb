@@ -1,18 +1,22 @@
 class Category < ActiveRecord::Base
 
   module Type
-    FEES_AND_CHARGES = "FeesAndCharges"
-    FOOD = "Food"
-    HEALTH = "Health"
-    INVESTMENTS = "Investments"
-    SHOPPING = "Shopping"
-    TRAVEL = "Travel"
-    UTILITIES = "Utilities"
-    UNKNOWN = "Unknown"
-    ALL = [FEES_AND_CHARGES, FOOD, HEALTH, INVESTMENTS, SHOPPING, TRAVEL, UTILITIES, UNKNOWN]
+    Household = "Household"
+    FuelAndTransport = "Fuel n Transport"
+    Shopping = "Shopping"
+    Medical = "Medical n Insurance"
+    Recreation = "Recreation"
+    FoodAndDrinks = "Food n Drinks"
+    DiningOut = "Dining"
+    Holiday = "Holiday"
+    Investment = "Investment"
+    FeesAndCharges = "Fees n Charges"
+    Mortgage = "Mortgage"
+    Uncategorized = "Uncategorized"
+    ALL = [Household, FuelAndTransport, Shopping, Medical, Recreation, FoodAndDrinks, DiningOut, Holiday, Investment, FeesAndCharges, Mortgage, Uncategorized]
   end
 
-  has_many :transactions, :dependent => :nullify
+  has_many :transactions, :dependent => :restrict_with_exception
   belongs_to :user
 
 end

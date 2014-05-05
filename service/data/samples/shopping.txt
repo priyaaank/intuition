@@ -1,4 +1,6 @@
-Macys, 0016
-JB Hi Fi, 0017
-Wallo, 0018
-Surfway, 0019
+Clothes and Shoes, 0028
+Digital equipment, 0029
+Gifts, 0030
+Furniture, 0031
+Electronics, 0032
+Power tools, 0033

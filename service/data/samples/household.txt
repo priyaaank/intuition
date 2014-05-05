@@ -1,0 +1,6 @@
+Groceries, 0015
+Electricity bill, 0016
+Utilities, 0017
+Newspaper, 0018
+Phone bill, 0019
+Internet, 0020

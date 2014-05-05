@@ -1,2 +1,3 @@
-ATM Withdrawl, 001
-Convinience Charge, 002
+ATM withdrawl, 001
+Convinience charge, 002
+Late fees, 003

@@ -1,0 +1,4 @@
+Flight to holiday, 0037
+Hotel stay, 0038
+Road trip, 0039
+Gasoline, 0040

@@ -1,6 +1,3 @@
-Singapore Airlines, 0020
-Quatas, 0021
-Yellow Cab, 0022
-Underground, 0023
-City bus, 0024
-Ferry ride, 0025
+Subway pass, 0034
+Bus ticket, 0035
+Yellow cab, 0036

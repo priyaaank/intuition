@@ -26,14 +26,30 @@ public class CategoryImageAdapter extends BaseAdapter implements AdapterView.OnI
     }
 
     private void initializeAllCategories() {
-        allDisplayCategories.add(new DisplayPurchaseCategory("Food", R.drawable.food_selected, R.drawable.food_unselected));
-        allDisplayCategories.add(new DisplayPurchaseCategory("Health", R.drawable.medical_selected, R.drawable.medical_unselected));
-        allDisplayCategories.add(new DisplayPurchaseCategory("Investments", R.drawable.gifts_selected, R.drawable.gifts_unselected));
+//        Household = "Household"
+//        FuelAndTransport = "Fuel & Transport"
+//        Shopping = "Shopping"
+//        Medical = "Medical & Insurance"
+//        Recreation = "Recreation"
+//        FoodAndDrinks = "Food & Drinks"
+//        DiningOut = "Dining"
+//        Holiday = "Holiday"
+//        Investment = "Investment"
+//        FeesAndCharges = "Fees & Charges"
+//        Mortgage = "Mortgage"
+//        Uncategorized = "Uncategorized"
+        allDisplayCategories.add(new DisplayPurchaseCategory("Food n Drinks", R.drawable.food_selected, R.drawable.food_unselected));
+        allDisplayCategories.add(new DisplayPurchaseCategory("Dining", R.drawable.food_selected, R.drawable.food_unselected));
+        allDisplayCategories.add(new DisplayPurchaseCategory("Recreation", R.drawable.food_selected, R.drawable.food_unselected));
+        allDisplayCategories.add(new DisplayPurchaseCategory("Medical n Insurance", R.drawable.medical_selected, R.drawable.medical_unselected));
+        allDisplayCategories.add(new DisplayPurchaseCategory("Investment", R.drawable.gifts_selected, R.drawable.gifts_unselected));
         allDisplayCategories.add(new DisplayPurchaseCategory("Shopping", R.drawable.shopping_selected, R.drawable.shopping_unselected));
-        allDisplayCategories.add(new DisplayPurchaseCategory("Travel", R.drawable.travel_selected, R.drawable.travel_unselected));
-        allDisplayCategories.add(new DisplayPurchaseCategory("Utilities", R.drawable.household_selected, R.drawable.household_unselected));
-        allDisplayCategories.add(new DisplayPurchaseCategory("FeesAndCharges", R.drawable.entertainment_selected, R.drawable.entertainment_unselected));
-        allDisplayCategories.add(new DisplayPurchaseCategory("Unknown", R.drawable.holidays_selected, R.drawable.holidays_unselected));
+        allDisplayCategories.add(new DisplayPurchaseCategory("Fuel n Transport", R.drawable.travel_selected, R.drawable.travel_unselected));
+        allDisplayCategories.add(new DisplayPurchaseCategory("Household", R.drawable.household_selected, R.drawable.household_unselected));
+        allDisplayCategories.add(new DisplayPurchaseCategory("Fees n Charges", R.drawable.entertainment_selected, R.drawable.entertainment_unselected));
+        allDisplayCategories.add(new DisplayPurchaseCategory("Holiday", R.drawable.entertainment_selected, R.drawable.entertainment_unselected));
+        allDisplayCategories.add(new DisplayPurchaseCategory("Mortgage", R.drawable.entertainment_selected, R.drawable.entertainment_unselected));
+        allDisplayCategories.add(new DisplayPurchaseCategory("Uncategorized", R.drawable.holidays_selected, R.drawable.holidays_unselected));
     }
 
     public void preselectPurchaseCategories(List<PurchaseCategory> selectedCategories) {
@@ -79,7 +95,7 @@ public class CategoryImageAdapter extends BaseAdapter implements AdapterView.OnI
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if(allDisplayCategories.get(position).purchaseCategory != null && allDisplayCategories.get(position).purchaseCategory.getName().equalsIgnoreCase("Unknown")) return;
+        if(allDisplayCategories.get(position).purchaseCategory != null && allDisplayCategories.get(position).purchaseCategory.getName().equalsIgnoreCase("uncategorized")) return;
         allDisplayCategories.get(position).toggleSelection();
         this.notifyDataSetInvalidated();
     }
