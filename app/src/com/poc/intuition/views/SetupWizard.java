@@ -49,7 +49,7 @@ public class SetupWizard extends FragmentActivity implements IListener<UserStati
     private void lookupUserStats() {
         userStatisticsService = UserStatisticsService.singleInstance(getApplicationContext());
         userStatisticsService.registerListener(this);
-        userStatisticsService.findUserStatsForLastMonths(10);
+        userStatisticsService.findUserStatsForLastMonths(18);
     }
 
     private void showProgressDialog() {

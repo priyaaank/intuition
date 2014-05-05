@@ -46,8 +46,13 @@ public class StackedExpensePredictor {
 
     public RelativeLayout build() {
         initBaseContainer();
-        initPredictionBar();
-        initExpenseBar();
+        if(this.predictedAmount > this.spentAmount) {
+            initPredictionBar();
+            initExpenseBar();
+        } else {
+            initExpenseBar();
+            initPredictionBar();
+        }
         if(showDaySlider)
             initDayMarker();
         animate();

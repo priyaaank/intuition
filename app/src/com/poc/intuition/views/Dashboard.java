@@ -41,7 +41,7 @@ public class Dashboard extends FragmentActivity implements IListener<UserStatist
     private void lookupUserStats() {
         userStatisticsService = UserStatisticsService.singleInstance(getApplicationContext());
         userStatisticsService.registerListener(this);
-        userStatisticsService.findUserStatsForLastMonths(10);
+        userStatisticsService.findUserStatsForLastMonths(18);
     }
 
     private void updateActionBar() {

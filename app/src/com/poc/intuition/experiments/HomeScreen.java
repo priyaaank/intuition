@@ -26,7 +26,7 @@ public class HomeScreen extends FragmentActivity implements IListener<PurchaseCa
 
         userStatisticsService = UserStatisticsService.singleInstance(this.getApplicationContext());
         userStatisticsService.registerListener(getListener());
-        userStatisticsService.findUserStatsForLastMonths(10);
+        userStatisticsService.findUserStatsForLastMonths(18);
 
         LinearLayout widgetContainer = (LinearLayout) findViewById(R.id.widget_container);
         meter = Meter.redWidget(this, widgetContainer);
