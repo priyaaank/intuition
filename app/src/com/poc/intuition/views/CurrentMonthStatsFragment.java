@@ -11,14 +11,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.poc.intuition.R;
-import com.poc.intuition.domain.CategoryStat;
 import com.poc.intuition.domain.CurrentMonthStat;
-import com.poc.intuition.domain.MonthlyStat;
 import com.poc.intuition.service.response.UserStatisticsResponse;
 import com.poc.intuition.widgets.DonutExpenseSplit;
 import com.poc.intuition.widgets.StackedExpensePredictor;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 

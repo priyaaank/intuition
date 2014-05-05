@@ -160,6 +160,7 @@ end
 def transaction_response_for_past_months(month_count, user)
   response = {"categories" => [], "user" => params[:username]}.to_json
   unless user.nil?
+    user.transactions.recategorize(user)
     transactions = month_count == -1 ? user.transactions.for_current_month : user.transactions.past_months(month_count)
     response = transaction_responses_for user, transactions
   end

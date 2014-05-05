@@ -13,4 +13,16 @@ class Transaction < ActiveRecord::Base
   scope :until_year_and_month, ->(year, month) { where("transaction_date between ? and ? ", Date.new(oldest.transaction_date.year, oldest.transaction_date.month, 1)-1, Date.civil(year, month, -1)+1)}
   scope :oldest, ->{ order(:transaction_date => :asc).first }
 
+
+  def self.recategorize(user)
+    merchant_ids = user.transactions.joins(:category).where("categories.name" => Category::Type::Uncategorized).map(&:merchant_id).uniq
+    merchant_ids.each do |merchant_id|
+      t = Transaction.joins(:category).where("merchant_id = ? AND categories.name != ? ", merchant_id, Category::Type::Uncategorized).first
+      unless t.nil?
+        category = user.categories.where(:name => t.category.name).first
+        user.transactions.joins(:category).where("merchant_id = ? AND categories.name = ? ", t.merchant_id, Category::Type::Uncategorized).update_all(:category_id => category.id) if !!category
+      end
+    end
+  end
+
 end
