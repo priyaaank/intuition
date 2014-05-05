@@ -4,7 +4,8 @@
               android:id="@+id/transaction_row_container"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="80dp">
+              android:layout_height="80dp"
+              android:background="@drawable/background_texture">
 
     <TextView
             android:id="@+id/merchant_name"

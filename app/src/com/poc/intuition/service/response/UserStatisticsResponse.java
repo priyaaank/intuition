@@ -116,11 +116,27 @@ public class UserStatisticsResponse {
         return statsToReturn;
     }
 
+    public CurrentMonthStat currentMonthStat() {
+        return this.currentMonthStat;
+    }
+
     public List<MonthlyStat> getMonthlyStats() {
         return historicStats;
     }
 
     public Double maximumMonthlyExpenditure() {
         return groupStats.maximumMonthlyExpenditure();
+    }
+
+    public Double currentMonthSpentAmount() {
+        return currentMonthStat.getCurrentExpensesTotal();
+    }
+
+    public Double currentSavingsRate() {
+        return currentMonthStat.getCurrentSavingRate();
+    }
+
+    public Double getCurrentMonthBudget() {
+        return currentMonthStat.getRecommendedBudgetAmount();
     }
 }

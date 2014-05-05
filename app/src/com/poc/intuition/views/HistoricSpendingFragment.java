@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import com.poc.intuition.R;
 import com.poc.intuition.domain.MonthlyStat;
@@ -40,7 +39,6 @@ public class HistoricSpendingFragment extends Fragment {
                 spendingGraphsHolder.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
-
     }
 
     private void populateUserCharts() {

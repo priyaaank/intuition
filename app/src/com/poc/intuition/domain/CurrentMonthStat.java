@@ -1,5 +1,6 @@
 package com.poc.intuition.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CurrentMonthStat {
@@ -25,4 +26,23 @@ public class CurrentMonthStat {
         return recommendedBudgetAmount;
     }
 
+    public Double getCurrentExpensesTotal() {
+        return currentExpensesTotal;
+    }
+
+    public Double getCurrentSavingRate() {
+        return currentSavingRate;
+    }
+
+    public List<CategoryStat> getCategoryStats() {
+        return categoryStats;
+    }
+
+    public List<Double> getCategoryExpenseList() {
+        List<Double> expensesToReturn = new ArrayList<Double>();
+        for(CategoryStat categoryStat : categoryStats) {
+            expensesToReturn.add(categoryStat.totalAmountSpent());
+        }
+        return expensesToReturn;
+    }
 }

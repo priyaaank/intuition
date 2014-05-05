@@ -37,4 +37,8 @@ public class MonthlyStat {
         return budget;
     }
 
+    public List<CategoryStat> getCategoryStats() {
+        return categoryStats;
+    }
+
 }

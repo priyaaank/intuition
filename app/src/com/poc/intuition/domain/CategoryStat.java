@@ -12,4 +12,8 @@ public class CategoryStat {
         this.transactionCount = transactionCount;
     }
 
+    public Double totalAmountSpent() {
+        return amountSpent;
+    }
+
 }
