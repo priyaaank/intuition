@@ -74,6 +74,7 @@ public class DonutExpenseSplit extends View {
         paint.setStyle(Paint.Style.FILL);
         paint.setStrokeWidth(unitInDPs(20));
         paint.setAntiAlias(true);
+//        paint.setShadowLayer(5.5f, 6.0f, 7.0f, 0x90000000);
         paint.setColor(Color.parseColor("#FED731"));
         RectF oval = new RectF(containerPaddingXCord, containerPaddingYCord, topSemiCircleBoundaryXCord, topSemiCircleBoundaryYCord);
 

@@ -19,11 +19,11 @@ class EveryFewMonthsExpenseDateGenerator
   private
 
   def all_dates_since_months since_months
-    exact_month_group_count = since_months/@times_in_months
-    exact_month_group_count.times.collect do |month|
-      past_date = Date.today<<(month-@month_count)
+    exact_month_group_count = since_months/@month_count
+    (1..exact_month_group_count).to_a.collect do |month|
+      past_date = Date.today<<(month*@month_count)
       start_date = Date.new(past_date.year, past_date.month, 1)
-      future_date = (past_date >> @month_count)
+      future_date = (start_date >> @month_count)
       end_date = Date.civil(future_date.year, future_date.month, -1)
       end_date = Date.today if end_date > Date.today
       (start_date..end_date).to_a.sample(@times_in_months)

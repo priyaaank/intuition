@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.poc.intuition.R;
@@ -64,6 +66,10 @@ public class CurrentMonthStatsFragment extends Fragment {
 
         DonutExpenseSplit expenseSplit = new DonutExpenseSplit(getActivity().getApplicationContext(), totalAmountSpent, categoryStats.toArray(new Double[categoryStats.size()]));
         categoryWiseGraphContainer.addView(expenseSplit);
+        Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate);
+        expenseSplit.setAnimation(animation);
+        expenseSplit.animate();
+
     }
 
     private int todaysDay() {

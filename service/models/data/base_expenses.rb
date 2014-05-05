@@ -45,11 +45,11 @@ class BaseExpenses
 
     #Yearly expenses
     holiday_routine = EveryFewMonthsExpenseDateGenerator.new(10, 20, 6, 1)
-    #FakeExpense.new([500, 1000], "./data/samples/holiday.txt", "Bi-Yearly holiday", @user, holiday, holiday_routine).create_expenses
+    FakeExpense.new([500, 1000], "./data/samples/holiday.txt", "Bi-Yearly holiday", @user, holiday, holiday_routine).create_expenses
     medical_routine = EveryFewMonthsExpenseDateGenerator.new(20, 20, 5, 1)
-    #FakeExpense.new([500, 800], "./data/samples/health.txt", "Yearly health checkup and illness", @user, medical, medical_routine).create_expenses
+    FakeExpense.new([500, 800], "./data/samples/health.txt", "Yearly health checkup and illness", @user, medical, medical_routine).create_expenses
     fees_and_charges_routine = EveryFewMonthsExpenseDateGenerator.new(25, 20, 3, 5)
-    #FakeExpense.new([2, 8], "./data/samples/feesAndCharges.txt", "Miscellaneous fees and charges", @user, fees_and_charges, fees_and_charges_routine).create_expenses
+    FakeExpense.new([2, 8], "./data/samples/feesAndCharges.txt", "Miscellaneous fees and charges", @user, fees_and_charges, fees_and_charges_routine).create_expenses
 
     #Sporadic expenses
 
