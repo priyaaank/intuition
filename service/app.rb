@@ -27,11 +27,10 @@ end
 
 get '/user/:username/transactions/latest' do
   user = User.find_by_username(params[:username])
-  response = []
   unless user.nil?
-    response = user.transactions.order(:id => :desc).first
+    transaction = user.transactions.order(:id => :desc).first
   end
-  TransactionPresenter.new(response).to_json
+  response_for_latest_transaction transaction, user
 end
 
 get '/user/:username/transactions/:number_of_months/months/categorize' do
@@ -155,6 +154,14 @@ def categorized_response_for user, transactions
   response.categories = categories_data_for(user, transactions)
   response.user = user.username
   response.total_spending = response.categories.sum(&:price_total)
+  response.to_json
+end
+
+def response_for_latest_transaction transaction, user
+  response = OpenStruct.new
+  response.total_money_spent = user.transactions.for_year_and_month(Date.today.year, Date.today.month).map(&:price).sum
+  response.budget = UserStatPresenter.new(user, 18).current_month_stats.recommended_budget
+  response.transaction = TransactionPresenter.new(transaction)
   response.to_json
 end
 

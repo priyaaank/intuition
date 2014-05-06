@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import com.poc.intuition.R;
 import com.poc.intuition.experiments.ReceiptFragment;
 import com.poc.intuition.widgets.RadiatorNeedle;
@@ -23,6 +25,7 @@ public class PurchaseFragment extends Fragment {
     private Double savingsRate;
 
     private RadiatorNeedle expenseRadiatorDial;
+    private RelativeLayout dialWidget;
 
     public static PurchaseFragment NewInstance(Double amountSpent, Double totalAmount, Double savingsRate) {
         PurchaseFragment fragment  = new PurchaseFragment();
@@ -60,6 +63,12 @@ public class PurchaseFragment extends Fragment {
         rotateAnimation.setDuration(2000);
         rotateAnimation.setFillAfter(true);
         expenseRadiatorDial.startAnimation(rotateAnimation);
+        updateLabels();
+    }
+
+    private void updateLabels() {
+        ((TextView)getActivity().findViewById(R.id.money_spent)).setText("$"+amountSpent+" of\n$"+totalAmount);
+        ((TextView)getActivity().findViewById(R.id.saving_rate)).setText("$"+savingsRate+" / day");
     }
 
     public float getSpinAngle() {

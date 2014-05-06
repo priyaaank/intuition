@@ -16,6 +16,7 @@ import com.poc.intuition.domain.PurchaseCategory;
 import com.poc.intuition.domain.Transaction;
 import com.poc.intuition.experiments.DashboardFragment;
 import com.poc.intuition.service.IListener;
+import com.poc.intuition.service.NewPurchaseResponse;
 import com.poc.intuition.service.TransactionService;
 import com.poc.intuition.service.UserStatisticsService;
 import com.poc.intuition.service.response.UserStatisticsResponse;
@@ -25,11 +26,12 @@ import java.util.TimerTask;
 
 public class Dashboard extends FragmentActivity {
 
+    public static final int USER_STATS_MONTH_COUNT = 18;
     private SlidingMenu slidingMenu;
     private UserStatisticsService userStatisticsService;
     private TransactionService transactionService;
     private UserStatisticsResponse userStats;
-    private IListener<Transaction> transactionCreationListener;
+    private IListener<NewPurchaseResponse> transactionCreationListener;
     private Timer transactionPoller;
 
     @Override
@@ -81,7 +83,7 @@ public class Dashboard extends FragmentActivity {
     private void lookupUserStats() {
         userStatisticsService = UserStatisticsService.singleInstance(getApplicationContext());
         userStatisticsService.registerListener(getUserStatisticsListener());
-        userStatisticsService.findUserStatsForLastMonths(18);
+        userStatisticsService.findUserStatsForLastMonths(USER_STATS_MONTH_COUNT);
     }
 
     private void updateActionBar() {
@@ -123,14 +125,14 @@ public class Dashboard extends FragmentActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                attachPurchaseFragment();
+                attachPurchaseFragment(300d, 200d, 20d);
             }
         };
     }
 
-    private void attachPurchaseFragment() {
+    private void attachPurchaseFragment(double totalAmount, double amountSpent, double savingRate) {
         slidingMenu.showContent();
-        PurchaseFragment purchaseFragment = PurchaseFragment.NewInstance(300d, 1000d, 20d);
+        PurchaseFragment purchaseFragment = PurchaseFragment.NewInstance(totalAmount, amountSpent, savingRate);
         attachFragmentWithTagToContentView(purchaseFragment, "PurchaseFragment");
     }
 
@@ -204,14 +206,15 @@ public class Dashboard extends FragmentActivity {
         };
     }
 
-    private IListener<Transaction> getTransactionCreationListener() {
-        return new IListener<Transaction>() {
+    private IListener<NewPurchaseResponse> getTransactionCreationListener() {
+        return new IListener<NewPurchaseResponse>() {
             @Override
-            public void serviceResponse(Transaction transaction) {
+            public void serviceResponse(final NewPurchaseResponse newPurchase) {
+                userStatisticsService.findUserStatsForLastMonths(USER_STATS_MONTH_COUNT);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        attachPurchaseFragment();
+                        attachPurchaseFragment(newPurchase.getTotalAmountSpent(), newPurchase.getTotalMonthlyBudget(), 20d);
                     }
                 });
             }

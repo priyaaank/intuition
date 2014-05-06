@@ -19,7 +19,7 @@ public class TransactionService implements ServiceConstants {
     private static final String TAG = "TransactionService";
     private Context applicationContext;
     private List<IListener<TransactionResponse>> transactionResponseListeners;
-    private IListener<Transaction> transactionCreationListener;
+    private IListener<NewPurchaseResponse> transactionCreationListener;
     private UserSessionService userSessionService;
     private final String CURRENT_MONTH = "current";
     private static TransactionService instance;
@@ -69,7 +69,7 @@ public class TransactionService implements ServiceConstants {
         new TransactionsListingTask().execute(new String[]{username, new Integer(monthCount).toString()});
     }
 
-    public void registerTransactionCreationListener(IListener<Transaction> listener) {
+    public void registerTransactionCreationListener(IListener<NewPurchaseResponse> listener) {
         this.transactionCreationListener = listener;
     }
 
@@ -77,11 +77,12 @@ public class TransactionService implements ServiceConstants {
         this.transactionCreationListener = null;
     }
 
-    private void latestTransactionIs(Transaction transaction) {
+    private void latestTransactionIs(NewPurchaseResponse newPurchase) {
         int currentId = userSessionService.getLastKnownLatestTransactionId();
-        if(currentId != transaction.getId().intValue()) {
-            userSessionService.setLatestTransactionIdForUser(transaction.getId().intValue());
-            if(transactionCreationListener != null) transactionCreationListener.serviceResponse(transaction);
+        if(currentId != newPurchase.getTransactionId().intValue()) {
+            userSessionService.setLatestTransactionIdForUser(newPurchase.getTransactionId().intValue());
+            if(transactionCreationListener != null) transactionCreationListener.serviceResponse(newPurchase);
+            findTransactionsForLastMonths(2);
         }
     }
 
@@ -160,8 +161,11 @@ public class TransactionService implements ServiceConstants {
             JSONObject responseObject = webServiceResponse.response();
             try {
                 if(responseObject != null) {
-                    Transaction transaction = new TransactionResponse().extractTransactionFromJsonResponse(responseObject);
-                    TransactionService.this.latestTransactionIs(transaction);
+                    Transaction transaction = new TransactionResponse().extractTransactionFromJsonResponse(responseObject.getJSONObject("transaction"));
+                    Double totalMonthlyBudget = responseObject.getDouble("budget");
+                    Double totalAmountSpent = responseObject.getDouble("total_money_spent");
+                    NewPurchaseResponse response = new NewPurchaseResponse(transaction, totalAmountSpent, totalMonthlyBudget);
+                    TransactionService.this.latestTransactionIs(response);
                 }
             } catch (JSONException e) {
                 Log.e(TAG, e.getMessage());
