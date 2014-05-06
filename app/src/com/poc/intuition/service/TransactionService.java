@@ -159,8 +159,10 @@ public class TransactionService implements ServiceConstants {
             super.onPostExecute(webServiceResponse);
             JSONObject responseObject = webServiceResponse.response();
             try {
-                Transaction transaction = new TransactionResponse().extractTransactionFromJsonResponse(responseObject);
-                TransactionService.this.latestTransactionIs(transaction);
+                if(responseObject != null) {
+                    Transaction transaction = new TransactionResponse().extractTransactionFromJsonResponse(responseObject);
+                    TransactionService.this.latestTransactionIs(transaction);
+                }
             } catch (JSONException e) {
                 Log.e(TAG, e.getMessage());
             } catch (ParseException e) {

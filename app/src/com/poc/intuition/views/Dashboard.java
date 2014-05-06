@@ -123,11 +123,15 @@ public class Dashboard extends FragmentActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                slidingMenu.showContent();
-                PurchaseFragment purchaseFragment = PurchaseFragment.NewInstance(300d, 1000d, 20d);
-                attachFragmentWithTagToContentView(purchaseFragment, "PurchaseFragment");
+                attachPurchaseFragment();
             }
         };
+    }
+
+    private void attachPurchaseFragment() {
+        slidingMenu.showContent();
+        PurchaseFragment purchaseFragment = PurchaseFragment.NewInstance(300d, 1000d, 20d);
+        attachFragmentWithTagToContentView(purchaseFragment, "PurchaseFragment");
     }
 
     private View.OnClickListener navigateToCurrentMonth() {
@@ -207,7 +211,7 @@ public class Dashboard extends FragmentActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(Dashboard.this, "New Transaction", Toast.LENGTH_LONG).show();
+                        attachPurchaseFragment();
                     }
                 });
             }
