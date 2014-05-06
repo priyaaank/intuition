@@ -174,6 +174,7 @@ public class Dashboard extends FragmentActivity {
                 slidingMenu.showContent();
                 TransactionHistoryFragment transactionHistoryFragment = new TransactionHistoryFragment();
                 attachFragmentWithTagToContentView(transactionHistoryFragment, "TransactionHistory");
+                showActionBarForCategorySelection();
             }
         };
     }
@@ -185,6 +186,7 @@ public class Dashboard extends FragmentActivity {
     }
 
     private void attachFragmentWithTagToContentView(Fragment fragment, String tag) {
+        resetActionBar();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_container, fragment, tag)
@@ -219,6 +221,14 @@ public class Dashboard extends FragmentActivity {
                 });
             }
         };
+    }
+
+    private void showActionBarForCategorySelection() {
+        findViewById(R.id.category_selector).setVisibility(View.VISIBLE);
+    }
+
+    private void resetActionBar() {
+        findViewById(R.id.category_selector).setVisibility(View.GONE);
     }
 
     @Override
