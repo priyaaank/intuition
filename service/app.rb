@@ -21,8 +21,17 @@ end
 get '/user/:username/transactions/page/:number' do
   user = User.find_by_username(params[:username])
   unless user.nil?
-    user.transactions.order_by(:transaction_date => :desc)
+    user.transactions.order(:id => :desc)
   end
+end
+
+get '/user/:username/transactions/latest' do
+  user = User.find_by_username(params[:username])
+  response = []
+  unless user.nil?
+    response = user.transactions.order(:id => :desc).first
+  end
+  TransactionPresenter.new(response).to_json
 end
 
 get '/user/:username/transactions/:number_of_months/months/categorize' do

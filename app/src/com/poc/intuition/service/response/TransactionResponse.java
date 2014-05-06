@@ -22,7 +22,6 @@ public class TransactionResponse {
     private Date rangeEndDate;
     private String username;
     private List<Transaction> transactionList;
-    private SimpleDateFormat dateFormatter;
 
     private static final String USERNAME_TAG = "user";
     private static final String TRANSACTIONS_TAG = "transactions";
@@ -37,11 +36,14 @@ public class TransactionResponse {
     private static final String PRICE_TAG = "price";
 
     private final String DATE_FORMAT = "yyyy-MM-dd";
+    private SimpleDateFormat dateFormatter = new SimpleDateFormat(DATE_FORMAT);
 
+    public TransactionResponse() {
+
+    }
 
     public TransactionResponse(JSONObject transactionResponse) {
         transactionList = new ArrayList<Transaction>();
-        dateFormatter = new SimpleDateFormat(DATE_FORMAT);
         parseTransactionResponse(transactionResponse);
     }
 
@@ -57,7 +59,7 @@ public class TransactionResponse {
             JSONArray transactionsArray = transactionResponse.getJSONArray(TRANSACTIONS_TAG);
             int transactionCount = transactionsArray.length();
             for(int transactionCountIndex = 0; transactionCountIndex < transactionCount; transactionCountIndex++) {
-                addTransactionFromResponse(transactionsArray.get(transactionCountIndex));
+                transactionList.add(extractTransactionFromJsonResponse(transactionsArray.get(transactionCountIndex)));
             }
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());
@@ -66,7 +68,7 @@ public class TransactionResponse {
         }
     }
 
-    private void addTransactionFromResponse(Object transactionJsonObject) throws JSONException, ParseException {
+    public Transaction extractTransactionFromJsonResponse(Object transactionJsonObject) throws JSONException, ParseException {
         Integer transactionId = ((JSONObject)transactionJsonObject).getInt(TRANSACTION_ID_TAG);
         Integer merchantId = ((JSONObject)transactionJsonObject).getInt(MERCHANT_ID_TAG);
         String merchantName = ((JSONObject)transactionJsonObject).getString(MERCHANT_NAME_TAG);
@@ -74,7 +76,7 @@ public class TransactionResponse {
         Double transactionAmount = ((JSONObject) transactionJsonObject).getDouble(PRICE_TAG);
         String categoryId = ((JSONObject) transactionJsonObject).getString(CATEGORY_ID_TAG);
         String categoryName = ((JSONObject) transactionJsonObject).getString(CATEGORY_NAME_TAG);
-        transactionList.add(new Transaction(transactionId, merchantId, merchantName, transactionDate, new PurchaseCategory(new Integer(categoryId), categoryName), transactionAmount));
+        return new Transaction(transactionId, merchantId, merchantName, transactionDate, new PurchaseCategory(new Integer(categoryId), categoryName), transactionAmount);
     }
 
 }

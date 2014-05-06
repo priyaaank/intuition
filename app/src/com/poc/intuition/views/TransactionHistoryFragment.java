@@ -32,6 +32,7 @@ public class TransactionHistoryFragment extends Fragment implements ISelectionMa
     private ListView transactionListingView;
     private PurchaseCategoryService purchaseCategoryService;
     IListener<PurchaseCategoryResponse> purchaseCategoryListener;
+    IListener<TransactionResponse> transactionListener;
     private ArrayAdapter<String> categorySelectorAdapter;
     private List<PurchaseCategory> purchaseCategories;
     private Spinner categorySelector;
@@ -47,7 +48,9 @@ public class TransactionHistoryFragment extends Fragment implements ISelectionMa
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         purchaseCategoryService = PurchaseCategoryService.singleInstance(getActivity().getApplicationContext());
+        transactionService = ((Dashboard)getActivity()).getTransactionService();
         purchaseCategoryListener = purchaseCategoryResponseListener();
+        transactionListener = transactionResponseListener();
         transactionListingAdapter = new TransactionListingAdapter(getActivity().getApplicationContext(), R.layout.transaction_row);
         transactionListingView.setAdapter(transactionListingAdapter);
         transactionListingView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
@@ -68,19 +71,21 @@ public class TransactionHistoryFragment extends Fragment implements ISelectionMa
     }
 
     private void showTransactions() {
-        transactionService = new TransactionService(getActivity().getApplicationContext(), transactionResponseListener());
+        transactionService.registerListener(transactionListener);
         transactionService.findTransactionsForLastMonths(2);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        transactionService.registerListener(transactionListener);
         purchaseCategoryService.registerListener(purchaseCategoryListener);
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        transactionService.deregisterListener(transactionListener);
         purchaseCategoryService.deregisterListener(purchaseCategoryListener);
     }
 

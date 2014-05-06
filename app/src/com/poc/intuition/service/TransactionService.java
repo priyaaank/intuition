@@ -3,29 +3,46 @@ package com.poc.intuition.service;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import com.poc.intuition.domain.Transaction;
 import com.poc.intuition.service.response.GenericWebServiceResponse;
 import com.poc.intuition.service.response.TransactionResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class TransactionService implements ServiceConstants {
 
     private static final String TAG = "TransactionService";
     private Context applicationContext;
-    private IListener<TransactionResponse> transactionResponseListener;
+    private List<IListener<TransactionResponse>> transactionResponseListeners;
+    private IListener<Transaction> transactionCreationListener;
     private UserSessionService userSessionService;
     private final String CURRENT_MONTH = "current";
+    private static TransactionService instance;
 
-    public TransactionService(Context applicationContext, IListener<TransactionResponse> listener) {
+    public static TransactionService singleInstance(Context applicationContext) {
+        if(instance == null) {
+            instance = new TransactionService(applicationContext);
+        }
+        return instance;
+    }
+
+    private TransactionService(Context applicationContext) {
         this.applicationContext = applicationContext;
-        this.transactionResponseListener = listener;
+        transactionResponseListeners = new ArrayList<IListener<TransactionResponse>>();
         this.userSessionService = new UserSessionService(applicationContext);
+    }
+
+    public void registerListener(IListener<TransactionResponse> listener) {
+        if(!transactionResponseListeners.contains(listener)) transactionResponseListeners.add(listener);
+    }
+
+    public void deregisterListener(IListener<TransactionResponse> listener) {
+        if(transactionResponseListeners.contains(listener)) transactionResponseListeners.remove(listener);
     }
 
     public void updateTransactionsWithCategory(List<String> transactionIds, String categoryId) {
@@ -37,6 +54,11 @@ public class TransactionService implements ServiceConstants {
         new TransactionCategoryEditTask().execute(params.toArray(new String[params.size()]));
     }
 
+    public void findLatestTransactionId() {
+        String username = userSessionService.loggedInUsername();
+        new LatestTransactionFetchTask().execute(new String[]{username});
+    }
+
     public void findTransactionsForCurrentMonth() {
         String username = userSessionService.loggedInUsername();
         new TransactionsListingTask().execute(new String[]{username,CURRENT_MONTH});
@@ -45,6 +67,28 @@ public class TransactionService implements ServiceConstants {
     public void findTransactionsForLastMonths(int monthCount) {
         String username = userSessionService.loggedInUsername();
         new TransactionsListingTask().execute(new String[]{username, new Integer(monthCount).toString()});
+    }
+
+    public void registerTransactionCreationListener(IListener<Transaction> listener) {
+        this.transactionCreationListener = listener;
+    }
+
+    public void deregisterTransactionCreationListener() {
+        this.transactionCreationListener = null;
+    }
+
+    private void latestTransactionIs(Transaction transaction) {
+        int currentId = userSessionService.getLastKnownLatestTransactionId();
+        if(currentId != transaction.getId().intValue()) {
+            userSessionService.setLatestTransactionIdForUser(transaction.getId().intValue());
+            if(transactionCreationListener != null) transactionCreationListener.serviceResponse(transaction);
+        }
+    }
+
+    private void notifyListeners(TransactionResponse response) {
+        for(IListener<TransactionResponse> listener : transactionResponseListeners) {
+            listener.serviceResponse(response);
+        }
     }
 
     class TransactionsListingTask extends AsyncTask<String, Void, GenericWebServiceResponse> {
@@ -62,7 +106,7 @@ public class TransactionService implements ServiceConstants {
         @Override
         protected void onPostExecute(GenericWebServiceResponse serviceResponse) {
             super.onPostExecute(serviceResponse);
-            transactionResponseListener.serviceResponse(new TransactionResponse(serviceResponse.response()));
+            notifyListeners(new TransactionResponse(serviceResponse.response()));
         }
     }
 
@@ -84,7 +128,7 @@ public class TransactionService implements ServiceConstants {
         @Override
         protected void onPostExecute(GenericWebServiceResponse webServiceResponse) {
             super.onPostExecute(webServiceResponse);
-            transactionResponseListener.serviceResponse(new TransactionResponse(webServiceResponse.response()));
+            notifyListeners(new TransactionResponse(webServiceResponse.response()));
         }
 
         private JSONObject requestForNewCategory(String category_id, List<String> transaction_ids) {
@@ -96,6 +140,32 @@ public class TransactionService implements ServiceConstants {
                 Log.e(TAG, e.getMessage());
             }
             return newCategoryRequest;
+        }
+    }
+
+    class LatestTransactionFetchTask extends AsyncTask<String, Void, GenericWebServiceResponse> {
+
+        private static final String SERVICE_URL = SERVICE_HOST + "user/##USERNAME##/transactions/latest";
+
+        @Override
+        protected GenericWebServiceResponse doInBackground(String... params) {
+            String username = params[0];
+            String url = SERVICE_URL.replace("##USERNAME##", username);
+            return new HttpGetWrapper(url).makeServiceCall(null);
+        }
+
+        @Override
+        protected void onPostExecute(GenericWebServiceResponse webServiceResponse) {
+            super.onPostExecute(webServiceResponse);
+            JSONObject responseObject = webServiceResponse.response();
+            try {
+                Transaction transaction = new TransactionResponse().extractTransactionFromJsonResponse(responseObject);
+                TransactionService.this.latestTransactionIs(transaction);
+            } catch (JSONException e) {
+                Log.e(TAG, e.getMessage());
+            } catch (ParseException e) {
+                Log.e(TAG, e.getMessage());
+            }
         }
     }
 

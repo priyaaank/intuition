@@ -8,39 +8,79 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.poc.intuition.R;
 import com.poc.intuition.domain.CurrentMonthStat;
 import com.poc.intuition.domain.PurchaseCategory;
+import com.poc.intuition.domain.Transaction;
 import com.poc.intuition.experiments.DashboardFragment;
 import com.poc.intuition.service.IListener;
+import com.poc.intuition.service.TransactionService;
 import com.poc.intuition.service.UserStatisticsService;
 import com.poc.intuition.service.response.UserStatisticsResponse;
 
-public class Dashboard extends FragmentActivity implements IListener<UserStatisticsResponse> {
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class Dashboard extends FragmentActivity {
 
     private SlidingMenu slidingMenu;
     private UserStatisticsService userStatisticsService;
+    private TransactionService transactionService;
     private UserStatisticsResponse userStats;
+    private IListener<Transaction> transactionCreationListener;
+    private Timer transactionPoller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer);
         slidingMenu = (SlidingMenu) findViewById(R.id.slidingmenulayout);
+        transactionCreationListener = getTransactionCreationListener();
+        startTransactionPolling();
         lookupUserStats();
         updateActionBar();
         attachDefaultFragment();
         attachMenuNavigationEvents();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        transactionService.registerTransactionCreationListener(transactionCreationListener);
+        if(transactionPoller == null) {
+            transactionPoller = new Timer();
+            transactionPoller.schedule(new TransactionPoller(), 5000, 5000);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        transactionService.deregisterTransactionCreationListener();
+        if(transactionPoller != null) {
+            transactionPoller.cancel();
+            transactionPoller = null;
+        }
+    }
+
+    private void startTransactionPolling() {
+        transactionService = TransactionService.singleInstance(this.getApplicationContext());
+        transactionService.registerTransactionCreationListener(getTransactionCreationListener());
+    }
+
     public UserStatisticsResponse getUserStatistics() {
         return userStats;
     }
 
+    public TransactionService getTransactionService() {
+        return transactionService;
+    }
+
     private void lookupUserStats() {
         userStatisticsService = UserStatisticsService.singleInstance(getApplicationContext());
-        userStatisticsService.registerListener(this);
+        userStatisticsService.registerListener(getUserStatisticsListener());
         userStatisticsService.findUserStatsForLastMonths(18);
     }
 
@@ -151,9 +191,27 @@ public class Dashboard extends FragmentActivity implements IListener<UserStatist
         transactionHistory.updateSelectedTransactionsWithCategory(categoryName);
     }
 
-    @Override
-    public void serviceResponse(UserStatisticsResponse response) {
-        this.userStats = response;
+    private IListener<UserStatisticsResponse> getUserStatisticsListener() {
+        return new IListener<UserStatisticsResponse>() {
+            @Override
+            public void serviceResponse(UserStatisticsResponse response) {
+                userStats = response;
+            }
+        };
+    }
+
+    private IListener<Transaction> getTransactionCreationListener() {
+        return new IListener<Transaction>() {
+            @Override
+            public void serviceResponse(Transaction transaction) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(Dashboard.this, "New Transaction", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        };
     }
 
     @Override
@@ -169,5 +227,12 @@ public class Dashboard extends FragmentActivity implements IListener<UserStatist
                 dialog.dismiss();
             }
         }).show();
+    }
+
+    class TransactionPoller extends TimerTask {
+        @Override
+        public void run() {
+            transactionService.findLatestTransactionId();
+        }
     }
 }
