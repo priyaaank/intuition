@@ -17,12 +17,21 @@ class Transaction < ActiveRecord::Base
   def self.recategorize(user)
     merchant_ids = user.transactions.joins(:category).where("categories.name" => Category::Type::Uncategorized).map(&:merchant_id).uniq
     merchant_ids.each do |merchant_id|
-      t = Transaction.joins(:category).where("merchant_id = ? AND categories.name != ? ", merchant_id, Category::Type::Uncategorized).first
+
+      t = (current_users_categorized_transaction_for_merchant_id(user, merchant_id) || other_users_categorized_transaction_for_merchant_id(merchant_id))
       unless t.nil?
         category = user.categories.where(:name => t.category.name).first
         user.transactions.joins(:category).where("merchant_id = ? AND categories.name = ? ", t.merchant_id, Category::Type::Uncategorized).update_all(:category_id => category.id) if !!category
       end
     end
+  end
+
+  def self.current_users_categorized_transaction_for_merchant_id(user, merchant_id)
+    user.transactions.joins(:category).where("merchant_id = ? AND categories.name != ? ", merchant_id, Category::Type::Uncategorized).first
+  end
+
+  def self.other_users_categorized_transaction_for_merchant_id(merchant_id)
+    Transaction.joins(:category).where("merchant_id = ? AND categories.name != ? ", merchant_id, Category::Type::Uncategorized).first
   end
 
 end
