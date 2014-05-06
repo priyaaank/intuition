@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:layout_alignParentBottom="true"
-            app:radius="7dp"
+            app:radius="6dp"
             app:fillColor="@color/text_purple"
             app:pageColor="@color/white"
             android:paddingBottom="20dp"

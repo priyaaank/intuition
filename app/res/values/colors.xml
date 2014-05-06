@@ -7,5 +7,7 @@
     <color name="light_gray">#4A6987</color>
     <color name="text_brown">#5A4B46</color>
     <color name="text_purple">#864C9E</color>
+    <color name="dark_purple">#5a336a</color>
+    <color name="focused_purple">#77448d</color>
     <color name="background_brown">#dbd6d2</color>
 </resources>
