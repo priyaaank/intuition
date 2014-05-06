@@ -14,16 +14,19 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.poc.intuition.R;
+import com.poc.intuition.widgets.CategoryHealthRadiator;
 import com.poc.intuition.widgets.StackedExpensePredictor;
 
 public class DashboardFragment extends Fragment {
 
     private LinearLayout graphContainer;
+    private LinearLayout categoryRadiatorContainer;
     private WebView chartView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View inflatedView = inflater.inflate(R.layout.dashboard, container, false);
+        categoryRadiatorContainer = (LinearLayout) inflatedView.findViewById(R.id.category_holder);
         graphContainer = (LinearLayout) inflatedView.findViewById(R.id.graph_container);
         chartView = (WebView) inflatedView.findViewById(R.id.chart_view);
         return inflatedView;
@@ -32,16 +35,29 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ViewTreeObserver observer = graphContainer.getViewTreeObserver();
-        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//        ViewTreeObserver observer = graphContainer.getViewTreeObserver();
+//        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//
+//            @Override
+//            public void onGlobalLayout() {
+//                RelativeLayout stackedBar1 = new StackedExpensePredictor(getActivity().getApplicationContext(), 300f, 100f, 200f, 31, 12, graphContainer.getWidth(), true).build();
+//                graphContainer.addView(stackedBar1);
+//                graphContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//            }
+//        });
+
+        ViewTreeObserver categoryObserver = categoryRadiatorContainer.getViewTreeObserver();
+        categoryObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
             @Override
             public void onGlobalLayout() {
-                RelativeLayout stackedBar1 = new StackedExpensePredictor(getActivity().getApplicationContext(), 300f, 100f, 200f, 31, 12, graphContainer.getWidth(), true).build();
-                graphContainer.addView(stackedBar1);
-                graphContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                RelativeLayout widget = new CategoryHealthRadiator(getActivity().getApplicationContext(), 2000d, 500d, categoryRadiatorContainer.getWidth(), categoryRadiatorContainer.getHeight()).build();
+                categoryRadiatorContainer.addView(widget);
+                categoryRadiatorContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
+
+
 
         CustomWebViewClient client = new CustomWebViewClient();
         chartView.setWebViewClient(client);
