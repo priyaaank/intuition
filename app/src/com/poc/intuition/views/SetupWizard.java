@@ -2,6 +2,7 @@ package com.poc.intuition.views;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -9,6 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import com.poc.intuition.R;
 import com.poc.intuition.service.IListener;
@@ -32,6 +35,7 @@ public class SetupWizard extends FragmentActivity implements IListener<UserStati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setup);
 
+        updateActionBar();
         showProgressDialog();
         pager = (ViewPager) findViewById(R.id.pager);
         pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
@@ -40,6 +44,17 @@ public class SetupWizard extends FragmentActivity implements IListener<UserStati
         lookupUserStats();
         CirclePageIndicator titleIndicator = (CirclePageIndicator)findViewById(R.id.pager_indicator);
         titleIndicator.setViewPager(pager);
+    }
+
+    private void updateActionBar() {
+        final ViewGroup actionBarLayout = (ViewGroup) getLayoutInflater().inflate( R.layout.setup_action_bar, null);
+        getActionBar().setDisplayShowCustomEnabled(true);
+        getActionBar().setCustomView(actionBarLayout);
+        getActionBar().setDisplayUseLogoEnabled(false);
+        getActionBar().setDisplayHomeAsUpEnabled(false);
+        getActionBar().setDisplayShowHomeEnabled(false);
+        getActionBar().setDisplayShowTitleEnabled(false);
+        getActionBar().setBackgroundDrawable(this.getResources().getDrawable(R.color.text_purple));
     }
 
     private void initializeSessionService() {
