@@ -39,9 +39,9 @@
                 android:background="@drawable/setup_button"
                 android:layout_height="50dp"
                 android:layout_alignParentBottom="true"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:text="Setup complete" />
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:text="Done" />
     </RelativeLayout>
 
 </LinearLayout>
