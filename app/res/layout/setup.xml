@@ -2,6 +2,7 @@
 
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res/com.poc.intuition"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
         android:background="@drawable/background_texture">
@@ -11,7 +12,10 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:layout_alignParentBottom="true"
-            android:padding="10dp"
+            app:radius="7dp"
+            app:fillColor="@color/text_purple"
+            app:pageColor="@color/white"
+            android:paddingBottom="20dp"
     />
 
     <android.support.v4.view.ViewPager

@@ -6,5 +6,6 @@
     <color name="dark_gray">#34495e</color>
     <color name="light_gray">#4A6987</color>
     <color name="text_brown">#5A4B46</color>
+    <color name="text_purple">#864C9E</color>
     <color name="background_brown">#dbd6d2</color>
 </resources>

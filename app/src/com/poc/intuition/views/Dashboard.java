@@ -14,6 +14,7 @@ import com.poc.intuition.R;
 import com.poc.intuition.domain.CurrentMonthStat;
 import com.poc.intuition.domain.PurchaseCategory;
 import com.poc.intuition.domain.Transaction;
+import com.poc.intuition.experiments.CarFragment;
 import com.poc.intuition.experiments.DashboardFragment;
 import com.poc.intuition.service.IListener;
 import com.poc.intuition.service.NewPurchaseResponse;
@@ -181,7 +182,7 @@ public class Dashboard extends FragmentActivity {
 
     private void attachDefaultFragment() {
         slidingMenu.showContent();
-        DashboardFragment dashboardFragment = new DashboardFragment();
+        CarFragment dashboardFragment = new CarFragment();
         attachFragmentWithTagToContentView(dashboardFragment, "Dashboard");
     }
 
