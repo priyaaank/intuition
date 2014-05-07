@@ -97,6 +97,7 @@ public class Dashboard extends FragmentActivity {
                 toggleMenu();
             }
         });
+        getActionBar().setBackgroundDrawable(this.getResources().getDrawable(R.color.text_purple));
     }
 
     private void toggleMenu() {

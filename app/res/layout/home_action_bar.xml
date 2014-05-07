@@ -3,25 +3,48 @@
               android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:enabled="false"
+              android:background="@color/text_purple"
               android:weightSum="10">
 
-    <Button android:id="@+id/action_bar_menu"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:layout_alignParentLeft="true"
-            android:text="Menu"/>
+    <LinearLayout android:layout_width="0dp"
+                  android:layout_height="match_parent"
+                  android:layout_weight="3"
+                  android:layout_gravity="center"
+                  android:orientation="horizontal"
+                  android:background="@color/text_purple">
 
-    <LinearLayout
-             android:layout_width="0dp"
-             android:layout_weight="4"
-             android:layout_height="match_parent"
-             android:visibility="invisible"/>
+        <ImageView android:id="@+id/action_bar_menu"
+                   android:layout_width="match_parent"
+                   android:layout_height="30dp"
+                   android:layout_gravity="center"
+                   android:layout_alignParentLeft="true"
+                   android:src="@drawable/menu_navigation"
+                   android:text="Menu"/>
 
-    <Spinner android:id="@+id/category_selector"
-             android:layout_width="0dp"
-             android:layout_weight="4"
-             android:layout_height="match_parent"
-             android:visibility="gone"/>
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:paddingLeft="10dp"
+                  android:textSize="18sp"
+                  android:gravity="center"
+                  android:textColor="@color/white"
+                  android:text="My Wallet"/>
+
+    </LinearLayout>
+    
+    <LinearLayout android:layout_width="0dp"
+                  android:layout_weight="7"
+                  android:gravity="right"
+                  android:paddingLeft="40dp"
+                  android:orientation="horizontal"
+                  android:layout_height="match_parent">
+        <Spinner android:id="@+id/category_selector"
+                 android:layout_gravity="center_vertical|right"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:visibility="gone"
+                 />
+    </LinearLayout>
+
+
 
 </LinearLayout>
