@@ -1,21 +1,14 @@
 package com.poc.intuition.views;
 
 import android.app.AlertDialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.poc.intuition.R;
-import com.poc.intuition.domain.CurrentMonthStat;
-import com.poc.intuition.domain.PurchaseCategory;
-import com.poc.intuition.domain.Transaction;
-import com.poc.intuition.experiments.CarFragment;
-import com.poc.intuition.experiments.DashboardFragment;
 import com.poc.intuition.service.IListener;
 import com.poc.intuition.service.NewPurchaseResponse;
 import com.poc.intuition.service.TransactionService;

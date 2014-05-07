@@ -3,6 +3,7 @@ package com.poc.intuition.experiments;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import com.poc.intuition.R;
+import com.poc.intuition.views.DashboardFragment;
 
 public class MenuContentFrame extends FragmentActivity {
 
