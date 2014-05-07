@@ -7,7 +7,10 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
+import com.poc.intuition.R;
 
 public class GradientBar {
 
@@ -32,11 +35,13 @@ public class GradientBar {
         parentContainer.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         blocks = new GradientBlocks(context);
         parentContainer.addView(blocks);
+        animate();
         return parentContainer;
     }
 
     private void animate() {
-
+        Animation slideInAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_in);
+        blocks.startAnimation(slideInAnimation);
     }
 
     private class GradientBlocks extends View {
