@@ -111,8 +111,8 @@ public class Dashboard extends FragmentActivity {
         findViewById(R.id.transaction_history_link).setOnClickListener(navigateToTransactionHistory());
         findViewById(R.id.historic_spending_overview_link).setOnClickListener(navigateToSpendingOverview());
         findViewById(R.id.dashboard_link).setOnClickListener(navigateToDashboard());
-        findViewById(R.id.this_month_summary).setOnClickListener(navigateToCurrentMonth());
-        findViewById(R.id.purchase_link).setOnClickListener(navigateToPurchaseScreen());
+//        findViewById(R.id.this_month_summary).setOnClickListener(navigateToCurrentMonth());
+//        findViewById(R.id.purchase_link).setOnClickListener(navigateToPurchaseScreen());
     }
 
     private View.OnClickListener navigateToPurchaseScreen() {
