@@ -13,7 +13,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.poc.intuition.R;
-import org.w3c.dom.Text;
 
 public class GradientBar {
 
@@ -37,10 +36,13 @@ public class GradientBar {
         parentContainer = new RelativeLayout(context);
         parentContainer.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        RelativeLayout inflatedView = (RelativeLayout)inflater.inflate(R.layout.gradient_bar_stats, null);
+        RelativeLayout statistics = (RelativeLayout)inflater.inflate(R.layout.gradient_bar_stats, null);
+        ((TextView)statistics.findViewById(R.id.budget_value)).setText("$"+totalAmount);
+        ((TextView)statistics.findViewById(R.id.amount_value)).setText("$"+amountSpent);
+        ((TextView)statistics.findViewById(R.id.percent_text)).setText((int)((amountSpent/totalAmount)*100)+"%");
         blocks = new GradientBlocks(context);
         parentContainer.addView(blocks);
-        parentContainer.addView(inflatedView);
+        parentContainer.addView(statistics);
 
         animate();
         return parentContainer;

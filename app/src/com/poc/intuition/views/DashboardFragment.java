@@ -28,6 +28,7 @@ public class DashboardFragment extends Fragment {
     private LinearLayout gradientBarHolder;
     private WebView chartView;
     private LayoutInflater inflater;
+    private UserStatisticsResponse userStats;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class DashboardFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.inflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        userStats = ((Dashboard) getActivity()).getUserStatistics();
         populateGradientBar();
         populateCategoryGraphs();
 
@@ -59,7 +61,8 @@ public class DashboardFragment extends Fragment {
 
             @Override
             public void onGlobalLayout() {
-                RelativeLayout widget = new GradientBar(getActivity().getApplicationContext(), 2000d, 300d, gradientBarHolder.getHeight(), gradientBarHolder.getWidth()).build();
+                CurrentMonthStat currentMonthStat = userStats.currentMonthStat();
+                RelativeLayout widget = new GradientBar(getActivity().getApplicationContext(), currentMonthStat.getRecommendedBudgetAmount(), currentMonthStat.getCurrentExpensesTotal(), gradientBarHolder.getHeight(), gradientBarHolder.getWidth()).build();
                 gradientBarHolder.addView(widget);
                 gradientBarObserver.removeOnGlobalLayoutListener(this);
             }
@@ -67,9 +70,7 @@ public class DashboardFragment extends Fragment {
     }
 
     private void populateCategoryGraphs() {
-
-        final UserStatisticsResponse userStatistics = ((Dashboard) getActivity()).getUserStatistics();
-        final CurrentMonthStat currentMonthStats = userStatistics.currentMonthStat();
+        final CurrentMonthStat currentMonthStats = userStats.currentMonthStat();
         final Double totalAmountSpent = currentMonthStats.getCurrentExpensesTotal();
         final List<CategoryStat> categoryStats = currentMonthStats.getCategoryStats();
         ViewTreeObserver categoryObserver = categoryRadiatorContainer.getViewTreeObserver();
