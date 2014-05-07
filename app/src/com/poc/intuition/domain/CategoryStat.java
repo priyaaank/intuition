@@ -16,4 +16,7 @@ public class CategoryStat {
         return amountSpent;
     }
 
+    public String getName() {
+        return category.getName();
+    }
 }

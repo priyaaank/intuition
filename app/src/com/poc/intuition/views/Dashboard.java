@@ -44,7 +44,7 @@ public class Dashboard extends FragmentActivity {
         startTransactionPolling();
         lookupUserStats();
         updateActionBar();
-        attachDefaultFragment();
+//        attachDefaultFragment();
         attachMenuNavigationEvents();
     }
 
@@ -182,7 +182,7 @@ public class Dashboard extends FragmentActivity {
 
     private void attachDefaultFragment() {
         slidingMenu.showContent();
-        CarFragment dashboardFragment = new CarFragment();
+        DashboardFragment dashboardFragment = new DashboardFragment();
         attachFragmentWithTagToContentView(dashboardFragment, "Dashboard");
     }
 
@@ -205,6 +205,7 @@ public class Dashboard extends FragmentActivity {
             @Override
             public void serviceResponse(UserStatisticsResponse response) {
                 userStats = response;
+                attachDefaultFragment();
             }
         };
     }

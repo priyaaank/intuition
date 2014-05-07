@@ -48,7 +48,7 @@ public class CategoryHealthRadiator {
     private TextView createTextViewWithValue(int percentageOfMoneySpent) {
         TextView textView = new TextView(context);
         textView.setTextSize(20);
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(unitInDPs(height), unitInDPs(width));
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(height, width);
         textView.setLayoutParams(params);
         textView.setText(percentageOfMoneySpent+"%");
         textView.setGravity(Gravity.CENTER);
@@ -69,7 +69,7 @@ public class CategoryHealthRadiator {
     private void initializeParentLayout() {
         parentRadiatorHolder = new RelativeLayout(context);
         parentRadiatorHolder.setGravity(Gravity.CENTER);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(unitInDPs(height), unitInDPs(width));
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(height, width);
         parentRadiatorHolder.setLayoutParams(params);
     }
 
@@ -84,7 +84,7 @@ public class CategoryHealthRadiator {
     private class HealthArcs extends View {
 
         public static final int START_ANGLE = 160;
-        public static final float FORTY_PERCENT = 0.4f;
+        public static final float FORTY_PERCENT = 0.1f;
         private float containerHeight;
         private float containerWidth;
         private float containerPaddingXCord;
@@ -152,7 +152,7 @@ public class CategoryHealthRadiator {
         private int getSegmentToDrawCount() {
             int actualSweepAngle = (int) (360 * ((float) (amountSpent / totalAmount)));
             int segmentCount = (actualSweepAngle / sweepAngleForSegment);
-            if ((sweepAngleForSegment % actualSweepAngle) > 0) segmentCount++;
+            if (actualSweepAngle > 0 && (sweepAngleForSegment % actualSweepAngle) > 0) segmentCount++;
             return segmentCount;
         }
 
@@ -163,7 +163,7 @@ public class CategoryHealthRadiator {
 
     private class OverlayCircle extends View {
 
-        private static final float NINE_PERCENT = .09f;
+        private static final float NINE_PERCENT = .35f;
 
         public OverlayCircle(Context context) {
             super(context);

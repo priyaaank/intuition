@@ -8,13 +8,19 @@
               android:gravity="center"
               android:background="@drawable/background_texture">
 
-    <LinearLayout android:id="@+id/graph_container"
-                  android:layout_width="match_parent"
-                  android:layout_height="30dp"
-                  android:layout_margin="10dp"
-                  android:orientation="vertical"/>
+    <HorizontalScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout android:id="@+id/category_holder"
+                      android:layout_width="match_parent"
+                      android:layout_height="130dp"
+                      android:orientation="horizontal"
+                      android:gravity="center"/>
+    </HorizontalScrollView>
 
-    <LinearLayout android:id="@+id/category_holder" android:gravity="center" android:orientation="horizontal" android:layout_width="150dp" android:layout_height="150dp" />
+    <!--<LinearLayout android:id="@+id/category_holder"-->
+                  <!--android:gravity="center"-->
+                  <!--android:orientation="horizontal"-->
+                  <!--android:layout_width="match_parent"-->
+                  <!--android:layout_height="150dp" />-->
 
     <WebView
             android:id="@+id/chart_view"

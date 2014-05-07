@@ -52,8 +52,7 @@ public class Login extends Activity implements IListener<Boolean> {
             PurchaseCategoryService.singleInstance(this.getApplicationContext()).fetchCategoriesForUser();
             progressDialog.dismiss();
             if (userSessionService.isUserOnboardingComplete()) {
-//                showHomeScreen();
-                startUserOnboarding();
+                showHomeScreen();
             } else {
                 startUserOnboarding();
             }
