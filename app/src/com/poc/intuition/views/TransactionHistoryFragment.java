@@ -1,5 +1,6 @@
 package com.poc.intuition.views;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -41,6 +42,7 @@ public class TransactionHistoryFragment extends Fragment implements ISelectionMa
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View inflatedView = inflater.inflate(R.layout.transaction_listing, container, false);
         transactionListingView = (ListView) inflatedView.findViewById(R.id.transaction_list_view);
+        transactionListingView.setBackgroundColor(Color.WHITE);
         return inflatedView;
     }
 

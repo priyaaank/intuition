@@ -10,5 +10,6 @@
     <color name="dark_purple">#5a336a</color>
     <color name="focused_purple">#77448d</color>
     <color name="background_brown">#dbd6d2</color>
+    <color name="list_view_brown">#F7F6F4</color>
     <color name="fiery_red">#EF2F33</color>
 </resources>

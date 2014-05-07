@@ -18,6 +18,7 @@ import com.poc.intuition.domain.CurrentMonthStat;
 import com.poc.intuition.service.response.UserStatisticsResponse;
 import com.poc.intuition.views.Dashboard;
 import com.poc.intuition.widgets.CategoryHealthRadiator;
+import com.poc.intuition.widgets.GoalsWidget;
 import com.poc.intuition.widgets.GradientBar;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class DashboardFragment extends Fragment {
 
     private LinearLayout categoryRadiatorContainer;
     private LinearLayout gradientBarHolder;
+    private LinearLayout goalsBarHolder;
     private WebView chartView;
     private LayoutInflater inflater;
     private UserStatisticsResponse userStats;
@@ -35,6 +37,7 @@ public class DashboardFragment extends Fragment {
         View inflatedView = inflater.inflate(R.layout.dashboard, container, false);
         categoryRadiatorContainer = (LinearLayout) inflatedView.findViewById(R.id.category_holder);
         gradientBarHolder = (LinearLayout) inflatedView.findViewById(R.id.gradient_bar_container);
+        goalsBarHolder = (LinearLayout) inflatedView.findViewById(R.id.goals_bar_container);
 //        chartView = (WebView) inflatedView.findViewById(R.id.chart_view);
         return inflatedView;
     }
@@ -46,6 +49,7 @@ public class DashboardFragment extends Fragment {
         userStats = ((Dashboard) getActivity()).getUserStatistics();
         populateGradientBar();
         populateCategoryGraphs();
+        populateGoalsGraphs();
 
 //        CustomWebViewClient client = new CustomWebViewClient();
 //        chartView.setWebViewClient(client);
@@ -53,6 +57,20 @@ public class DashboardFragment extends Fragment {
 //        chartView.loadUrl("file:///android_asset/html/index.html");
 //        chartView.setVerticalScrollBarEnabled(true);
 //        chartView.setHorizontalScrollBarEnabled(false);
+    }
+
+    private void populateGoalsGraphs() {
+        final ViewTreeObserver goalsBarObserver = goalsBarHolder.getViewTreeObserver();
+        goalsBarObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                CurrentMonthStat currentMonthStat = userStats.currentMonthStat();
+                RelativeLayout widget = new GoalsWidget(getActivity().getApplicationContext(), goalsBarHolder.getHeight(), goalsBarHolder.getWidth()).build();
+                goalsBarHolder.addView(widget);
+                goalsBarObserver.removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 
     private void populateGradientBar() {
