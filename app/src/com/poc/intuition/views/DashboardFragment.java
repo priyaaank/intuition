@@ -59,7 +59,7 @@ public class DashboardFragment extends Fragment {
 
             @Override
             public void onGlobalLayout() {
-                RelativeLayout widget = new GradientBar(getActivity().getApplicationContext(), 2000d, 1200d, gradientBarHolder.getHeight(), gradientBarHolder.getWidth()).build();
+                RelativeLayout widget = new GradientBar(getActivity().getApplicationContext(), 2000d, 300d, gradientBarHolder.getHeight(), gradientBarHolder.getWidth()).build();
                 gradientBarHolder.addView(widget);
                 gradientBarObserver.removeOnGlobalLayoutListener(this);
             }

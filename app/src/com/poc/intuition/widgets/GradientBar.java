@@ -5,12 +5,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import com.poc.intuition.R;
+import org.w3c.dom.Text;
 
 public class GradientBar {
 
@@ -33,8 +36,12 @@ public class GradientBar {
     public RelativeLayout build() {
         parentContainer = new RelativeLayout(context);
         parentContainer.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        RelativeLayout inflatedView = (RelativeLayout)inflater.inflate(R.layout.gradient_bar_stats, null);
         blocks = new GradientBlocks(context);
         parentContainer.addView(blocks);
+        parentContainer.addView(inflatedView);
+
         animate();
         return parentContainer;
     }
