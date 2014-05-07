@@ -7,12 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,7 +18,6 @@ import com.poc.intuition.domain.CurrentMonthStat;
 import com.poc.intuition.service.response.UserStatisticsResponse;
 import com.poc.intuition.views.Dashboard;
 import com.poc.intuition.widgets.CategoryHealthRadiator;
-import com.poc.intuition.widgets.StackedExpensePredictor;
 
 import java.util.List;
 
@@ -38,7 +33,7 @@ public class DashboardFragment extends Fragment {
         View inflatedView = inflater.inflate(R.layout.dashboard, container, false);
         categoryRadiatorContainer = (LinearLayout) inflatedView.findViewById(R.id.category_holder);
 //        graphContainer = (LinearLayout) inflatedView.findViewById(R.id.graph_container);
-        chartView = (WebView) inflatedView.findViewById(R.id.chart_view);
+//        chartView = (WebView) inflatedView.findViewById(R.id.chart_view);
         return inflatedView;
     }
 
@@ -58,12 +53,12 @@ public class DashboardFragment extends Fragment {
 
         populateCategoryGraphs();
 
-        CustomWebViewClient client = new CustomWebViewClient();
-        chartView.setWebViewClient(client);
-        chartView.getSettings().setJavaScriptEnabled(true);
-        chartView.loadUrl("file:///android_asset/html/index.html");
-        chartView.setVerticalScrollBarEnabled(true);
-        chartView.setHorizontalScrollBarEnabled(false);
+//        CustomWebViewClient client = new CustomWebViewClient();
+//        chartView.setWebViewClient(client);
+//        chartView.getSettings().setJavaScriptEnabled(true);
+//        chartView.loadUrl("file:///android_asset/html/index.html");
+//        chartView.setVerticalScrollBarEnabled(true);
+//        chartView.setHorizontalScrollBarEnabled(false);
     }
 
     private void populateCategoryGraphs() {

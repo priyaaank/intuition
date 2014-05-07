@@ -1,14 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout
+<LinearLayout
               xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:gravity="center"
               android:background="@drawable/background_texture">
 
-    <HorizontalScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:paddingTop="10dp"
+                  android:paddingLeft="10dp"
+                  android:paddingBottom="10dp">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="MY BUDGET TRACKER"
+                  android:gravity="center"
+                  android:textColor="@color/text_purple"
+                  android:textSize="12sp"
+                  android:fontFamily="sans-serif-bold"/>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="100dp"
+                  android:background="@color/white"
+                  android:padding="10dp">
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="10dp"
+                  android:paddingTop="10dp"
+                  android:paddingLeft="10dp">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="EXPENSE TRACKING BY CATEGORIES"
+                  android:gravity="center"
+                  android:textColor="@color/text_purple"
+                  android:textSize="12sp"
+                  android:fontFamily="sans-serif-bold"/>
+    </LinearLayout>
+    <HorizontalScrollView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:scrollbars="none">
         <LinearLayout android:id="@+id/category_holder"
                       android:layout_width="match_parent"
                       android:layout_height="130dp"
@@ -16,17 +50,31 @@
                       android:gravity="center"/>
     </HorizontalScrollView>
 
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="10dp"
+                  android:paddingTop="10dp"
+                  android:paddingLeft="10dp">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="MY GOALS"
+                  android:gravity="center"
+                  android:textColor="@color/text_purple"
+                  android:textSize="12sp"
+                  android:fontFamily="sans-serif-bold"/>
+    </LinearLayout>
+
     <!--<LinearLayout android:id="@+id/category_holder"-->
                   <!--android:gravity="center"-->
                   <!--android:orientation="horizontal"-->
                   <!--android:layout_width="match_parent"-->
                   <!--android:layout_height="150dp" />-->
 
-    <WebView
-            android:id="@+id/chart_view"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_alignParentBottom="true"
-            />
+    <!--<WebView-->
+            <!--android:id="@+id/chart_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="200dp"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--/>-->
 
-</RelativeLayout>
+</LinearLayout>
