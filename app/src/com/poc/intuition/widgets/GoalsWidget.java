@@ -5,10 +5,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.poc.intuition.R;
 
@@ -30,14 +33,16 @@ public class GoalsWidget {
         parentContainer = new RelativeLayout(context);
         parentContainer.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         blocks = new ColorBlocks(context);
+        View goals_icon = LayoutInflater.from(context).inflate(R.layout.goals_icon_layout, null);
         parentContainer.addView(blocks);
+        parentContainer.addView(goals_icon);
         animate();
         return parentContainer;
     }
 
     public void animate() {
         Animation slideInAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_in);
-        blocks.startAnimation(slideInAnimation);
+        parentContainer.startAnimation(slideInAnimation);
     }
 
     private class ColorBlocks extends View {
@@ -81,7 +86,6 @@ public class GoalsWidget {
             canvas.drawRect(eachBlockWidth, 0, eachBlockWidth * 2, blockHeight, paint);
             paint.setColor(Color.parseColor(blockColors[2]));
             canvas.drawRect(eachBlockWidth * 2, 0, eachBlockWidth * 3, blockHeight, paint);
-
             super.onDraw(canvas);
         }
 
