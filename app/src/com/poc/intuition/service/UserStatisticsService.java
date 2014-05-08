@@ -52,7 +52,7 @@ public class UserStatisticsService implements ServiceConstants {
         @Override
         protected void onPostExecute(GenericWebServiceResponse serviceResponse) {
             super.onPostExecute(serviceResponse);
-            userStatsListener.serviceResponse(new UserStatisticsResponse(serviceResponse.response()));
+            if(userStatsListener!=null) userStatsListener.serviceResponse(new UserStatisticsResponse(serviceResponse.response()));
         }
     }
 }
