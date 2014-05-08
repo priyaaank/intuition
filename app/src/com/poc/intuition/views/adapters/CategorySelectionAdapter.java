@@ -86,9 +86,6 @@ public class CategorySelectionAdapter extends BaseAdapter {
 
         DisplayPurchaseCategory category = categoriesToList.get(position);
         holder.image.setImageDrawable(context.getResources().getDrawable(category.drawable()));
-        holder.image.setLayoutParams(new LinearLayout.LayoutParams(170, 170));
-        holder.image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        holder.image.setPadding(4, 4, 4, 4);
         holder.textView.setText(category.categoryName);
         return view;
     }
