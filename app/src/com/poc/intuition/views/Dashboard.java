@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.poc.intuition.R;
 import com.poc.intuition.service.IListener;
@@ -14,6 +15,7 @@ import com.poc.intuition.service.NewPurchaseResponse;
 import com.poc.intuition.service.TransactionService;
 import com.poc.intuition.service.UserStatisticsService;
 import com.poc.intuition.service.response.UserStatisticsResponse;
+import org.w3c.dom.Text;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -89,6 +91,7 @@ public class Dashboard extends FragmentActivity {
         getActionBar().setDisplayHomeAsUpEnabled(false);
         getActionBar().setDisplayShowHomeEnabled(false);
         getActionBar().setDisplayShowTitleEnabled(false);
+        updateTitle("Dashboard");
 
         actionBarLayout.findViewById(R.id.action_bar_menu).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +127,7 @@ public class Dashboard extends FragmentActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                updateTitle("New Transaction");
                 attachPurchaseFragment(300d, 200d, 20d, "Random merchant", "20.0");
             }
         };
@@ -139,6 +143,7 @@ public class Dashboard extends FragmentActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                updateTitle("Current Month Overview");
                 slidingMenu.showContent();
                 CurrentMonthStatsFragment currentMonthStatsFragment = new CurrentMonthStatsFragment();
                 attachFragmentWithTagToContentView(currentMonthStatsFragment, "CurrentMonthStatistics");
@@ -159,6 +164,7 @@ public class Dashboard extends FragmentActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                updateTitle("Historic Spending");
                 slidingMenu.showContent();
                 HistoricSpendingFragment historicSpendingFragment = new HistoricSpendingFragment();
                 attachFragmentWithTagToContentView(historicSpendingFragment, "HistoricSpendingOverview");
@@ -170,6 +176,7 @@ public class Dashboard extends FragmentActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                updateTitle("Expense");
                 slidingMenu.showContent();
                 TransactionHistoryFragment transactionHistoryFragment = new TransactionHistoryFragment();
                 attachFragmentWithTagToContentView(transactionHistoryFragment, "TransactionHistory");
@@ -179,6 +186,7 @@ public class Dashboard extends FragmentActivity {
     }
 
     private void attachDefaultFragment() {
+        updateTitle("Dashboard");
         slidingMenu.showContent();
         DashboardFragment dashboardFragment = new DashboardFragment();
         attachFragmentWithTagToContentView(dashboardFragment, "Dashboard");
@@ -213,6 +221,7 @@ public class Dashboard extends FragmentActivity {
             @Override
             public void serviceResponse(final NewPurchaseResponse newPurchase) {
                 refreshUserStats();
+                updateTitle("New Transaction");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -248,6 +257,10 @@ public class Dashboard extends FragmentActivity {
                 dialog.dismiss();
             }
         }).show();
+    }
+
+    public void updateTitle(String title) {
+        ((TextView)getActionBar().getCustomView().findViewById(R.id.page_title)).setText(title);
     }
 
     public void refreshUserStats() {

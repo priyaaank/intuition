@@ -21,9 +21,10 @@
                    android:src="@drawable/menu_navigation"
                    android:text="Menu"/>
 
-        <TextView android:layout_width="match_parent"
+        <TextView android:id="@+id/page_title"
+                  android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:paddingLeft="10dp"
+                  android:paddingLeft="5dp"
                   android:textSize="18sp"
                   android:gravity="center"
                   android:textColor="@color/white"
