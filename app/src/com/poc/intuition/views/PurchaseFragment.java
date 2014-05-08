@@ -76,7 +76,8 @@ public class PurchaseFragment extends Fragment {
 
     private void updateLabels() {
         ((TextView)getActivity().findViewById(R.id.money_spent)).setText("$"+amountSpent);
-        ((TextView)getActivity().findViewById(R.id.saving_rate)).setText("of $"+totalAmount);
+        ((TextView)getActivity().findViewById(R.id.total_amount)).setText("of $"+totalAmount);
+        ((TextView)getActivity().findViewById(R.id.saving_rate_text)).setText("Saving $"+savingsRate+" per day");
     }
 
     public float getSpinAngle() {

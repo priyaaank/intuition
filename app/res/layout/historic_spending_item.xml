@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_height="100dp"
+              android:layout_width="100dp"
+              android:gravity="center"
+              android:orientation="vertical">
+    <RelativeLayout
+            android:id="@+id/historic_graph_holder"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            />
+    <TextView android:id="@+id/month_and_year_value"
+              android:layout_width="match_parent"
+              android:gravity="center"
+              android:layout_height="wrap_content"
+              android:textSize="8sp"
+              android:textColor="@color/black"/>
+</LinearLayout>

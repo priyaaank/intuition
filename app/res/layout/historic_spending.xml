@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
-<LinearLayout
-              android:id="@+id/spending_graphs_container"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:paddingLeft="20dp"
-              android:paddingRight="20dp"
+              android:layout_height="match_parent"
+              android:gravity="center"
               android:background="@drawable/background_texture">
 
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Last 12 months"
+              android:textColor="@color/text_purple"
+              android:paddingTop="4dp"
+              android:paddingBottom="4dp"
+              android:textSize="15sp"
+              android:fontFamily="sans-serif-bold"/>
+
+    <GridView android:id="@+id/historic_spending_container"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:columnWidth="100dp"
+              android:numColumns="auto_fit"
+              android:verticalSpacing="7dp"
+              android:stretchMode="columnWidth"
+              android:layout_margin="10dp"
+              android:gravity="center"
+            />
+
 </LinearLayout>
-</ScrollView>

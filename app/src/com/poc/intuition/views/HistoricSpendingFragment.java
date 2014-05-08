@@ -6,12 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.*;
 import com.poc.intuition.R;
 import com.poc.intuition.domain.MonthlyStat;
 import com.poc.intuition.service.response.UserStatisticsResponse;
+import com.poc.intuition.views.adapters.HistoricSpendingGridAdapter;
 import com.poc.intuition.widgets.StackedExpensePredictor;
 
 import java.util.List;
@@ -19,26 +18,35 @@ import java.util.List;
 public class HistoricSpendingFragment extends Fragment {
 
     private LinearLayout spendingGraphsHolder;
+    private GridView historicSpendingGraphsContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View inflatedView = inflater.inflate(R.layout.historic_spending, container, false);
-        spendingGraphsHolder = (LinearLayout) inflatedView.findViewById(R.id.spending_graphs_container);
+        historicSpendingGraphsContainer = (GridView) inflatedView.findViewById(R.id.historic_spending_container);
         return inflatedView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ViewTreeObserver observer = spendingGraphsHolder.getViewTreeObserver();
+        ViewTreeObserver observer = historicSpendingGraphsContainer.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-
             @Override
             public void onGlobalLayout() {
-                populateUserCharts();
-                spendingGraphsHolder.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                populateHistoricCharts();
+                historicSpendingGraphsContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
+    }
+
+    private void populateHistoricCharts() {
+        UserStatisticsResponse userStatistics = ((Dashboard) getActivity()).getUserStatistics();
+        List<MonthlyStat> montlyStats = userStatistics.getMonthlyStats();
+        HistoricSpendingGridAdapter adapter = new HistoricSpendingGridAdapter(getActivity().getApplicationContext());
+        adapter.setHistoricMonthlyStats(montlyStats.subList(0, 12));
+        historicSpendingGraphsContainer.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     private void populateUserCharts() {
