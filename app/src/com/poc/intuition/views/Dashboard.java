@@ -244,7 +244,7 @@ public class Dashboard extends FragmentActivity {
     class TransactionPoller extends TimerTask {
         @Override
         public void run() {
-//            transactionService.findLatestTransactionId();
+            transactionService.findLatestTransactionId();
         }
     }
 }
