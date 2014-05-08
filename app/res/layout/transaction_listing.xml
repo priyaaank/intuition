@@ -6,6 +6,15 @@
               android:layout_height="match_parent"
         android:background="@drawable/background_texture">
 
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:padding="10dp"
+              android:text="Transaction History"
+              android:textColor="@color/text_purple"
+              android:fontFamily="sans-serif-regular"
+              android:textSize="20dp"
+              android:gravity="center"/>
+
     <ListView android:id="@+id/transaction_list_view"
               android:layout_width="match_parent"
               android:layout_height="match_parent"

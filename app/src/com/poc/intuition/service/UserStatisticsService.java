@@ -28,6 +28,9 @@ public class UserStatisticsService implements ServiceConstants {
     public void registerListener(IListener<UserStatisticsResponse> listener) {
         this.userStatsListener = listener;
     }
+    public void deregisterListener() {
+        this.userStatsListener = null;
+    }
 
     public void findUserStatsForLastMonths(int monthCount) {
         String loggedInUsername = userSessionService.loggedInUsername();

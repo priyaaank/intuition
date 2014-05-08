@@ -15,7 +15,6 @@ import com.poc.intuition.service.NewPurchaseResponse;
 import com.poc.intuition.service.TransactionService;
 import com.poc.intuition.service.UserStatisticsService;
 import com.poc.intuition.service.response.UserStatisticsResponse;
-import org.w3c.dom.Text;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -155,7 +154,9 @@ public class Dashboard extends FragmentActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-          attachDefaultFragment();
+            userStatisticsService.registerListener(getUserStatisticsListener());
+            userStatisticsService.findUserStatsForLastMonths(USER_STATS_MONTH_COUNT);
+//                attachDefaultFragment();
             }
         };
     }
@@ -211,7 +212,8 @@ public class Dashboard extends FragmentActivity {
             @Override
             public void serviceResponse(UserStatisticsResponse response) {
                 userStats = response;
-                if(getSupportFragmentManager().findFragmentByTag("PurchaseFragment") == null) attachDefaultFragment();
+                attachDefaultFragment();
+                userStatisticsService.deregisterListener();
             }
         };
     }
