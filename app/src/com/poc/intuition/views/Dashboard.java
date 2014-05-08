@@ -111,8 +111,13 @@ public class Dashboard extends FragmentActivity {
         findViewById(R.id.transaction_history_link).setOnClickListener(navigateToTransactionHistory());
         findViewById(R.id.historic_spending_overview_link).setOnClickListener(navigateToSpendingOverview());
         findViewById(R.id.dashboard_link).setOnClickListener(navigateToDashboard());
-//        findViewById(R.id.this_month_summary).setOnClickListener(navigateToCurrentMonth());
         findViewById(R.id.purchase_link).setOnClickListener(navigateToPurchaseScreen());
+        findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
     }
 
     private View.OnClickListener navigateToPurchaseScreen() {
@@ -207,7 +212,7 @@ public class Dashboard extends FragmentActivity {
         return new IListener<NewPurchaseResponse>() {
             @Override
             public void serviceResponse(final NewPurchaseResponse newPurchase) {
-                userStatisticsService.findUserStatsForLastMonths(USER_STATS_MONTH_COUNT);
+                refreshUserStats();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -228,6 +233,10 @@ public class Dashboard extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
+        logout();
+    }
+
+    private void logout() {
         new AlertDialog.Builder(this).setTitle("Logout").setMessage("Do you want to logout?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -239,6 +248,10 @@ public class Dashboard extends FragmentActivity {
                 dialog.dismiss();
             }
         }).show();
+    }
+
+    public void refreshUserStats() {
+        userStatisticsService.findUserStatsForLastMonths(USER_STATS_MONTH_COUNT);
     }
 
     class TransactionPoller extends TimerTask {

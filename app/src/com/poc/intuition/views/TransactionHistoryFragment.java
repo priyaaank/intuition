@@ -159,6 +159,7 @@ public class TransactionHistoryFragment extends Fragment implements ISelectionMa
         }
 
         transactionService.updateTransactionsWithCategory(transactionListingAdapter.selectedTransactionIds(), categoryId.toString());
+        ((Dashboard)getActivity()).refreshUserStats();
         multiChoiceModeListener.markActionModeFinished();
     }
 

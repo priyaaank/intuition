@@ -13,7 +13,7 @@
     </style>
 
     <!-- Base application theme is the default theme. -->
-    <style name="MTheme" parent="@android:style/Theme.Holo.NoActionBar" />
+    <style name="MTheme" parent="@android:style/Theme.Holo.Light.NoActionBar" />
 
     <style name="Theme.MyAppThemeA" parent="MTheme">
         <item name="android:windowBackground">@drawable/background_texture</item>

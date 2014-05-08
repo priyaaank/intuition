@@ -105,7 +105,7 @@ delete '/user/:username/category/:id' do
   user = User.find_by_username(params[:username])
   category = user.categories.find_by_id(params[:id])
   unless category.nil?
-    unknown_category = user.categories.where(["lower(name) = ?", Category::Type::UNKNOWN.downcase]).first
+    unknown_category = user.categories.where(["lower(name) = ?", Category::Type::Uncategorized.downcase]).first
     category.transactions.update_all(:category_id => unknown_category.id)
     category.destroy
   end
