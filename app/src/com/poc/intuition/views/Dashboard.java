@@ -112,21 +112,21 @@ public class Dashboard extends FragmentActivity {
         findViewById(R.id.historic_spending_overview_link).setOnClickListener(navigateToSpendingOverview());
         findViewById(R.id.dashboard_link).setOnClickListener(navigateToDashboard());
 //        findViewById(R.id.this_month_summary).setOnClickListener(navigateToCurrentMonth());
-//        findViewById(R.id.purchase_link).setOnClickListener(navigateToPurchaseScreen());
+        findViewById(R.id.purchase_link).setOnClickListener(navigateToPurchaseScreen());
     }
 
     private View.OnClickListener navigateToPurchaseScreen() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                attachPurchaseFragment(300d, 200d, 20d);
+                attachPurchaseFragment(300d, 200d, 20d, "Random merchant", "20.0");
             }
         };
     }
 
-    private void attachPurchaseFragment(double totalAmount, double amountSpent, double savingRate) {
+    private void attachPurchaseFragment(double totalAmount, double amountSpent, double savingRate, String merchantName, String transactionAmount) {
         slidingMenu.showContent();
-        PurchaseFragment purchaseFragment = PurchaseFragment.NewInstance(totalAmount, amountSpent, savingRate);
+        PurchaseFragment purchaseFragment = PurchaseFragment.NewInstance(totalAmount, amountSpent, savingRate, transactionAmount, merchantName);
         attachFragmentWithTagToContentView(purchaseFragment, "PurchaseFragment");
     }
 
@@ -198,7 +198,7 @@ public class Dashboard extends FragmentActivity {
             @Override
             public void serviceResponse(UserStatisticsResponse response) {
                 userStats = response;
-                attachDefaultFragment();
+                if(getSupportFragmentManager().findFragmentByTag("PurchaseFragment") == null) attachDefaultFragment();
             }
         };
     }
@@ -211,7 +211,7 @@ public class Dashboard extends FragmentActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        attachPurchaseFragment(newPurchase.getTotalAmountSpent(), newPurchase.getTotalMonthlyBudget(), 20d);
+                        attachPurchaseFragment(newPurchase.getTotalAmountSpent(), newPurchase.getTotalMonthlyBudget(), 20d, newPurchase.getMerchantName(), newPurchase.getTransactionAmount());
                     }
                 });
             }

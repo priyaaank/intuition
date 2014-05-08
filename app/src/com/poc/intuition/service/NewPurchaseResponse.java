@@ -14,6 +14,13 @@ public class NewPurchaseResponse
         this.totalMonthlyBudget = totalMonthlyBudget;
     }
 
+    public String getMerchantName() {
+        return transaction.merchantName();
+    }
+
+    public String getTransactionAmount() {
+        return transaction.transactionAmount();
+    }
 
     public Integer getTransactionId() {
         return transaction.getId();

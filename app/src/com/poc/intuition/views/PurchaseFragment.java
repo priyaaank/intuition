@@ -19,20 +19,26 @@ public class PurchaseFragment extends Fragment {
     private static final String AMOUNT_SPENT = "amount_spent";
     private static final String TOTAL_AMOUNT = "total_amount";
     private static final String SAVINGS_RATE = "savings_rate";
+    private static final String TRANSACTION_AMOUNT = "transaction_amount";
+    private static final String MERCHANT_NAME = "merchant_name";
 
     private Double amountSpent;
     private Double totalAmount;
     private Double savingsRate;
+    private String merchantName;
+    private String transactionAmount;
 
     private RadiatorNeedle expenseRadiatorDial;
     private RelativeLayout dialWidget;
 
-    public static PurchaseFragment NewInstance(Double amountSpent, Double totalAmount, Double savingsRate) {
+    public static PurchaseFragment NewInstance(Double amountSpent, Double totalAmount, Double savingsRate, String transactionAmount, String merchantName) {
         PurchaseFragment fragment  = new PurchaseFragment();
         Bundle arguments = new Bundle();
         arguments.putDouble(AMOUNT_SPENT, amountSpent);
         arguments.putDouble(TOTAL_AMOUNT, totalAmount);
         arguments.putDouble(SAVINGS_RATE, savingsRate);
+        arguments.putString(MERCHANT_NAME, merchantName);
+        arguments.putString(TRANSACTION_AMOUNT, transactionAmount);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -42,6 +48,8 @@ public class PurchaseFragment extends Fragment {
         amountSpent = getArguments().getDouble(AMOUNT_SPENT);
         totalAmount = getArguments().getDouble(TOTAL_AMOUNT);
         savingsRate = getArguments().getDouble(SAVINGS_RATE);
+        transactionAmount = getArguments().getString(TRANSACTION_AMOUNT);
+        merchantName = getArguments().getString(MERCHANT_NAME);
 
         View view = inflater.inflate(R.layout.purchase_view, container, false);
         expenseRadiatorDial = (RadiatorNeedle) view.findViewById(R.id.needle);
@@ -51,7 +59,7 @@ public class PurchaseFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ReceiptFragment receiptFragment = new ReceiptFragment();
+        ReceiptFragment receiptFragment = ReceiptFragment.newInstance(merchantName, transactionAmount);
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.slide_down, R.anim.slide_up, R.anim.slide_down, R.anim.slide_up)
@@ -67,8 +75,8 @@ public class PurchaseFragment extends Fragment {
     }
 
     private void updateLabels() {
-        ((TextView)getActivity().findViewById(R.id.money_spent)).setText("$"+amountSpent+" of\n$"+totalAmount);
-        ((TextView)getActivity().findViewById(R.id.saving_rate)).setText("$"+savingsRate+" / day");
+        ((TextView)getActivity().findViewById(R.id.money_spent)).setText("$"+amountSpent);
+        ((TextView)getActivity().findViewById(R.id.saving_rate)).setText("of $"+totalAmount);
     }
 
     public float getSpinAngle() {

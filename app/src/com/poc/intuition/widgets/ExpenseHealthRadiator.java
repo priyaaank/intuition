@@ -47,8 +47,8 @@ public class ExpenseHealthRadiator extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         prepareDimensions();
-        drawTopSemicircle(canvas);
-        drawBottomSemicircle(canvas);
+        drawBottomSemicircleWithSegments(canvas);
+        drawTopSemicircleWithSegments(canvas);
         drawConcentricCircle(canvas);
         super.onDraw(canvas);
     }
@@ -77,7 +77,27 @@ public class ExpenseHealthRadiator extends View {
         canvas.drawRect(dividerLineStartXCord, dividerLineStartYCord, dividerLineEndXCord, dividerLineEndYCord, paint);
     }
 
-    private void drawTopSemicircle(Canvas canvas) {
+    private void drawTopSemicircleWithSegments(Canvas canvas) {
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+        paint.setAntiAlias(true);
+        int colors[] = new int[] {
+                Color.parseColor("#FAA619"),
+                Color.parseColor("#F15923"),
+                Color.parseColor("#ED1C23"),
+                Color.parseColor("#BF1E2D")
+        };
+        int startAngle = 180;
+        int angleSweep = 180/colors.length;
+        RectF oval = new RectF(containerPaddingXCord, containerPaddingYCord, topSemiCircleBoundaryXCord, topSemiCircleBoundaryYCord);
+        for(int colorIndex = 0; colorIndex < colors.length; colorIndex++) {
+            paint.setColor(colors[colorIndex]);
+            canvas.drawArc(oval, startAngle, angleSweep, true, paint);
+            startAngle = startAngle + angleSweep;
+        }
+    }
+
+    private void drawTopSemicircleWithGradient(Canvas canvas) {
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
@@ -94,7 +114,27 @@ public class ExpenseHealthRadiator extends View {
         canvas.drawArc(oval, topSemiCircleStartAngle, topSemiCircleEndAngle, true, paint);
     }
 
-    private void drawBottomSemicircle(Canvas canvas) {
+    private void drawBottomSemicircleWithSegments(Canvas canvas) {
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+        paint.setAntiAlias(true);
+        int colors[] = new int[] {
+                Color.parseColor("#056839"),
+                Color.parseColor("#0C9443"),
+                Color.parseColor("#3AB549"),
+                Color.parseColor("#98CA3C")
+        };
+        int startAngle = 0;
+        int angleSweep = 180/colors.length;
+        RectF oval = new RectF(containerPaddingXCord, containerPaddingYCord, topSemiCircleBoundaryXCord, topSemiCircleBoundaryYCord);
+        for(int colorIndex = 0; colorIndex < colors.length; colorIndex++) {
+            paint.setColor(colors[colorIndex]);
+            canvas.drawArc(oval, startAngle, angleSweep, true, paint);
+            startAngle = startAngle + angleSweep;
+        }
+    }
+
+    private void drawBottomSemicircleWithGradient(Canvas canvas) {
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);

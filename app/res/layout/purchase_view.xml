@@ -6,15 +6,36 @@
         android:layout_height="match_parent"
         android:background="@drawable/background_texture">
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="100dp" android:id="@+id/receipt_container" android:orientation="vertical" />
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="200dp"
+                  android:id="@+id/receipt_container"
+                  android:layout_margin="20dp"
+                  android:orientation="vertical" />
 
     <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center">
         <com.poc.intuition.widgets.ExpenseHealthRadiator android:id="@+id/indicator" android:layout_width="200dp" android:layout_height="200dp"/>
         <com.poc.intuition.widgets.RadiatorNeedle android:id="@+id/needle" android:layout_width="200dp" android:layout_height="200dp"/>
         <LinearLayout android:orientation="vertical" android:layout_width="200dp" android:layout_height="200dp" android:gravity="center" android:paddingLeft="30dp" android:paddingRight="30dp" android:weightSum="10">
-            <TextView android:id="@+id/money_spent" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="4.5" android:text="" android:gravity="center" android:paddingTop="30dp"/>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/text_brown"/>
-            <TextView android:id="@+id/saving_rate" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="4.5" android:text="" android:gravity="center" android:paddingBottom="20dp"/>
+            <TextView android:id="@+id/money_spent"
+                      android:layout_width="match_parent"
+                      android:layout_height="0dp"
+                      android:layout_weight="4.5"
+                      android:text="$500"
+                      android:gravity="center_horizontal|bottom"
+                      android:textColor="@color/black"
+                      android:textSize="20sp"
+                      android:fontFamily="sans-serif-bold"
+                      android:paddingBottom="2dp"/>
+            <TextView android:id="@+id/saving_rate"
+                      android:layout_width="match_parent"
+                      android:layout_height="0dp"
+                      android:layout_weight="4.5"
+                      android:text="of $1500"
+                      android:textSize="14sp"
+                      android:textColor="@color/black"
+                      android:fontFamily="sans-serif-thin"
+                      android:gravity="center_horizontal|top"
+                      android:paddingTop="2dp"/>
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>
