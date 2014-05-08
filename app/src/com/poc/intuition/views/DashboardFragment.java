@@ -21,6 +21,9 @@ import com.poc.intuition.widgets.CategoryHealthRadiator;
 import com.poc.intuition.widgets.GoalsWidget;
 import com.poc.intuition.widgets.GradientBar;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class DashboardFragment extends Fragment {
@@ -91,6 +94,7 @@ public class DashboardFragment extends Fragment {
         final CurrentMonthStat currentMonthStats = userStats.currentMonthStat();
         final Double totalAmountSpent = currentMonthStats.getCurrentExpensesTotal();
         final List<CategoryStat> categoryStats = currentMonthStats.getCategoryStats();
+        Collections.sort(categoryStats, CategoryStat.CategoryStatComparator);
         ViewTreeObserver categoryObserver = categoryRadiatorContainer.getViewTreeObserver();
         categoryObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
