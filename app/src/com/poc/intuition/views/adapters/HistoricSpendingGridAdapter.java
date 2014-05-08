@@ -61,7 +61,9 @@ public class HistoricSpendingGridAdapter extends BaseAdapter {
         holder.graphHolder.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                holder.graphHolder.addView(new CategoryHealthRadiator(context, monthlyStat.getBudget(), monthlyStat.getAmountSpent(), holder.graphHolder.getHeight(), holder.graphHolder.getWidth()).build());
+                CategoryHealthRadiator categoryHealthRadiator = new CategoryHealthRadiator(context, monthlyStat.getBudget(), monthlyStat.getAmountSpent(), holder.graphHolder.getHeight(), holder.graphHolder.getWidth());
+                categoryHealthRadiator = (monthlyStat.getAmountSpent() >= monthlyStat.getBudget()) ? categoryHealthRadiator.setStyleForOverspending() : categoryHealthRadiator.setStyleForHistoricGraph();
+                holder.graphHolder.addView(categoryHealthRadiator.build());
                 holder.graphHolder.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });

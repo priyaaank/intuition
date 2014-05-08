@@ -24,6 +24,7 @@ public class CategoryHealthRadiator {
     private Double amountSpent;
     private int height;
     private int width;
+    private RadiatorStyle overridenStyle;
 
     public CategoryHealthRadiator(Context context, Double totalAmount, Double amountSpent, int height, int width) {
         this.amountSpent = amountSpent;
@@ -31,6 +32,25 @@ public class CategoryHealthRadiator {
         this.height = height;
         this.width = width;
         this.context = context;
+        overridenStyle = new RadiatorStyle();
+        overridenStyle.centerColor = "#72368C";
+        overridenStyle.centerRadiusPercentageOfWidth = OverlayCircle.THIRTY_FIVE_PERCENT;
+        overridenStyle.textColor = "#FFFFFF";
+    }
+
+    public CategoryHealthRadiator setStyleForOverspending() {
+        overridenStyle.overrideRadialColorIfOverbudget = true;
+        overridenStyle.centerRadiusPercentageOfWidth = .30f;
+        overridenStyle.centerColor = "#FFFFFF";
+        overridenStyle.textColor = "#864C9E";
+        return this;
+    }
+
+    public CategoryHealthRadiator setStyleForHistoricGraph() {
+        overridenStyle.centerRadiusPercentageOfWidth = .30f;
+        overridenStyle.centerColor = "#FFFFFF";
+        overridenStyle.textColor = "#864C9E";
+        return this;
     }
 
     public RelativeLayout build() {
@@ -53,7 +73,7 @@ public class CategoryHealthRadiator {
         textView.setText(percentageOfMoneySpent+"%");
         textView.setGravity(Gravity.CENTER);
         textView.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
-        textView.setTextColor(Color.WHITE);
+        textView.setTextColor(Color.parseColor(overridenStyle.textColor));
         return textView;
     }
 
@@ -73,18 +93,10 @@ public class CategoryHealthRadiator {
         parentRadiatorHolder.setLayoutParams(params);
     }
 
-    private int unitInDPs(int value) {
-        return (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, context.getResources().getDisplayMetrics());
-    }
-
-    private float unitInDPs(float value) {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, context.getResources().getDisplayMetrics());
-    }
-
     private class HealthArcs extends View {
 
         public static final int START_ANGLE = 160;
-        public static final float FORTY_PERCENT = 0.1f;
+        public static final float TEN_PERCENT = 0.1f;
         private float containerHeight;
         private float containerWidth;
         private float containerPaddingXCord;
@@ -131,11 +143,16 @@ public class CategoryHealthRadiator {
             paint.setStyle(Paint.Style.FILL);
             int segmentToDrawCount = getSegmentToDrawCount();
             for (int segmentCount = 0; segmentCount < totalSegmentCount; segmentCount++) {
-                String segmentColor = (segmentCount > segmentToDrawCount) ? "#FFFFFF" : segmentColors[segmentCount];
+                String segmentColor = getSegmentColor(segmentToDrawCount, segmentCount);
                 paint.setColor(Color.parseColor(segmentColor));
                 canvas.drawArc(oval, lastSweep, sweepAngleForSegment, true, paint);
                 lastSweep = lastSweep + sweepAngleForSegment;
             }
+        }
+
+        private String getSegmentColor(int segmentToDrawCount, int segmentCount) {
+            if (overridenStyle.overrideRadialColorIfOverbudget && amountSpent > totalAmount) return overridenStyle.radialColorForOverSpending;
+            return (segmentCount > segmentToDrawCount) ? "#FFFFFF" : segmentColors[segmentCount];
         }
 
         private void prepareDimensions() {
@@ -157,13 +174,13 @@ public class CategoryHealthRadiator {
         }
 
         private float tenPercentOf(int dimension) {
-            return (FORTY_PERCENT * dimension);
+            return (TEN_PERCENT * dimension);
         }
     }
 
     private class OverlayCircle extends View {
 
-        private static final float NINE_PERCENT = .35f;
+        public static final float THIRTY_FIVE_PERCENT = .35f;
 
         public OverlayCircle(Context context) {
             super(context);
@@ -183,12 +200,22 @@ public class CategoryHealthRadiator {
             Paint paint = new Paint();
             paint.setAntiAlias(true);
             paint.setStyle(Paint.Style.FILL);
-            paint.setColor(Color.parseColor("#72368C"));
+            paint.setColor(Color.parseColor(overridenStyle.centerColor));
             canvas.drawCircle(getHeight() / 2, getWidth() / 2, getRadius(), paint);
         }
 
         private float getRadius() {
-            return NINE_PERCENT * getWidth();
+            return overridenStyle.centerRadiusPercentageOfWidth * getWidth();
         }
+    }
+
+    public static class RadiatorStyle {
+
+        public String centerColor;
+        public String textColor;
+        public float centerRadiusPercentageOfWidth;
+        public boolean overrideRadialColorIfOverbudget = false;
+        public String radialColorForOverSpending = "#f01614";
+
     }
 }
