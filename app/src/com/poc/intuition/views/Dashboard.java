@@ -37,7 +37,6 @@ public class Dashboard extends FragmentActivity {
         startTransactionPolling();
         lookupUserStats();
         updateActionBar();
-//        attachDefaultFragment();
         attachMenuNavigationEvents();
     }
 
@@ -245,7 +244,7 @@ public class Dashboard extends FragmentActivity {
     class TransactionPoller extends TimerTask {
         @Override
         public void run() {
-            transactionService.findLatestTransactionId();
+//            transactionService.findLatestTransactionId();
         }
     }
 }

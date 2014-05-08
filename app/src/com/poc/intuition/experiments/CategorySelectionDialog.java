@@ -8,9 +8,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ListView;
 import com.poc.intuition.R;
 import com.poc.intuition.views.Dashboard;
+import com.poc.intuition.views.adapters.CategorySelectionAdapter;
 
 import java.util.ArrayList;
 
@@ -36,12 +38,13 @@ public class CategorySelectionDialog extends DialogFragment implements AdapterVi
         dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         dialog.setContentView(R.layout.category_selection_dialog);
-        dialog.show();
+        GridView categoryGridView = (GridView) dialog.findViewById(R.id.category_selection_grid);
+        CategorySelectionAdapter adapter = new CategorySelectionAdapter(this.getActivity().getApplicationContext());
+        adapter.markAsUserCategories(categoryNameList);
+        categoryGridView.setAdapter(adapter);
+        categoryGridView.setOnItemClickListener(this);
 
-        ListView categoryListView = (ListView) dialog.findViewById(R.id.category_list);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, categoryNameList.toArray(new String[categoryNameList.size()]));
-        categoryListView.setAdapter(adapter);
-        categoryListView.setOnItemClickListener(this);
+        dialog.show();
 
         return dialog;
     }
