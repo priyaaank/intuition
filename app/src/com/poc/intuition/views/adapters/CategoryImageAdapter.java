@@ -81,9 +81,6 @@ public class CategoryImageAdapter extends BaseAdapter implements AdapterView.OnI
 
         DisplayPurchaseCategory displayPurchaseCategory = allDisplayCategories.get(position);
         holder.image.setImageDrawable(mContext.getResources().getDrawable(displayPurchaseCategory.drawable()));
-        holder.image.setLayoutParams(new LinearLayout.LayoutParams(170, 170));
-        holder.image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        holder.image.setPadding(4, 4, 4, 4);
         holder.textView.setText(displayPurchaseCategory.categoryName);
         return view;
     }
