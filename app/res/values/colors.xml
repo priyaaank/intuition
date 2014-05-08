@@ -12,4 +12,5 @@
     <color name="background_brown">#dbd6d2</color>
     <color name="list_view_brown">#F7F6F4</color>
     <color name="fiery_red">#EF2F33</color>
+    <color name="preview_blue">#102348</color>
 </resources>

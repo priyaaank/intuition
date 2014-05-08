@@ -5,18 +5,18 @@
           android:versionName="1.0">
     <uses-sdk android:minSdkVersion="16"/>
     <uses-permission android:name="android.permission.INTERNET" />
-    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
+    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher" android:theme="@style/MTheme">
         <activity android:name=".views.Login"
-                  android:label="@string/app_name" >
+                  android:label="@string/app_name" android:theme="@style/MTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".views.Dashboard" />
-        <activity android:name=".experiments.HomeScreen" />
-        <activity android:name=".views.SetupWizard" android:noHistory="true" />
-        <activity android:name=".experiments.MenuContentFrame" />
+        <activity android:name=".views.Dashboard" android:theme="@style/BTheme"/>
+        <activity android:name=".experiments.HomeScreen" android:theme="@style/BTheme"/>
+        <activity android:name=".views.SetupWizard" android:noHistory="true" android:theme="@style/BTheme"/>
+        <activity android:name=".experiments.MenuContentFrame" android:theme="@style/BTheme"/>
 
     </application>
 </manifest>

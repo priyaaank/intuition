@@ -11,4 +11,18 @@
            parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@color/text_purple</item>
     </style>
+
+    <!-- Base application theme is the default theme. -->
+    <style name="MTheme" parent="@android:style/Theme.Holo.NoActionBar" />
+
+    <style name="Theme.MyAppThemeA" parent="MTheme">
+        <item name="android:windowBackground">@drawable/background_texture</item>
+    </style>
+
+    <style name="BTheme" parent="@android:style/Theme.Holo.Light" />
+
+    <style name="Theme.MyAppThemeB" parent="MTheme">
+        <item name="android:windowBackground">@color/background_brown</item>
+    </style>
+
 </resources>

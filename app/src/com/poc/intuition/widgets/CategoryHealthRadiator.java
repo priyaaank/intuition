@@ -3,7 +3,6 @@ package com.poc.intuition.widgets;
 import android.content.Context;
 import android.graphics.*;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +69,7 @@ public class CategoryHealthRadiator {
         textView.setTextSize(20);
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(height, width);
         textView.setLayoutParams(params);
-        textView.setText(percentageOfMoneySpent+"%");
+        textView.setText(percentageOfMoneySpent + "%");
         textView.setGravity(Gravity.CENTER);
         textView.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
         textView.setTextColor(Color.parseColor(overridenStyle.textColor));

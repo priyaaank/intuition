@@ -23,7 +23,7 @@ public class Login extends Activity implements IListener<Boolean> {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        getActionBar().hide();
+//        getActionBar().hide();
 
         loginService = new LoginService(this.getApplicationContext(), this);
         userSessionService = new UserSessionService(getApplicationContext());
