@@ -50,8 +50,16 @@ public class TransactionListingAdapter extends ArrayAdapter<Transaction> {
         if(transaction != null) {
             holder.merchantName.setText(transaction.merchantName());
             holder.transactionAmount.setText("$"+transaction.transactionAmount());
-            String color = selectedTransactions.contains(transaction) ? "#2ecc71" : "#00000000";
-            holder.rowContainer.setBackgroundColor(Color.parseColor(color));
+            String rowColor = "#00000000";
+            String textColor = "#000000";
+            if(selectedTransactions.contains(transaction)) {
+                rowColor = "#864C9E";
+                textColor = "#FFFFFF";
+            }
+
+            holder.rowContainer.setBackgroundColor(Color.parseColor(rowColor));
+            holder.merchantName.setTextColor(Color.parseColor(textColor));
+            holder.transactionAmount.setTextColor(Color.parseColor(textColor));
         }
         return view;
     }
