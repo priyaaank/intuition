@@ -227,7 +227,7 @@ public class Dashboard extends FragmentActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        attachPurchaseFragment(newPurchase.getTotalAmountSpent(), newPurchase.getTotalMonthlyBudget(), 20d, newPurchase.getMerchantName(), newPurchase.getTransactionAmount());
+                        attachPurchaseFragment(newPurchase.getTotalAmountSpent(), newPurchase.getTotalMonthlyBudget(), newPurchase.savingRate(), newPurchase.getMerchantName(), newPurchase.getTransactionAmount());
                     }
                 });
             }

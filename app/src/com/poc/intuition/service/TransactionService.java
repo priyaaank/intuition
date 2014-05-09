@@ -164,7 +164,8 @@ public class TransactionService implements ServiceConstants {
                     Transaction transaction = new TransactionResponse().extractTransactionFromJsonResponse(responseObject.getJSONObject("transaction"));
                     Double totalMonthlyBudget = responseObject.getDouble("budget");
                     Double totalAmountSpent = responseObject.getDouble("total_money_spent");
-                    NewPurchaseResponse response = new NewPurchaseResponse(transaction, totalAmountSpent, totalMonthlyBudget);
+                    Double savingRate = responseObject.getDouble("saving_rate");
+                    NewPurchaseResponse response = new NewPurchaseResponse(transaction, totalAmountSpent, totalMonthlyBudget, savingRate);
                     TransactionService.this.latestTransactionIs(response);
                 }
             } catch (JSONException e) {

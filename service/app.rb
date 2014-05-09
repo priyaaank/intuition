@@ -177,9 +177,14 @@ end
 
 def response_for_latest_transaction transaction, user
   response = OpenStruct.new
-  response.total_money_spent = user.transactions.for_year_and_month(Date.today.year, Date.today.month).map(&:price).sum
-  response.budget = UserStatPresenter.new(user, 18).current_month_stats.recommended_budget
+  total_money_spent = user.transactions.for_year_and_month(Date.today.year, Date.today.month).map(&:price).sum
+  recommended_budget = UserStatPresenter.new(user, 18).current_month_stats.recommended_budget
+  saving_rate = ((((recommended_budget/Date.civil(Date.today.year, Date.today.month, -1).day) * Date.today.day) - (total_money_spent))/Date.today.day).round(2)
+  saving_rate = 0 if saving_rate < 0
+  response.total_money_spent = total_money_spent
+  response.budget = recommended_budget
   response.transaction = TransactionPresenter.new(transaction)
+  response.saving_rate = saving_rate
   response.to_json
 end
 
