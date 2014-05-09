@@ -19,11 +19,18 @@ class MonthlyExpenseDateGenerator
 
   def all_days_since_months month_count
     month_count.times.collect do |month|
+      dates = []
       past_date = Date.today<<month
       start_date = Date.new(past_date.year, past_date.month, 1)
       end_date = Date.civil(past_date.year, past_date.month, -1)
-      end_date = Date.today if end_date > Date.today
-      (start_date..end_date).to_a.sample(@times_a_month)
+      if end_date > Date.today
+        end_date = Date.today<<1
+        dates += (start_date..end_date).to_a.sample(@times_a_month)
+        dates += (Date.new(Date.today.year,Date.today.month,1)..Date.today).to_a.sample(@times_a_month/2)
+      else
+        dates += (start_date..end_date).to_a.sample(@times_a_month)
+      end
+      dates
     end.flatten
   end
 

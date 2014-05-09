@@ -20,7 +20,7 @@ class EveryFewMonthsExpenseDateGenerator
 
   def all_dates_since_months since_months
     exact_month_group_count = since_months/@month_count
-    (1..exact_month_group_count).to_a.collect do |month|
+    dates = (1..exact_month_group_count).to_a.collect do |month|
       past_date = Date.today<<(month*@month_count)
       start_date = Date.new(past_date.year, past_date.month, 1)
       future_date = (start_date >> @month_count)
@@ -28,6 +28,10 @@ class EveryFewMonthsExpenseDateGenerator
       end_date = Date.today if end_date > Date.today
       (start_date..end_date).to_a.sample(@times_in_months)
     end.flatten
+    dates_of_current_month = dates.select { |d| d.month == Date.today.month && d.year == Date.today.year }
+    dates_to_discard = dates_of_current_month.sample(dates_of_current_month.size/2)
+    dates_to_discard.each {|d| dates.delete(d) }
+    dates
   end
 
   def remove_dates_based_on_exclusion_percentage
