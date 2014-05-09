@@ -77,6 +77,7 @@ public class CategoryHealthRadiator {
     }
 
     private int percentageOfMoneySpent() {
+        if (totalAmount.equals(new Double(0))) return 100;
         return (int)((amountSpent / totalAmount) *100);
     }
 

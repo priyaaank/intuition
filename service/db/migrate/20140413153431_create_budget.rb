@@ -11,7 +11,7 @@ class CreateBudget < ActiveRecord::Migration
   end
 
   def down
-    drop_table :budget
+    drop_table :budgets
   end
 
 end

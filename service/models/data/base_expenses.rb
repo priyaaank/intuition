@@ -82,6 +82,7 @@ class BaseExpenses
       month_count =  ((past_date.year*12 + past_date.month) - (start_year*12 + start_month))
       total_spending = transactions.map(&:price).sum
       average_budget = (total_spending > 0 && month_count > 0) ? total_spending/month_count : total_spending
+      average_budget = (average_budget + (average_budget * (0.15))).round(2)
       #average_budget = (transactions.map(&:price).sum / month_count)
       #average_budget = transactions.map(&:price).sum if average_budget <= 0
       (user.budgets.where(:month => past_date.month, :year => past_date.year).first || user.budgets.create(:month => past_date.month, :year => past_date.year)).update(:amount => average_budget)

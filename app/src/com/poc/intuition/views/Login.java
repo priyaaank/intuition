@@ -73,6 +73,7 @@ public class Login extends Activity implements IListener<Boolean> {
     }
 
     private void showLoginError() {
+        if(progressDialog != null  && progressDialog.isShowing()) progressDialog.dismiss();
         Toast.makeText(this.getApplicationContext(), "Login Failed", Toast.LENGTH_SHORT).show();
     }
 }
