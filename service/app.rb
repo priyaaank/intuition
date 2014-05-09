@@ -13,8 +13,9 @@ ActiveRecord::Base.establish_connection(
 )
 
 
-get '/transactions/new' do
-
+get '/transaction/new' do
+  @users = User.all.to_a
+  erb :new_transaction
 end
 
 

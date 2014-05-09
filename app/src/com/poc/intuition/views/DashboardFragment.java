@@ -103,7 +103,7 @@ public class DashboardFragment extends Fragment {
                     if(categoryStat.totalAmountSpent() > 0 && totalAmountSpent > 0 ) {
                         View wrapperView = inflater.inflate(R.layout.category_graph_wrapper_view, null);
                         RelativeLayout graphWrapper = (RelativeLayout) wrapperView.findViewById(R.id.category_graph_holder);
-                        RelativeLayout widget = new CategoryHealthRadiator(getActivity().getApplicationContext(), totalAmountSpent, categoryStat.totalAmountSpent(), categoryRadiatorContainer.getHeight(), categoryRadiatorContainer.getHeight()).build();
+                        RelativeLayout widget = new CategoryHealthRadiator(getActivity().getApplicationContext(), categoryStat.getExpectedExpense(), categoryStat.totalAmountSpent(), categoryRadiatorContainer.getHeight(), categoryRadiatorContainer.getHeight()).build();
                         graphWrapper.addView(widget);
                         ((TextView) wrapperView.findViewById(R.id.category_name)).setText(categoryStat.getName());
                         categoryRadiatorContainer.addView(wrapperView);

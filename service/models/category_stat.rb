@@ -1,12 +1,13 @@
 class CategoryStat
 
-  attr_accessor :category_name, :category_name, :total_amount_spent, :total_number_of_transactionss
+  attr_accessor :category_name, :total_amount_spent, :total_number_of_transactions, :expected_expense
 
   def initialize(category_id, category_name, total_amount_spent, total_number_of_transactions)
     @category_id = category_id
     @category_name = category_name
     @total_amount_spent = total_amount_spent
     @total_number_of_transactions = total_number_of_transactions
+    @expected_expense = 0
   end
 
   def self.category_stats_from transactions

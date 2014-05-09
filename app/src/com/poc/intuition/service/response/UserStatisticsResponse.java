@@ -36,6 +36,7 @@ public class UserStatisticsResponse {
     private static final String BUDGET_TAG = "budget";
     private static final String AMOUNT_SAVED_TAG = "total_amount_saved";
     private static final String SAVING_RATE_TAG = "saving_rate";
+    private static final String EXPECTED_EXPENSE_TAG = "expected_expense";
 
 
     private String username;
@@ -111,7 +112,8 @@ public class UserStatisticsResponse {
             double amountSpent = categoryStatObject.getDouble(TOTAL_AMOUNT_SPENT);
             String categoryName = categoryStatObject.getString(CATEGORY_NAME_TAG);
             int categoryId = categoryStatObject.getInt(CATEGORY_ID_TAG);
-            statsToReturn.add(new CategoryStat(new PurchaseCategory(categoryId, categoryName), amountSpent, transactionCount));
+            double expectedAmount = categoryStatObject.getDouble(EXPECTED_EXPENSE_TAG);
+            statsToReturn.add(new CategoryStat(new PurchaseCategory(categoryId, categoryName), amountSpent, transactionCount, expectedAmount));
         }
         return statsToReturn;
     }

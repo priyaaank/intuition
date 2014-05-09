@@ -151,7 +151,7 @@ public class CategoryHealthRadiator {
 
         private String getSegmentColor(int segmentToDrawCount, int segmentCount) {
             if (overridenStyle.overrideRadialColorIfOverbudget && amountSpent > totalAmount) return overridenStyle.radialColorForOverSpending;
-            return (segmentCount > segmentToDrawCount) ? "#FFFFFF" : segmentColors[segmentCount];
+            return (segmentCount >= segmentToDrawCount) ? "#FFFFFF" : segmentColors[segmentCount];
         }
 
         private void prepareDimensions() {

@@ -7,11 +7,13 @@ public class CategoryStat {
     private PurchaseCategory category;
     private Double amountSpent;
     private Integer transactionCount;
+    private Double expectedExpense;
 
-    public CategoryStat(PurchaseCategory category, Double amountSpent, Integer transactionCount) {
+    public CategoryStat(PurchaseCategory category, Double amountSpent, Integer transactionCount, Double expectedExpense) {
         this.category = category;
         this.amountSpent = amountSpent;
         this.transactionCount = transactionCount;
+        this.expectedExpense = expectedExpense;
     }
 
     public Double totalAmountSpent() {
@@ -31,4 +33,8 @@ public class CategoryStat {
             return 1;
         }
     };
+
+    public Double getExpectedExpense() {
+        return expectedExpense;
+    }
 }
