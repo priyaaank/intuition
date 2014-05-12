@@ -113,7 +113,7 @@ public class Dashboard extends FragmentActivity {
         findViewById(R.id.transaction_history_link).setOnClickListener(navigateToTransactionHistory());
         findViewById(R.id.historic_spending_overview_link).setOnClickListener(navigateToSpendingOverview());
         findViewById(R.id.dashboard_link).setOnClickListener(navigateToDashboard());
-        findViewById(R.id.purchase_link).setOnClickListener(navigateToPurchaseScreen());
+//        findViewById(R.id.purchase_link).setOnClickListener(navigateToPurchaseScreen());
         findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

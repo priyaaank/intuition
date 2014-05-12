@@ -35,6 +35,10 @@ class BaseExpenses
     fees_and_charges_routine = EveryFewMonthsExpenseDateGenerator.new(25, 20, 3, 5)
     FakeExpense.new([2, 8], "./data/samples/feesAndCharges.txt", "Miscellaneous fees and charges", @user, fees_and_charges, fees_and_charges_routine).create_expenses
 
+    #uncategorized expenses
+    random_expense_routin = EveryFewMonthsExpenseDateGenerator.new(0, 20, 1, 1)
+    FakeExpense.new([20, 50], "./data/samples/uncategorized.txt", "Bi-Yearly holiday", @user, uncategorized, random_expense_routin).create_expenses
+
     #Monthly expenses
     investment_routine = MonthlyExpenseDateGenerator.new(0, 20, 2)
     FakeExpense.new([200, 500], "./data/samples/investments.txt", "Monthly investments", @user, investment, investment_routine).create_expenses
@@ -50,7 +54,6 @@ class BaseExpenses
     FakeExpense.new([50, 80], "./data/samples/household.txt", "Monthly utility bills", @user, household, household_routine).create_expenses
     grocery_shopping_routine = MonthlyExpenseDateGenerator.new(20, 20, 4)
     FakeExpense.new([20, 50], "./data/samples/groceries.txt", "Weekly grocery shopping", @user, household, grocery_shopping_routine).create_expenses
-
 
 
     #Sporadic expenses

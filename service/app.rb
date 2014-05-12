@@ -20,7 +20,25 @@ end
 
 
 post '/transaction/create' do
-
+  user_id = params[:username]
+  merchant_name = params[:merchantName]
+  merchant_id = params[:merchantId]
+  transaction_amount = params[:transactionAmount].to_f
+  user = User.find_by_id(user_id)
+  puts "*"*100
+  puts user.inspect
+  puts merchant_name
+  puts merchant_id
+  puts transaction_amount
+  puts "*"*100
+  unknown_category = user.categories.where(:name => Category::Type::Uncategorized).first
+  trxnStatus = 500
+  unless user.nil? || merchant_name.nil? || merchant_id.nil? || transaction_amount.nil?
+    puts "Creating Transaction!!"
+    trxnStatus = user.transactions.create!(:merchant_name => merchant_name, :merchant_id => merchant_id, :transaction_date => Date.today, :price => transaction_amount, :category => unknown_category)
+  end
+  statusCode = trxnStatus ? 200 : 500
+  status statusCode
 end
 
 get '/merchant/lookup/:name' do
